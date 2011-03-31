@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=9" >
+	
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<style type="text/css">
+html {
+  height: auto;
+}
+body {
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+#map_canvas {
+  height: auto;
+  position: absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  top:0;
+}
+@media print {
+  #map_canvas {
+    height: 950px;
+  }
+}
+</style>
+<title>Google Maps JavaScript API v3 Example: Map Simple</title>
+<script type="text/javascript" src="http://maps.google.cn/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+  var map;
+  var cars = [];
+  var car_img = new google.maps.MarkerImage("car.bmp");
+  var car_img_excep = new google.maps.MarkerImage("car_excep.bmp");
+  var paths;
+  var path_LatLngs;
+  var path_markers = [];
+  var path_current_draw;
+  var mode = 'none';
+  
+  function initialize() {
+    var myLatlng = new google.maps.LatLng(38.42, 116.08);
+    var myOptions = {
+      zoom: 10,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	google.maps.event.addListener(map, 'click', function(event) {
+    on_click(event.latLng);
+  });
+	begin_draw_path();
+  }
+  function add_car(name, x, y, excep){
+	var pos = new google.maps.LatLng(x, y)
+	var option = {
+		position : pos,
+		title : name
+	}
+	var marker = new google.maps.Marker(option);
+	if(excep)
+		marker.setIcon(car_img_excep);
+	else
+		marker.setIcon(car_img);
+	marker.setMap(map);
+	cars = cars.concat(marker);
+ }
+ function clear_all_cars()
+ {
+	for(i = 0; i < cars.length; i++)
+	{	cars[i].setMap(null);}
+	cars = [];
+ }
+ function add_path(points)
+ {
+	points_convert = [];
+	for(i = 0; i < points.length / 2; i++)
+	{
+		points_convert = points_convert.concat(new google.maps.LatLng(points[i * 2], points[i * 2 + 1]));
+	}
+	var option = {
+		paths : points_convert
+	}
+	var path = new google.maps.Polygon(option);
+	path.setMap(map);
+ }
+ function msgbox()
+ {
+	alert("msg");
+ }
+ function begin_draw_path()
+ {
+	path_LatLngs = [];
+	mode = 'draw_path';
+	path_current_draw = null;
+ }
+ function end_draw_path()
+ {
+	clearPolygnMarker();
+	clearPolygn();
+	if(path_LatLngs.length < 3)
+	{
+		path_LatLngs = [];
+		return null;
+	}
+	result_points = [];
+	for(i = 0; i < path_LatLngs.length; ++i)
+	{
+		result_points = result_points.concat(path_LatLngs[i].lat()).concat(path_LatLngs[i].lng());
+	}
+	path_LatLngs = [];
+	return result_points.toString();
+ }
+ function on_click(location)
+ {
+	if(mode == 'draw_path')
+	{
+		path_LatLngs = path_LatLngs.concat(location);
+		if(path_LatLngs.length < 3)
+			placeMarker(location);
+		else
+			polygnMarker(path_LatLngs);
+	}
+ }
+ function placeMarker(location) {
+  
+  var clickedLocation = new google.maps.LatLng(location);
+  var marker = new google.maps.Marker({
+      position: location, 
+      map: map,
+  });
+  path_markers = path_markers.concat(marker);
+ }
+ function clearPolygnMarker()
+ {
+	for(i = 0; i < path_markers.length; ++i)
+		path_markers[i].setMap(null);
+	path_markers = [];
+ }
+ function clearPolygn()
+ {
+	if(path_current_draw != null)
+	{
+		path_current_draw.setMap(null);
+		path_current_draw = null;
+	}
+ }
+ function polygnMarker(LatLngs)
+ {
+	clearPolygnMarker();
+	clearPolygn()
+	var opt = {
+		path : LatLngs
+	}
+	var polygn = new google.maps.Polygon(opt);
+	polygn.setMap(map);
+	path_current_draw = polygn;
+ }
+</script>
+</head>
+<body onload="initialize()">
+  <div id="map_canvas"></div>
+</body>
+
+</html>
+
