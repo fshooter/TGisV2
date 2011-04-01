@@ -9,8 +9,12 @@ using System.Windows.Forms;
 
 namespace TGis.MapControl
 {
+    public delegate void MapLoadCompleteHandler(object sender);
     public partial class MapControl : UserControl
     {
+        private IDictionary<int, string> dictMarkers = new Dictionary<int, string>();
+        private delegate void DeleAddUpdateCar(int id, string name, double x, double y, bool bException);
+        private delegate void DeleRemoveCar(int id);
         public MapControl()
         {
             InitializeComponent();
@@ -25,13 +29,26 @@ namespace TGis.MapControl
         {
             webBrowser.Navigate(path);
         }
-        public void AddCar(string name, double x, double y, bool bException)
+        public void AddCar(int id, string name, double x, double y, bool bException)
         {
-            webBrowser.Document.InvokeScript("add_car", new object[] { name, x, y, bException });
+            if (dictMarkers.ContainsKey(id))
+                throw new ApplicationException("MapControl!AddCar error");
+            string marker = (string)webBrowser.Document.InvokeScript("add_car", new object[] { name, x, y, bException });
+            dictMarkers[id] = marker;
         }
-        public void ClearAllCars()
+        public void UpdateCar(int id, string name, double x, double y, bool bException)
         {
-            webBrowser.Document.InvokeScript("clear_all_cars");
+            string marker;
+            if(!dictMarkers.TryGetValue(id, out marker))
+                throw new ApplicationException("MapControl!UpdateCar error");
+            webBrowser.Document.InvokeScript("update_car", new object[] { marker, x, y, bException });
+        }
+        public void RemoveCar(int id)
+        {
+            string marker;
+            if (!dictMarkers.TryGetValue(id, out marker))
+                throw new ApplicationException("MapControl!UpdateCar error");
+            webBrowser.Document.InvokeScript("remove_car", new object[] { marker });
         }
         public void AddPath(double[] points)
         {
@@ -56,10 +73,23 @@ namespace TGis.MapControl
                 result[i] = Convert.ToDouble(points_str[i]);
             return result;
         }
-
+        public MapLoadCompleteHandler OnMapLoadCompleted;
+        public void AsynAddCar(int id, string name, double x, double y, bool bException)
+        {
+            this.BeginInvoke(new DeleAddUpdateCar(AddCar), new object[] { id, name, x, y, bException });
+        }
+        public void AsynUpdateCar(int id, string name, double x, double y, bool bException)
+        {
+            this.BeginInvoke(new DeleAddUpdateCar(UpdateCar), new object[] { id, name, x, y, bException });
+        }
+        public void AsynRemoveCar(int id)
+        {
+            this.BeginInvoke(new DeleRemoveCar(RemoveCar), new object[] { id });
+        }
         private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-
+            if (OnMapLoadCompleted != null)
+                OnMapLoadCompleted(this);
         }
     }
 }

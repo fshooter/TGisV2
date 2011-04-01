@@ -10,14 +10,13 @@ namespace TGis.Viewer
 {
     class CarStateChangeArgs
     {
+        public Car CarArg;
         public enum Reason
         {
             Add,
-            Update,
             Remove,
-            UpdateTemporary,
+            Update,
         };
-        public Car CarArg;
         public Reason ReasonArg;
     }
     delegate void CarStateChangeHandler(object sender, CarStateChangeArgs args);
@@ -26,37 +25,24 @@ namespace TGis.Viewer
         public int Id;
         public int PathId;
         public string Name;
-        public double X;
-        public double Y;
-        public bool Alive;
-        public CarRollDirection RollDirection;
-        public DateTime LastUpdateTime;
+        
         public Car()
         {
             Id = -1;
             PathId = -1;
             Name = "未赋值";
-            X = Y = 0;
-            Alive = false;
-            RollDirection = CarRollDirection.Forward;
-            LastUpdateTime = DateTime.MinValue;
         }
         public Car(int id, string name, int pathId)
         {
             Id = id;
             PathId = pathId;
             Name = name;
-            X = Y = 0;
-            Alive = false;
-            RollDirection = CarRollDirection.Forward;
-            LastUpdateTime = DateTime.MinValue;
         }
     }
     class CarMgr
     {
         private IDictionary<int, Car> dictCars = new Dictionary<int, Car>();
         private IDbConnection connection;
-        private ICarTerminalAbility terminal;
 
         public CarMgr(IDbConnection conn)
         {
@@ -72,27 +58,14 @@ namespace TGis.Viewer
                 lock (this)
                 {
                     foreach (Car c in dictCars.Values)
-                        r[i] = c;
+                        r[i++] = c;
                 }
                 return r;
             }
         }
-        public ICarTerminalAbility Terminal
-        {
-            get { return terminal; }
-            set {
-                lock (this)
-                {
-                    if (terminal != null)
-                        terminal.OnCarStateChanged -= new CarTerminalStateChangeHandler(TerminalCarHandler);
-                    terminal = value;
-                    if (terminal != null)
-                        terminal.OnCarStateChanged += new CarTerminalStateChangeHandler(TerminalCarHandler);
-                }
-            }
-        }
-        public CarStateChangeHandler OnCarPermanentStateChanged = null;
-        public CarStateChangeHandler OnCarTemporaryStateChanged = null;
+        
+        public CarStateChangeHandler OnCarStateChanged = null;
+        
         public bool TryGetCar(int id, out Car c)
         {
             lock (this)
@@ -119,13 +92,7 @@ namespace TGis.Viewer
             dictCars.TryGetValue(c.Id, out cr);
             if(!dictCars.Remove(c.Id))
                 throw new ApplicationException("Remove Failed");
-            if (OnCarPermanentStateChanged != null)
-            {
-                CarStateChangeArgs args = new CarStateChangeArgs();
-                args.CarArg = cr;
-                args.ReasonArg = CarStateChangeArgs.Reason.Remove;
-                OnCarPermanentStateChanged(this, args);
-            }
+            DispatchStateChangeMsg(c, CarStateChangeArgs.Reason.Remove);
         }
         public void UpdateCar(Car c)
         {
@@ -142,13 +109,7 @@ namespace TGis.Viewer
                     throw new ApplicationException("Update Failed");
             }
             dictCars[c.Id] = c;
-            if (OnCarPermanentStateChanged != null)
-            {
-                CarStateChangeArgs args = new CarStateChangeArgs();
-                args.CarArg = c;
-                args.ReasonArg = CarStateChangeArgs.Reason.Update;
-                OnCarPermanentStateChanged(this, args);
-            }
+            DispatchStateChangeMsg(c, CarStateChangeArgs.Reason.Update);
         }
         public void InsertCar(Car c)
         {
@@ -163,7 +124,22 @@ namespace TGis.Viewer
                 if (cmd.ExecuteNonQuery() != 1)
                     throw new ApplicationException("Insert Failed");
             }
-            UpdateFromDb();
+            using (IDbCommand cmd = connection.CreateCommand())
+            {
+                cmd.CommandText = String.Format(@"select * from cars where name = '{0}'", c.Name);
+                using (IDataReader rd = cmd.ExecuteReader())
+                {
+                    while (rd.Read())
+                    {
+                        int id = rd.GetInt32(0);
+                        string name = rd.GetString(1);
+                        int pid = rd.GetInt32(2);
+                        Car newc = new Car(id, name, pid);
+                        dictCars.Add(id, newc);
+                        DispatchStateChangeMsg(newc, CarStateChangeArgs.Reason.Add);
+                    }
+                }
+            }
         }
         public void UpdateFromDb()
         {
@@ -194,57 +170,29 @@ namespace TGis.Viewer
                     }
                 }
             }
-            if (OnCarPermanentStateChanged != null)
-            {
-                var cars = this.Cars;
-                CarStateChangeArgs args = new CarStateChangeArgs();
-                foreach(Car c in cars)
-                {
-                    args.CarArg = c;
-                    args.ReasonArg = CarStateChangeArgs.Reason.Update;
-                    OnCarPermanentStateChanged(this, args);
-                }
-            }
+            foreach(Car c in Cars)
+                DispatchStateChangeMsg(c, CarStateChangeArgs.Reason.Add);
         }
 
+        public bool MapPhoneToCarId(string phone, out int id)
+        {
+            lock (this)
+                return MapPhoneToCarIdInner(phone, out id);
+        }
         private bool MapPhoneToCarIdInner(string phone, out int id)
         {
             id = 1;
             return true;
         }
-        private CarProcResult TerminalCarHandler(object sender, CarStateArg arg)
+        
+        private void DispatchStateChangeMsg(Car c, CarStateChangeArgs.Reason reason)
         {
-            lock (this)
-                return TerminalCarHandlerInner(sender, arg);
-        }
-        private CarProcResult TerminalCarHandlerInner(object sender, CarStateArg arg)
-        {
-            Car c;
-            int cid;
-            if (!MapPhoneToCarIdInner(arg.PhoneNum, out cid))
-                return CarProcResult.Miss;
-            if (!TryGetCarInner(cid, out c))
-                return CarProcResult.Miss;
-            c.X = arg.X;
-            c.Y = arg.Y;
-            c.RollDirection = arg.RollDirection;
-            c.LastUpdateTime = arg.Time;
-            CarStateChangeArgs newargs = new CarStateChangeArgs();
-            newargs.CarArg = c;
-            newargs.ReasonArg = CarStateChangeArgs.Reason.UpdateTemporary;
-            DispatchStateChangeMsg(false, newargs);
-            return CarProcResult.Ok;
-            
-        }
-        private void DispatchStateChangeMsg(bool bPermanent, CarStateChangeArgs args)
-        {
-            CarStateChangeHandler handler;
-            if (bPermanent)
-                handler = OnCarPermanentStateChanged;
-            else
-                handler = OnCarTemporaryStateChanged;
-            if (handler != null)
-                handler(this, args);
+            if (OnCarStateChanged == null)
+                return;
+            CarStateChangeArgs args = new CarStateChangeArgs();
+            args.CarArg = c;
+            args.ReasonArg = reason;
+            OnCarStateChanged(this, args);
         }
     }
 }

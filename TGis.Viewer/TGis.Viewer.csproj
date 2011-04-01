@@ -36,6 +36,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\bin\System.Data.SQLite.DLL</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,8 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CarMgr.cs" />
+    <Compile Include="CarSessionMgr.cs" />
+    <Compile Include="GisCarController.cs" />
+    <Compile Include="GisCarModel.cs" />
+    <Compile Include="GisGlobal.cs" />
     <Compile Include="NaviHelper.cs" />
     <Compile Include="Polygon.cs" />
+    <Compile Include="TestCarTerminalAbility.cs" />
     <Compile Include="ViewGisCar.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using TGis.Common;
 
 namespace TGis.Viewer
 {
@@ -15,7 +16,10 @@ namespace TGis.Viewer
         }
         public void ImmediateMode()
         {
-            Form viewGisCar = new ViewGisCar();
+            GisCarModel model = new GisCarModel();
+            model.CsMgr = GisGlobal.GImmCarSessionMgr;
+            GisCarController controller = new GisCarController();
+            Form viewGisCar = new ViewGisCar(model, controller);
             NaviHelper.NaviTo(viewGisCar);
         }
     }

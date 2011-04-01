@@ -30,9 +30,10 @@ body {
 </style>
 <title>Google Maps JavaScript API v3 Example: Map Simple</title>
 <script type="text/javascript" src="http://maps.google.cn/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="map.js"></script>
 <script type="text/javascript">
   var map;
-  var cars = [];
+  var cars = new Map();
   var car_img = new google.maps.MarkerImage("car.bmp");
   var car_img_excep = new google.maps.MarkerImage("car_excep.bmp");
   var paths;
@@ -62,7 +63,7 @@ body {
 	google.maps.event.addListener(map, 'zoom_changed', on_zoom_changed);
   }
   function add_car(name, x, y, excep){
-	var pos = new google.maps.LatLng(x, y)
+	var pos = new google.maps.LatLng(y, x)
 	var option = {
 		position : pos,
 		title : name
@@ -73,14 +74,30 @@ body {
 	else
 		marker.setIcon(car_img);
 	marker.setMap(map);
-	cars = cars.concat(marker);
+	cars.put(name, marker);
+	return name;
  }
- function clear_all_cars()
+ 
+ function remove_car(key)
  {
-	for(i = 0; i < cars.length; i++)
-	{	cars[i].setMap(null);}
-	cars = [];
+	marker = cars.get(key);
+	if(marker == null) return;
+	cars.remove(key);
+	marker.setMap(null);
+	
  }
+ 
+ function update_car(key, x, y, excep)
+ {
+	marker = cars.get(key);
+	if(marker == null) return;
+	if(excep)
+		marker.setIcon(car_img_excep);
+	else
+		marker.setIcon(car_img);
+	marker.setPosition(new google.maps.LatLng(y, x));
+ }
+ 
  function add_path(points)
  {
 	points_convert = [];

@@ -14,7 +14,7 @@ namespace TGis.Common
         }
         public static string GetDataDir()
         {
-            return Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            return Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TGis";
         }
     }
 }

@@ -60,7 +60,7 @@ namespace TGis.Common
     public interface ICarTerminalAbility
     {
         bool CanInteract { get; }
-        event CarStateChangeHandler OnCarStateChanged;
+        event CarTerminalStateChangeHandler OnCarStateChanged;
         void Run();
         void Stop();
     }
