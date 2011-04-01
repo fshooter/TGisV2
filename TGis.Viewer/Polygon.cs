@@ -12,8 +12,13 @@ namespace TGis.Viewer
     {
         const int POS_FACTOR = 100000000;
         GraphicsPath myGraphicsPath = new GraphicsPath();
-        Region myRegion = new Region(); 
-        double[] pointArray;     
+        Region myRegion = new Region();
+        double[] pointArray;
+
+        public double[] Points
+        {
+            get { return pointArray; }
+        }     
         public Polygon(double[] points)
         {
             if ((points.Length < 6)
@@ -36,9 +41,6 @@ namespace TGis.Viewer
             PointF ip = new PointF((float)point[0], (float)point[1]);
             return myRegion.IsVisible(ip);
         }
-        public double[] PointArray
-        {
-          get { return pointArray; }
-        }  
+       
     }
 }

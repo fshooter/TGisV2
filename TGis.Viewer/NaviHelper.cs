@@ -9,6 +9,7 @@ namespace TGis.Viewer
     class NaviHelper
     {
         private static Form formMain = null;
+        private static Form formCurrent = null;
 
         public static Form FormMain
         {
@@ -17,10 +18,32 @@ namespace TGis.Viewer
         }
         public static void NaviTo(Form formToShow)
         {
+            if (formCurrent != null)
+            {
+                formCurrent.Close();
+                formCurrent.Dispose();
+            }
             formToShow.MdiParent = formMain;
             formToShow.TopMost = true;
             formToShow.WindowState = FormWindowState.Maximized;
             formToShow.Show();
+            formCurrent = formToShow;
+        }
+        public static void NaviToWelcome()
+        {
+            Form fm = new ViewWelcome();
+            NaviTo(fm);
+        }
+        public static void NaviToModifyPath(int pid)
+        {
+            ModifyPathModel model = new ModifyPathModel(pid);
+            Form fm = new ViewModifyPath(model);
+            NaviTo(fm);
+        }
+        public static void NaviToModifyCar(int cid)
+        {
+            Form fm = new ViewModifyCar(cid);
+            NaviTo(fm);
         }
     }
 }

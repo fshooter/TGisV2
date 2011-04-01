@@ -11,7 +11,8 @@
     <RootNamespace>TGis.Viewer</RootNamespace>
     <AssemblyName>TGis.Viewer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -47,6 +48,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="XPTable">
+      <HintPath>..\bin\XPTable.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CarMgr.cs" />
@@ -54,7 +58,9 @@
     <Compile Include="GisCarController.cs" />
     <Compile Include="GisCarModel.cs" />
     <Compile Include="GisGlobal.cs" />
+    <Compile Include="ModifyPathModel.cs" />
     <Compile Include="NaviHelper.cs" />
+    <Compile Include="PathMgr.cs" />
     <Compile Include="Polygon.cs" />
     <Compile Include="TestCarTerminalAbility.cs" />
     <Compile Include="ViewGisCar.cs">
@@ -73,6 +79,24 @@
     <Compile Include="MainToolModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModifyCar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewModifyCar.Designer.cs">
+      <DependentUpon>ViewModifyCar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModifyPath.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewModifyPath.Designer.cs">
+      <DependentUpon>ViewModifyPath.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewWelcome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewWelcome.Designer.cs">
+      <DependentUpon>ViewWelcome.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ViewGisCar.resx">
       <DependentUpon>ViewGisCar.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,7 +111,18 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="ViewModifyCar.resx">
+      <DependentUpon>ViewModifyCar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewModifyPath.resx">
+      <DependentUpon>ViewModifyPath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewWelcome.resx">
+      <DependentUpon>ViewWelcome.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

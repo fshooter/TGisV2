@@ -13,6 +13,7 @@ namespace TGis.MapControl
     public partial class MapControl : UserControl
     {
         private IDictionary<int, string> dictMarkers = new Dictionary<int, string>();
+        private IDictionary<int, string> dictPathIdentify = new Dictionary<int, string>();
         private delegate void DeleAddUpdateCar(int id, string name, double x, double y, bool bException);
         private delegate void DeleRemoveCar(int id);
         public MapControl()
@@ -50,13 +51,21 @@ namespace TGis.MapControl
                 throw new ApplicationException("MapControl!UpdateCar error");
             webBrowser.Document.InvokeScript("remove_car", new object[] { marker });
         }
-        public void AddPath(double[] points)
+        public void AddPath(int id, string name, double[] points)
         {
             object[] points_c = new object[points.Length];
             for (int i = 0; i < points.Length; ++i)
                 points_c[i] = points[i];
             var jsarr = Microsoft.JScript.GlobalObject.Array.ConstructArray(points_c);
-            webBrowser.Document.InvokeScript("add_path", new object[] { jsarr });
+            string pathIdentify = (string)webBrowser.Document.InvokeScript("add_path", new object[] { name, jsarr });
+            dictPathIdentify[id] = pathIdentify;
+        }
+        public void RemovePath(int id)
+        {
+            string pathIdentify;
+            if (!dictPathIdentify.TryGetValue(id, out pathIdentify))
+                throw new ApplicationException("MapControl!UpdateCar error");
+            webBrowser.Document.InvokeScript("remove_path", new object[] { pathIdentify });
         }
         public void BeginDrawPath()
         {

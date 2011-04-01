@@ -11,6 +11,7 @@ namespace TGis.Viewer
     class GisGlobal
     {
         public static CarMgr GCarMgr;
+        public static PathMgr GPathMgr;
         public static CarSessionMgr GImmCarSessionMgr;
         public static IDbConnection GConnection;
 
@@ -18,6 +19,7 @@ namespace TGis.Viewer
         {
             OpenDb();
             GCarMgr = new CarMgr(GConnection);
+            GPathMgr = new PathMgr(GConnection);
             GImmCarSessionMgr = new CarSessionMgr(GCarMgr);
             ICarTerminalAbility immTerminal = new TestCarTerminalAbility();
             GImmCarSessionMgr.Terminal = immTerminal;

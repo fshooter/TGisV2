@@ -36,15 +36,15 @@ body {
   var cars = new Map();
   var car_img = new google.maps.MarkerImage("car.bmp");
   var car_img_excep = new google.maps.MarkerImage("car_excep.bmp");
-  var paths;
+  var gPaths = new Map();
   var path_LatLngs;
   var path_markers = [];
   var path_current_draw;
   var mode = 'none';
-  var LAT_MIN = 38;
-  var LAT_MAX = 39;
+  var LAT_MIN = 38.32;
+  var LAT_MAX = 38.68;
   var LNG_MIN = 116;
-  var LNG_MAX = 117;
+  var LNG_MAX = 116.3;
   var LNG_DELTA = 0.00001;
   
   function initialize() {
@@ -98,23 +98,29 @@ body {
 	marker.setPosition(new google.maps.LatLng(y, x));
  }
  
- function add_path(points)
+ function add_path(name, points)
  {
 	points_convert = [];
 	for(i = 0; i < points.length / 2; i++)
 	{
-		points_convert = points_convert.concat(new google.maps.LatLng(points[i * 2], points[i * 2 + 1]));
+		points_convert = points_convert.concat(new google.maps.LatLng(points[i * 2 + 1], points[i * 2]));
 	}
 	var option = {
 		paths : points_convert
 	}
 	var path = new google.maps.Polygon(option);
 	path.setMap(map);
+	gPaths.put(name, path);
+	return name;
  }
- function msgbox()
+ function remove_path(pathIdentify)
  {
-	alert("msg");
+	path = gPaths.get(pathIdentify);
+	if(path == null) return;
+	gPaths.remove(pathIdentify);
+	path.setMap(null);
  }
+ 
  function begin_draw_path()
  {
 	path_LatLngs = [];
@@ -133,7 +139,7 @@ body {
 	result_points = [];
 	for(i = 0; i < path_LatLngs.length; ++i)
 	{
-		result_points = result_points.concat(path_LatLngs[i].lat()).concat(path_LatLngs[i].lng());
+		result_points = result_points.concat(path_LatLngs[i].lng()).concat(path_LatLngs[i].lat());
 	}
 	path_LatLngs = [];
 	return result_points.toString();
@@ -205,8 +211,8 @@ body {
  }
  function on_zoom_changed()
  {
-	if(map.getZoom() < 8)
-		map.setZoom(8);
+	if(map.getZoom() < 10)
+		map.setZoom(10);
 	if(map.getZoom() > 14)
 		map.setZoom(14);
  }
