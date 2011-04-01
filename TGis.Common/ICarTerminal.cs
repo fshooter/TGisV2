@@ -9,7 +9,8 @@ namespace TGis.Common
     {
         Ok,
         Expired,
-        Miss, // 未达到当前时刻
+        TimeNotReach,// 未达到当前时刻
+        Miss, 
     }
     public enum CarRollDirection
     {
@@ -22,6 +23,13 @@ namespace TGis.Common
         private double x;
         private double y;
         private CarRollDirection rollDirection;
+        private DateTime tm;
+
+        public DateTime Time
+        {
+            get { return tm; }
+            set { tm = value; }
+        }
 
         public string PhoneNum
         {
@@ -47,7 +55,7 @@ namespace TGis.Common
           set { rollDirection = value; }
         }
     }
-    public delegate CarProcResult CarStateChangeHandler(object sender, CarStateArg arg);
+    public delegate CarProcResult CarTerminalStateChangeHandler(object sender, CarStateArg arg);
 
     public interface ICarTerminalAbility
     {

@@ -40,19 +40,26 @@ body {
   var path_markers = [];
   var path_current_draw;
   var mode = 'none';
+  var LAT_MIN = 38;
+  var LAT_MAX = 39;
+  var LNG_MIN = 116;
+  var LNG_MAX = 117;
+  var LNG_DELTA = 0.00001;
   
   function initialize() {
     var myLatlng = new google.maps.LatLng(38.42, 116.08);
     var myOptions = {
       zoom: 10,
       center: myLatlng,
+	  streetViewControl : false,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	google.maps.event.addListener(map, 'click', function(event) {
     on_click(event.latLng);
   });
-	begin_draw_path();
+    google.maps.event.addListener(map, 'center_changed', on_center_changed);
+	google.maps.event.addListener(map, 'zoom_changed', on_zoom_changed);
   }
   function add_car(name, x, y, excep){
 	var pos = new google.maps.LatLng(x, y)
@@ -158,6 +165,33 @@ body {
 	var polygn = new google.maps.Polygon(opt);
 	polygn.setMap(map);
 	path_current_draw = polygn;
+ }
+ function on_center_changed()
+ {
+	latlng = map.getCenter();
+	var newlat = latlng.lat();
+	var newlng = latlng.lng();
+	var changed = false;
+	if(latlng.lat() < LAT_MIN)
+	{	newlat = LAT_MIN + LNG_DELTA; changed = true; }
+	if(latlng.lat() > LAT_MAX)
+	{	newlat = LAT_MAX - LNG_DELTA; changed = true; }
+	if(latlng.lng() < LNG_MIN)
+	{	newlng = LNG_MIN + LNG_DELTA; changed = true; }
+	if(latlng.lng() > LNG_MAX)
+	{	newlng = LNG_MAX - LNG_DELTA; changed = true; }
+	if(changed)
+	{
+		var latlng2 = new google.maps.LatLng(newlat, newlng, true);
+		map.setCenter(latlng2);
+	}
+ }
+ function on_zoom_changed()
+ {
+	if(map.getZoom() < 8)
+		map.setZoom(8);
+	if(map.getZoom() > 14)
+		map.setZoom(14);
  }
 </script>
 </head>

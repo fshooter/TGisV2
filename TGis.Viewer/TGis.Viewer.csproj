@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CarMgr.cs" />
     <Compile Include="NaviHelper.cs" />
+    <Compile Include="Polygon.cs" />
     <Compile Include="ViewGisCar.cs">
       <SubType>Form</SubType>
     </Compile>
