@@ -14,19 +14,24 @@ namespace TGis.Viewer
         public static PathMgr GPathMgr;
         public static CarSessionMgr GImmCarSessionMgr;
         public static IDbConnection GConnection;
+        public static CarTerminalLogger GTerminalLogger;
 
         public static void Init()
         {
             OpenDb();
             GCarMgr = new CarMgr(GConnection);
             GPathMgr = new PathMgr(GConnection);
-            GImmCarSessionMgr = new CarSessionMgr(GCarMgr);
+            GImmCarSessionMgr = new CarSessionMgr(GCarMgr, GPathMgr);
             ICarTerminalAbility immTerminal = new TestCarTerminalAbility();
             GImmCarSessionMgr.Terminal = immTerminal;
             immTerminal.Run();
+
+            GTerminalLogger = new CarTerminalLogger(immTerminal, GConnection);
+            GTerminalLogger.Run(5000);
         }
         public static void UnInit()
         {
+            GTerminalLogger.Stop();
             GImmCarSessionMgr.Terminal.Stop();
             GImmCarSessionMgr.Stop();
         }

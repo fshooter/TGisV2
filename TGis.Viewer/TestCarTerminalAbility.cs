@@ -45,7 +45,7 @@ namespace TGis.Viewer
                     double y = ys + (ye - ys) / times * cur_times;
                     if (OnCarStateChanged != null)
                     {
-                        CarStateArg arg = new CarStateArg();
+                        CarTernimalStateArg arg = new CarTernimalStateArg();
                         arg.PhoneNum = i.ToString();
                         arg.RollDirection = CarRollDirection.Forward;
                         arg.Time = DateTime.Now;

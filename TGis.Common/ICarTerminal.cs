@@ -15,9 +15,9 @@ namespace TGis.Common
     public enum CarRollDirection
     {
         Forward,
-        backward,
+        Backward,
     }
-    public class CarStateArg
+    public class CarTernimalStateArg
     {
         private string phoneNum;
         private double x;
@@ -55,7 +55,7 @@ namespace TGis.Common
           set { rollDirection = value; }
         }
     }
-    public delegate CarProcResult CarTerminalStateChangeHandler(object sender, CarStateArg arg);
+    public delegate CarProcResult CarTerminalStateChangeHandler(object sender, CarTernimalStateArg arg);
 
     public interface ICarTerminalAbility
     {

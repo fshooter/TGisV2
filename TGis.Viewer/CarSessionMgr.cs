@@ -128,6 +128,11 @@ namespace TGis.Viewer
         public CarRollDirection RollDirection;
         public DateTime LastUpdateTime;
         public string SessionStr;
+        public bool OutOfPath;
+        public bool ExceptionState
+        {
+            get { return (OutOfPath || (RollDirection != CarRollDirection.Forward)); }
+        }
     }
     class CarSessionStateChangeArgs
     {
@@ -149,12 +154,14 @@ namespace TGis.Viewer
         public delegate void EnumCarSessionHandler(CarSession cs);
         private SessionMgr sessionMgr = new SessionMgr(new TimeSpan(0, 1, 0));
         private CarMgr carMgr;
+        private PathMgr pathMgr;
         private IDictionary<int, CarSession> dictCarSession = new Dictionary<int, CarSession>();
         private ICarTerminalAbility terminal;
 
-        public CarSessionMgr(CarMgr cm)
+        public CarSessionMgr(CarMgr cm, PathMgr pm)
         {
             carMgr = cm;
+            pathMgr = pm;
             foreach (Car c in carMgr.Cars)
             {
                 AddCarSession(c);
@@ -202,6 +209,7 @@ namespace TGis.Viewer
                 cs.CarInstance = c;
                 cs.Alive = false;
                 cs.LastUpdateTime = DateTime.MinValue;
+                cs.OutOfPath = false;
                 dictCarSession[c.Id] = cs;
                 DispatchSessionStateChangeMsg(cs, CarSessionStateChangeArgs.Reason.Add);
             }
@@ -241,12 +249,12 @@ namespace TGis.Viewer
                 return dictCarSession.TryGetValue(id, out cs);
             }
         }
-        private CarProcResult TerminalCarHandler(object sender, CarStateArg arg)
+        private CarProcResult TerminalCarHandler(object sender, CarTernimalStateArg arg)
         {
             lock (this)
                 return TerminalCarHandlerInner(sender, arg);
         }
-        private CarProcResult TerminalCarHandlerInner(object sender, CarStateArg arg)
+        private CarProcResult TerminalCarHandlerInner(object sender, CarTernimalStateArg arg)
         {
             CarSession cs;
             int cid;
@@ -266,6 +274,13 @@ namespace TGis.Viewer
             cs.Y = arg.Y;
             cs.RollDirection = arg.RollDirection;
             cs.LastUpdateTime = arg.Time;
+            cs.OutOfPath = false;
+            Path p;
+            if (pathMgr.TryGetPath(cid, out p))
+            {
+                if (!p.PathPolygon.IsPointInRegion(new double[] { cs.X, cs.Y }))
+                    cs.OutOfPath = true;
+            }
             DispatchSessionStateChangeMsg(cs, CarSessionStateChangeArgs.Reason.UpdateTemprary);
             return CarProcResult.Ok;
         }

@@ -43,12 +43,12 @@ namespace TGis.Viewer
                 case CarSessionStateChangeArgs.Reason.Connect:
                     mapControl1.AsynAddCar(arg.CarSessionArg.CarInstance.Id, arg.CarSessionArg.CarInstance.Name,
                         arg.CarSessionArg.X, arg.CarSessionArg.Y,
-                        arg.CarSessionArg.RollDirection == CarRollDirection.Forward ? true : false);
+                        arg.CarSessionArg.ExceptionState);
                     break;
                 case CarSessionStateChangeArgs.Reason.UpdateTemprary:
                     mapControl1.AsynUpdateCar(arg.CarSessionArg.CarInstance.Id, arg.CarSessionArg.CarInstance.Name,
                         arg.CarSessionArg.X, arg.CarSessionArg.Y,
-                        arg.CarSessionArg.RollDirection == CarRollDirection.Forward ? true : false);
+                        arg.CarSessionArg.ExceptionState);
                     break;
                 case CarSessionStateChangeArgs.Reason.Disconnect:
                     mapControl1.AsynRemoveCar(arg.CarSessionArg.CarInstance.Id);

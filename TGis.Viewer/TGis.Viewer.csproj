@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="CarMgr.cs" />
     <Compile Include="CarSessionMgr.cs" />
+    <Compile Include="CarTerminalLogger.cs" />
     <Compile Include="GisCarController.cs" />
     <Compile Include="GisCarModel.cs" />
     <Compile Include="GisGlobal.cs" />

@@ -34,10 +34,12 @@ namespace TGis.Viewer
             myRegion.MakeEmpty();
             myRegion.Union(myGraphicsPath);  
         }
-        bool IsPointInRegion(double[] point)
+        public bool IsPointInRegion(double[] point)
         {
             if(point.Length != 2)
                 throw new ArgumentOutOfRangeException();
+            if (pointArray[0] == 0)
+                return true;
             PointF ip = new PointF((float)point[0], (float)point[1]);
             return myRegion.IsVisible(ip);
         }
