@@ -31,12 +31,13 @@
             this.components = new System.ComponentModel.Container();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.barEditItem1 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
+            this.repositoryItemTimeEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTimeEdit();
             this.barEditItem2 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemTimeEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTimeEdit();
-            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.repositoryItemDateEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
+            this.repositoryItemTimeEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTimeEdit();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.dockPanel2 = new DevExpress.XtraBars.Docking.DockPanel();
@@ -62,6 +63,9 @@
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mapControl1 = new TGis.MapControl.MapControl();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTimeEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2.VistaTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.VistaTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTimeEdit1)).BeginInit();
@@ -89,16 +93,17 @@
             this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbon.ExpandCollapseItem,
             this.barEditItem1,
-            this.barEditItem2,
-            this.barButtonItem1});
+            this.barEditItem2});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 4;
+            this.ribbon.MaxItemId = 6;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
             this.ribbon.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemDateEdit1,
-            this.repositoryItemTimeEdit1});
+            this.repositoryItemTimeEdit1,
+            this.repositoryItemTimeEdit2,
+            this.repositoryItemDateEdit2});
             this.ribbon.SelectedPage = this.ribbonPage1;
             this.ribbon.Size = new System.Drawing.Size(724, 149);
             this.ribbon.StatusBar = this.ribbonStatusBar;
@@ -106,40 +111,32 @@
             // barEditItem1
             // 
             this.barEditItem1.Caption = "barEditItem1";
-            this.barEditItem1.Edit = this.repositoryItemDateEdit1;
-            this.barEditItem1.Id = 1;
+            this.barEditItem1.Edit = this.repositoryItemTimeEdit2;
+            this.barEditItem1.Id = 4;
             this.barEditItem1.Name = "barEditItem1";
-            this.barEditItem1.Width = 100;
             // 
-            // repositoryItemDateEdit1
+            // repositoryItemTimeEdit2
             // 
-            this.repositoryItemDateEdit1.AutoHeight = false;
-            this.repositoryItemDateEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
-            this.repositoryItemDateEdit1.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.repositoryItemTimeEdit2.AutoHeight = false;
+            this.repositoryItemTimeEdit2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.repositoryItemTimeEdit2.Name = "repositoryItemTimeEdit2";
             // 
             // barEditItem2
             // 
             this.barEditItem2.Caption = "barEditItem2";
-            this.barEditItem2.Edit = this.repositoryItemTimeEdit1;
-            this.barEditItem2.EditHeight = 30;
-            this.barEditItem2.Id = 2;
+            this.barEditItem2.Edit = this.repositoryItemDateEdit2;
+            this.barEditItem2.Id = 5;
             this.barEditItem2.Name = "barEditItem2";
             // 
-            // repositoryItemTimeEdit1
+            // repositoryItemDateEdit2
             // 
-            this.repositoryItemTimeEdit1.AutoHeight = false;
-            this.repositoryItemTimeEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.repositoryItemDateEdit2.AutoHeight = false;
+            this.repositoryItemDateEdit2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemDateEdit2.Name = "repositoryItemDateEdit2";
+            this.repositoryItemDateEdit2.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
-            this.repositoryItemTimeEdit1.Name = "repositoryItemTimeEdit1";
-            // 
-            // barButtonItem1
-            // 
-            this.barButtonItem1.Caption = "barButtonItem1";
-            this.barButtonItem1.Id = 3;
-            this.barButtonItem1.Name = "barButtonItem1";
             // 
             // ribbonPage1
             // 
@@ -152,9 +149,24 @@
             // 
             this.ribbonPageGroup1.ItemLinks.Add(this.barEditItem1);
             this.ribbonPageGroup1.ItemLinks.Add(this.barEditItem2);
-            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem1);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.Text = "ribbonPageGroup1";
+            // 
+            // repositoryItemDateEdit1
+            // 
+            this.repositoryItemDateEdit1.AutoHeight = false;
+            this.repositoryItemDateEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
+            this.repositoryItemDateEdit1.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            // 
+            // repositoryItemTimeEdit1
+            // 
+            this.repositoryItemTimeEdit1.AutoHeight = false;
+            this.repositoryItemTimeEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.repositoryItemTimeEdit1.Name = "repositoryItemTimeEdit1";
             // 
             // ribbonStatusBar
             // 
@@ -395,6 +407,9 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewGisCar_FormClosing);
             this.Load += new System.EventHandler(this.ViewGisCar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTimeEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2.VistaTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.VistaTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTimeEdit1)).EndInit();
@@ -420,11 +435,8 @@
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar;
-        private DevExpress.XtraBars.BarEditItem barEditItem1;
         private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit1;
-        private DevExpress.XtraBars.BarEditItem barEditItem2;
         private DevExpress.XtraEditors.Repository.RepositoryItemTimeEdit repositoryItemTimeEdit1;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.Docking.DockManager dockManager1;
         private DevExpress.XtraBars.Docking.DockPanel dockPanel1;
         private DevExpress.XtraBars.Docking.ControlContainer dockPanel1_Container;
@@ -448,5 +460,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private DevExpress.XtraBars.BarEditItem barEditItem1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTimeEdit repositoryItemTimeEdit2;
+        private DevExpress.XtraBars.BarEditItem barEditItem2;
+        private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit2;
     }
 }

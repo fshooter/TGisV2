@@ -250,38 +250,37 @@ namespace TGis.Viewer
         }
         private CarProcResult TerminalCarHandler(object sender, CarTernimalStateArg arg)
         {
-            lock (this)
-                return TerminalCarHandlerInner(sender, arg);
-        }
-        private CarProcResult TerminalCarHandlerInner(object sender, CarTernimalStateArg arg)
-        {
             CarSession cs;
             int cid;
             if (!carMgr.MapPhoneToCarId(arg.PhoneNum, out cid))
                 return CarProcResult.Miss;
-            if (!TryGetCarSession(cid, out cs))
-                return CarProcResult.Miss;
-            if ((cs.SessionStr == null) || !sessionMgr.Tick(cs.SessionStr))
+            lock (this)
             {
-                Debug.Assert(cs.Alive == false);
-                cs.SessionStr = sessionMgr.Register(cs);
-                cs.Alive = true;
-                DispatchSessionStateChangeMsg(cs, CarSessionStateChangeArgs.Reason.Connect);
+                if (!TryGetCarSession(cid, out cs))
+                    return CarProcResult.Miss;
+                if ((cs.SessionStr == null) || !sessionMgr.Tick(cs.SessionStr))
+                {
+                    Debug.Assert(cs.Alive == false);
+                    cs.SessionStr = sessionMgr.Register(cs);
+                    cs.Alive = true;
+                    DispatchSessionStateChangeMsg(cs, CarSessionStateChangeArgs.Reason.Connect);
+                }
+                Debug.Assert(cs.Alive == true);
+                cs.X = arg.X;
+                cs.Y = arg.Y;
+                cs.RollDirection = arg.RollDirection;
+                cs.LastUpdateTime = arg.Time;
+                cs.OutOfPath = false;
+                Path p;
+                if (pathMgr.TryGetPath(cs.CarInstance.PathId, out p))
+                {
+                    if (!p.PathPolygon.IsPointInRegion(new double[] { cs.X, cs.Y }))
+                        cs.OutOfPath = true;
+                }
+                DispatchSessionStateChangeMsg(cs, CarSessionStateChangeArgs.Reason.UpdateTemprary);
             }
-            Debug.Assert(cs.Alive == true);
-            cs.X = arg.X;
-            cs.Y = arg.Y;
-            cs.RollDirection = arg.RollDirection;
-            cs.LastUpdateTime = arg.Time;
-            cs.OutOfPath = false;
-            Path p;
-            if (pathMgr.TryGetPath(cid, out p))
-            {
-                if (!p.PathPolygon.IsPointInRegion(new double[] { cs.X, cs.Y }))
-                    cs.OutOfPath = true;
-            }
-            DispatchSessionStateChangeMsg(cs, CarSessionStateChangeArgs.Reason.UpdateTemprary);
             return CarProcResult.Ok;
+
         }
         private void SessionMsgHandler(object sender, SessionStateChangeArgs arg)
         {

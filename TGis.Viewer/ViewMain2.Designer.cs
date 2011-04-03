@@ -42,7 +42,6 @@
             this.ribbonPagePath = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroupAllPaths = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,7 +69,6 @@
             this.ribbonPagePath});
             this.ribbon.SelectedPage = this.ribbonPagePath;
             this.ribbon.Size = new System.Drawing.Size(442, 149);
-            this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // barBtnWelcomeMode
             // 
@@ -169,24 +167,15 @@
             this.ribbonPageGroupAllPaths.Name = "ribbonPageGroupAllPaths";
             this.ribbonPageGroupAllPaths.Text = "所有路径";
             // 
-            // ribbonStatusBar
-            // 
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 418);
-            this.ribbonStatusBar.Name = "ribbonStatusBar";
-            this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(442, 31);
-            // 
             // ViewMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 449);
-            this.Controls.Add(this.ribbonStatusBar);
+            this.ClientSize = new System.Drawing.Size(442, 445);
             this.Controls.Add(this.ribbon);
             this.IsMdiContainer = true;
             this.Name = "ViewMain2";
             this.Ribbon = this.ribbon;
-            this.StatusBar = this.ribbonStatusBar;
             this.Text = "ViewMain2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewMain_FormClosing);
             this.Load += new System.EventHandler(this.ViewMain_Load);
@@ -200,7 +189,6 @@
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageMode;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
-        private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageCar;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPagePath;
         private DevExpress.XtraBars.BarButtonItem barBtnWelcomeMode;

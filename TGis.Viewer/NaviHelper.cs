@@ -31,18 +31,18 @@ namespace TGis.Viewer
         }
         public static void NaviToWelcome()
         {
-            Form fm = new ViewWelcome();
+            Form fm = new ViewWelcome2();
             NaviTo(fm);
         }
         public static void NaviToModifyPath(int pid)
         {
             ModifyPathModel model = new ModifyPathModel(pid);
-            Form fm = new ViewModifyPath(model);
+            Form fm = new ViewModifyPath2(model);
             NaviTo(fm);
         }
         public static void NaviToModifyCar(int cid)
         {
-            Form fm = new ViewModifyCar(cid);
+            Form fm = new ViewModifyCar2(cid);
             NaviTo(fm);
         }
     }

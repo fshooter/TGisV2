@@ -40,10 +40,16 @@ namespace TGis.Viewer
             foreach (Path p in GisGlobal.GPathMgr.Paths)
             {
                 var btnNew = this.ribbon.Items.CreateButton(p.Name);
+                btnNew.Tag = p.Id;
+                btnNew.ItemClick += new ItemClickEventHandler(PathMenu_Click);
                 this.ribbonPageGroupAllPaths.ItemLinks.Add(btnNew);
             }
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             this.ResumeLayout(false);
+        }
+        private void PathMenu_Click(object sender, ItemClickEventArgs e)
+        {
+            controller.ModifyPath((int)e.Item.Tag);
         }
         private void ReloadCarMenu(object sender, EventArgs e)
         {
@@ -60,12 +66,17 @@ namespace TGis.Viewer
             foreach (Car c in GisGlobal.GCarMgr.Cars)
             {
                 var btnNew = this.ribbon.Items.CreateButton(c.Name);
+                btnNew.Tag = c.Id;
+                btnNew.ItemClick += new ItemClickEventHandler(CarMenu_Click);
                 this.ribbonPageGroupAllCars.ItemLinks.Add(btnNew);
             }
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             this.ResumeLayout(false);
         }
-
+        private void CarMenu_Click(object sender, ItemClickEventArgs e)
+        {
+            controller.ModifyCar((int)e.Item.Tag);
+        }
         private void ViewMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             GisGlobal.GPathMgr.OnPathStateChanged -= new PathStateChangeHandler(PathState_Change);
@@ -79,6 +90,7 @@ namespace TGis.Viewer
             GisGlobal.GPathMgr.OnPathStateChanged += new PathStateChangeHandler(PathState_Change);
             GisGlobal.GCarMgr.OnCarStateChanged += new CarStateChangeHandler(CarState_Change);
             this.ribbon.SelectedPage = ribbonPageMode;
+            NaviHelper.NaviToWelcome();
         }
         private void PathState_Change(object sender, PathStateChangeArgs arg)
         {

@@ -14,6 +14,7 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -51,6 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Data.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.SpellChecker.v10.2.Core, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpo.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraBars.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -60,6 +61,8 @@
     <Reference Include="DevExpress.XtraNavBar.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraScheduler.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraScheduler.v10.2.Core, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraScheduler.v10.2.Extensions, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraSpellChecker.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraTreeList.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -117,17 +120,23 @@
     <Compile Include="ViewModifyCar.Designer.cs">
       <DependentUpon>ViewModifyCar.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewModifyPath.cs">
+    <Compile Include="ViewModifyCar2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewModifyPath.Designer.cs">
-      <DependentUpon>ViewModifyPath.cs</DependentUpon>
+    <Compile Include="ViewModifyCar2.Designer.cs">
+      <DependentUpon>ViewModifyCar2.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewWelcome.cs">
+    <Compile Include="ViewModifyPath2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewWelcome.Designer.cs">
-      <DependentUpon>ViewWelcome.cs</DependentUpon>
+    <Compile Include="ViewModifyPath2.Designer.cs">
+      <DependentUpon>ViewModifyPath2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewWelcome2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewWelcome2.Designer.cs">
+      <DependentUpon>ViewWelcome2.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="ViewGisCar2.resx">
@@ -152,11 +161,14 @@
     <EmbeddedResource Include="ViewModifyCar.resx">
       <DependentUpon>ViewModifyCar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ViewModifyPath.resx">
-      <DependentUpon>ViewModifyPath.cs</DependentUpon>
+    <EmbeddedResource Include="ViewModifyCar2.resx">
+      <DependentUpon>ViewModifyCar2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ViewWelcome.resx">
-      <DependentUpon>ViewWelcome.cs</DependentUpon>
+    <EmbeddedResource Include="ViewModifyPath2.resx">
+      <DependentUpon>ViewModifyPath2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewWelcome2.resx">
+      <DependentUpon>ViewWelcome2.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

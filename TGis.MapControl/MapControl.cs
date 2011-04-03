@@ -35,22 +35,22 @@ namespace TGis.MapControl
         public void AddCar(int id, string name, double x, double y, bool bException)
         {
             if (dictMarkers.ContainsKey(id))
-                throw new ApplicationException("MapControl!AddCar error");
+                return;
             string marker = (string)webBrowser.Document.InvokeScript("add_car", new object[] { name, x, y, bException });
             dictMarkers[id] = marker;
         }
         public void UpdateCar(int id, string name, double x, double y, bool bException)
         {
             string marker;
-            if(!dictMarkers.TryGetValue(id, out marker))
-                throw new ApplicationException("MapControl!UpdateCar error");
+            if (!dictMarkers.TryGetValue(id, out marker))
+                return;
             webBrowser.Document.InvokeScript("update_car", new object[] { marker, x, y, bException });
         }
         public void RemoveCar(int id)
         {
             string marker;
             if (!dictMarkers.TryGetValue(id, out marker))
-                throw new ApplicationException("MapControl!UpdateCar error");
+                return;
             dictMarkers.Remove(id);
             webBrowser.Document.InvokeScript("remove_car", new object[] { marker });
         }

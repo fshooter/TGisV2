@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DevExpress.XtraBars;
 using TGis.Common;
 using TGis.MapControl;
 
 namespace TGis.Viewer
 {
-    partial class ViewModifyPath : Form
+    partial class ViewModifyPath2 : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        private ModifyPathModel model;
+       private ModifyPathModel model;
         private bool bDrawingMode = false;
         private bool bInitComplecate = false;
-        public ViewModifyPath(ModifyPathModel model)
+        public ViewModifyPath2(ModifyPathModel model)
         {
             this.model = model;
             InitializeComponent();
@@ -24,9 +24,9 @@ namespace TGis.Viewer
 
         private void ViewModifyPath_Load(object sender, EventArgs e)
         {
+            this.ribbon.SelectedPage = ribbonPage1;
             mapControl.Navigate(Ultility.GetAppDir() + @"\map\map.html");
             mapControl.OnMapLoadCompleted += new MapLoadCompleteHandler(InitMapFirstTime);
-            //GisGlobal.GPathMgr.OnPathStateChanged += new PathStateChangeHandler(PathState_Change);
         }
         private void InitMapFirstTime(object sender)
         {
@@ -35,7 +35,7 @@ namespace TGis.Viewer
         }
         private void ViewModifyPath_FormClosing(object sender, FormClosingEventArgs e)
         {
-           // GisGlobal.GPathMgr.OnPathStateChanged -= new PathStateChangeHandler(PathState_Change);
+           
         }
 
         private void ReloadPath(object sender, EventArgs arg)
@@ -52,6 +52,7 @@ namespace TGis.Viewer
             Path path;
             if (!GisGlobal.GPathMgr.TryGetPath(model.Id, out path))
                 return;
+            barEditPathName.EditValue = path.Name;
             mapControl.AddPath(path.Id, path.Name, path.PathPolygon.Points);
         }
         private void PathState_Change(object sender, PathStateChangeArgs arg)
@@ -59,23 +60,7 @@ namespace TGis.Viewer
             this.BeginInvoke(new EventHandler(ReloadPath), new object[] { this, null });
         }
 
-        private void btnOk_Click(object sender, EventArgs e)
-        {
-            double[] points = mapControl.EndDrawPath();
-            if (bDrawingMode && (points.Length < 6))
-            {
-                MessageBox.Show("尚未绘制路径");
-                return;
-            }
-            Path path;
-            if (!GisGlobal.GPathMgr.TryGetPath(model.Id, out path))
-                return;
-            Path newp = new Path(path.Id, path.Name, points);
-            GisGlobal.GPathMgr.UpdatePath(newp);
-            NaviHelper.NaviToWelcome();
-        }
-
-        private void btnRedraw_Click(object sender, EventArgs e)
+        private void barBtnRedraw_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (bDrawingMode)
                 mapControl.EndDrawPath();
@@ -86,10 +71,56 @@ namespace TGis.Viewer
             }
             catch (System.Exception)
             {
-            	
+
             }
-           
+
             mapControl.BeginDrawPath();
+        }
+
+        private void barBtnSave_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Path path;
+            if (!GisGlobal.GPathMgr.TryGetPath(model.Id, out path))
+                return;
+            double[] points;
+            if (bDrawingMode)
+            {
+                points = mapControl.EndDrawPath();
+                if ((points == null) || (points.Length < 6))
+                {
+                    MessageBox.Show("尚未绘制路径");
+                    return;
+                }
+            }
+            else
+                points = path.PathPolygon.Points;
+            
+            string newName = (string)barEditPathName.EditValue;
+            foreach (Path p in GisGlobal.GPathMgr.Paths)
+            {
+                if((p.Id != model.Id) && (p.Name == newName))
+                {
+                    MessageBox.Show("有重名的路径，请更改路径名称");
+                    return;
+                }
+            }
+            Path newp = new Path(path.Id, newName, points);
+            GisGlobal.GPathMgr.UpdatePath(newp);
+            NaviHelper.NaviToWelcome();
+        }
+
+        private void barBtnCancel_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            NaviHelper.NaviToWelcome();
+        }
+
+        private void barBtnDelete_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Path path;
+            if (!GisGlobal.GPathMgr.TryGetPath(model.Id, out path))
+                return;
+            GisGlobal.GPathMgr.RemovePath(path);
+            NaviHelper.NaviToWelcome();
         }
     }
 }
