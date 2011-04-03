@@ -14,12 +14,15 @@ namespace TGis.Viewer
         {
             this.model = model;
         }
+        public void WelcomeMode()
+        {
+            NaviHelper.NaviToWelcome();
+        }
         public void ImmediateMode()
         {
-            GisCarModel model = new GisCarModel();
-            model.CsMgr = GisGlobal.GImmCarSessionMgr;
+            GisCarModel model = new GisCarModel(GisGlobal.GImmCarSessionMgr);
             GisCarController controller = new GisCarController();
-            Form viewGisCar = new ViewGisCar(model, controller);
+            Form viewGisCar = new ViewGisCar2(model, controller);
             NaviHelper.NaviTo(viewGisCar);
         }
         public void CreateNewPath()

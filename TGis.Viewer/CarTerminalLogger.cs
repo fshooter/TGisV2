@@ -20,7 +20,7 @@ namespace TGis.Viewer
             string[] msgs = data.Split(',');
             if (msgs.Length != 5)
                 throw new ApplicationException("Format Error");
-            CarTernimalStateArg r = new CarTernimalStateArg;
+            CarTernimalStateArg r = new CarTernimalStateArg();
             r.Time = Ultility.TimeDecode(Convert.ToInt32(msgs[0]));
             r.PhoneNum = msgs[1];
             r.X = Convert.ToInt32(msgs[2]);
@@ -104,6 +104,98 @@ namespace TGis.Viewer
                     cmd.ExecuteNonQuery();
                 }
                 listCachedMsg.Clear();
+            }
+        }
+    }
+    class HistoryCarTerminal : ICarTerminalAbility
+    {
+        private int interval = 1000;   
+        private TimeSpan delta = new TimeSpan(0, 0, 1);
+        private Timer timer = new Timer();
+        private DateTime currentTime = DateTime.MinValue;
+        private bool bExit = false;
+        private IDbConnection conn;
+
+        public bool CanInteract { get { return false; } }
+        public event CarTerminalStateChangeHandler OnCarStateChanged;
+        public HistoryCarTerminal(IDbConnection connection)
+        {
+            conn = connection;
+            timer.Elapsed += new ElapsedEventHandler(LoopUpdateLocation);
+        }
+        public int Interval
+        {
+            get { return interval; }
+            set {
+                lock (this)
+                {
+                    interval = value;
+                    timer.Interval = interval;
+                } 
+            }
+        }
+        public TimeSpan Delta
+        {
+            get { return delta; }
+            set
+            {
+                lock (this)
+                {
+                    delta = value;
+                }
+            }
+        }
+        public DateTime CurrentTime
+        {
+            get { return currentTime; }
+            set {
+                lock (this)
+                {
+                    currentTime = value;
+                }
+            }
+        }
+        public void Run()
+        {
+            bExit = false;
+            timer.Start();
+        }
+        public void Stop()
+        {
+            bExit = true;
+            timer.Stop();
+        }
+
+        private void LoopUpdateLocation(object sender, EventArgs e)
+        {
+            if (bExit) return;
+            lock (this)
+            {
+                int start = Ultility.TimeEncode(currentTime);
+                int end = Ultility.TimeEncode(currentTime + delta);
+                using (IDbCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = string.Format("select data from msgs where time > {0} and time < {1}",
+                        start, end);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ProcRecord(reader.GetString(0));
+                        }
+                    }
+                }
+                currentTime += delta;
+            }
+        }
+        private void ProcRecord(string data)
+        {
+            string[] msgs = data.Split('|');
+            foreach (string msg in msgs)
+            {
+                CarTernimalStateArg arg = CarTernimalStateArgSerialHelper.Decode(msg);
+                if (OnCarStateChanged != null)
+                    OnCarStateChanged(this, arg);
             }
         }
     }

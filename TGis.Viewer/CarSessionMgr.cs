@@ -200,7 +200,6 @@ namespace TGis.Viewer
                     handler(cs);
             }
         }
-
         private void AddCarSession(Car c)
         {
             lock (this)
@@ -242,7 +241,7 @@ namespace TGis.Viewer
             }
             return br;
         }
-        private bool TryGetCarSession(int id, out CarSession cs)
+        public bool TryGetCarSession(int id, out CarSession cs)
         {
             lock(this)
             {

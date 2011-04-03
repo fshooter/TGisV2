@@ -16,6 +16,8 @@ namespace TGis.MapControl
         private IDictionary<int, string> dictPathIdentify = new Dictionary<int, string>();
         private delegate void DeleAddUpdateCar(int id, string name, double x, double y, bool bException);
         private delegate void DeleRemoveCar(int id);
+        private delegate void DeleAddPath(int id, string name, double[] points);
+        private delegate void DeleRemovePath(int id);
         public MapControl()
         {
             InitializeComponent();
@@ -49,7 +51,16 @@ namespace TGis.MapControl
             string marker;
             if (!dictMarkers.TryGetValue(id, out marker))
                 throw new ApplicationException("MapControl!UpdateCar error");
+            dictMarkers.Remove(id);
             webBrowser.Document.InvokeScript("remove_car", new object[] { marker });
+        }
+        public void AsynAddPath(int id, string name, double[] points)
+        {
+            this.BeginInvoke(new DeleAddPath(AddPath), new object[] { id, name, points });
+        }
+        public void AsynRemovePath(int id)
+        {
+            this.BeginInvoke(new DeleRemovePath(RemovePath), new object[] { id });
         }
         public void AddPath(int id, string name, double[] points)
         {
@@ -65,6 +76,7 @@ namespace TGis.MapControl
             string pathIdentify;
             if (!dictPathIdentify.TryGetValue(id, out pathIdentify))
                 throw new ApplicationException("MapControl!UpdateCar error");
+            dictPathIdentify.Remove(id);
             webBrowser.Document.InvokeScript("remove_path", new object[] { pathIdentify });
         }
         public void BeginDrawPath()

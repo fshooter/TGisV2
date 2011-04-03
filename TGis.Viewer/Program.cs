@@ -21,7 +21,7 @@ namespace TGis.Viewer
             GisGlobal.Init();
             MainToolModel model = new MainToolModel();
             MainToolController controller = new MainToolController(model);
-            NaviHelper.FormMain = new ViewMain(controller, model);
+            NaviHelper.FormMain = new ViewMain2(controller, model);
             Application.Run(NaviHelper.FormMain);
 
             GisGlobal.UnInit();
