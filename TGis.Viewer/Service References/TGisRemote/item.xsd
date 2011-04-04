@@ -64,10 +64,26 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="QueryEventInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="tmStart" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="tmEnd" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="QueryEventInfoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/TGis.RemoteContract" minOccurs="0" name="QueryEventInfoResult" nillable="true" type="q4:ArrayOfGisEventInfo" />
+        <xs:element minOccurs="0" name="bTobeContinue" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="AddCarInfo">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/TGis.RemoteContract" minOccurs="0" name="info" nillable="true" type="q4:GisCarInfo" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/TGis.RemoteContract" minOccurs="0" name="info" nillable="true" type="q5:GisCarInfo" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -81,7 +97,7 @@
   <xs:element name="UpdateCarInfo">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/TGis.RemoteContract" minOccurs="0" name="info" nillable="true" type="q5:GisCarInfo" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/TGis.RemoteContract" minOccurs="0" name="info" nillable="true" type="q6:GisCarInfo" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -109,7 +125,7 @@
   <xs:element name="AddPathInfo">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/TGis.RemoteContract" minOccurs="0" name="info" nillable="true" type="q6:GisPathInfo" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/TGis.RemoteContract" minOccurs="0" name="info" nillable="true" type="q7:GisPathInfo" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -123,7 +139,7 @@
   <xs:element name="UpdatePathInfo">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/TGis.RemoteContract" minOccurs="0" name="info" nillable="true" type="q7:GisPathInfo" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/TGis.RemoteContract" minOccurs="0" name="info" nillable="true" type="q8:GisPathInfo" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

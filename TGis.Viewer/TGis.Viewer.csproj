@@ -86,6 +86,7 @@
     <Compile Include="CarMgr.cs" />
     <Compile Include="CarSessionMgr.cs" />
     <Compile Include="CarTerminalLogger.cs" />
+    <Compile Include="EventsQueryModel.cs" />
     <Compile Include="GisCarController.cs" />
     <Compile Include="GisCarModel.cs" />
     <Compile Include="GisGlobal.cs" />
@@ -98,6 +99,12 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="TestCarTerminalAbility.cs" />
+    <Compile Include="ViewEvents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewEvents.Designer.cs">
+      <DependentUpon>ViewEvents.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewGisCar2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +140,9 @@
       <DependentUpon>ViewWelcome2.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="ViewEvents.resx">
+      <DependentUpon>ViewEvents.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ViewGisCar2.resx">
       <DependentUpon>ViewGisCar2.cs</DependentUpon>
     </EmbeddedResource>
@@ -182,6 +192,9 @@
     </None>
     <None Include="Service References\TGisRemote\ServiceImpl.wsdl" />
     <None Include="Service References\TGisRemote\TGis.Viewer.TGisRemote.GisCarInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TGisRemote\TGis.Viewer.TGisRemote.GisEventInfo.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\TGisRemote\TGis.Viewer.TGisRemote.GisPathInfo.datasource">

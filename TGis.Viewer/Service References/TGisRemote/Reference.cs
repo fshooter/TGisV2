@@ -338,6 +338,132 @@ namespace TGis.Viewer.TGisRemote {
         Remove = 2,
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GisEventInfo", Namespace="http://schemas.datacontract.org/2004/07/TGis.RemoteContract")]
+    [System.SerializableAttribute()]
+    public partial class GisEventInfo : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CarIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime TimeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private TGis.Viewer.TGisRemote.GisEventType TypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double XField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double YField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CarId {
+            get {
+                return this.CarIdField;
+            }
+            set {
+                if ((this.CarIdField.Equals(value) != true)) {
+                    this.CarIdField = value;
+                    this.RaisePropertyChanged("CarId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Time {
+            get {
+                return this.TimeField;
+            }
+            set {
+                if ((this.TimeField.Equals(value) != true)) {
+                    this.TimeField = value;
+                    this.RaisePropertyChanged("Time");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public TGis.Viewer.TGisRemote.GisEventType Type {
+            get {
+                return this.TypeField;
+            }
+            set {
+                if ((this.TypeField.Equals(value) != true)) {
+                    this.TypeField = value;
+                    this.RaisePropertyChanged("Type");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double X {
+            get {
+                return this.XField;
+            }
+            set {
+                if ((this.XField.Equals(value) != true)) {
+                    this.XField = value;
+                    this.RaisePropertyChanged("X");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Y {
+            get {
+                return this.YField;
+            }
+            set {
+                if ((this.YField.Equals(value) != true)) {
+                    this.YField = value;
+                    this.RaisePropertyChanged("Y");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GisEventType", Namespace="http://schemas.datacontract.org/2004/07/TGis.RemoteContract")]
+    public enum GisEventType : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Connect = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        DisConnect = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        OutOfPath = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        RollBackward = 3,
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TGisRemote.IGisServiceAblity")]
     public interface IGisServiceAblity {
@@ -356,6 +482,9 @@ namespace TGis.Viewer.TGisRemote {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/QuerySessionInfo", ReplyAction="http://tempuri.org/IGisServiceAblity/QuerySessionInfoResponse")]
         TGis.Viewer.TGisRemote.GisSessionInfo[] QuerySessionInfo(System.DateTime tmStart, System.DateTime tmEnd);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/QueryEventInfo", ReplyAction="http://tempuri.org/IGisServiceAblity/QueryEventInfoResponse")]
+        TGis.Viewer.TGisRemote.GisEventInfo[] QueryEventInfo(out bool bTobeContinue, System.DateTime tmStart, System.DateTime tmEnd);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/AddCarInfo", ReplyAction="http://tempuri.org/IGisServiceAblity/AddCarInfoResponse")]
         bool AddCarInfo(TGis.Viewer.TGisRemote.GisCarInfo info);
@@ -421,6 +550,10 @@ namespace TGis.Viewer.TGisRemote {
         
         public TGis.Viewer.TGisRemote.GisSessionInfo[] QuerySessionInfo(System.DateTime tmStart, System.DateTime tmEnd) {
             return base.Channel.QuerySessionInfo(tmStart, tmEnd);
+        }
+        
+        public TGis.Viewer.TGisRemote.GisEventInfo[] QueryEventInfo(out bool bTobeContinue, System.DateTime tmStart, System.DateTime tmEnd) {
+            return base.Channel.QueryEventInfo(out bTobeContinue, tmStart, tmEnd);
         }
         
         public bool AddCarInfo(TGis.Viewer.TGisRemote.GisCarInfo info) {

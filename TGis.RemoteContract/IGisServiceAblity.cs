@@ -29,6 +29,9 @@ namespace TGis.RemoteContract
         GisSessionInfo[] QuerySessionInfo(DateTime tmStart, DateTime tmEnd);
 
         [OperationContract]
+        GisEventInfo[] QueryEventInfo(DateTime tmStart, DateTime tmEnd, out bool bTobeContinue);
+
+        [OperationContract]
         bool AddCarInfo(GisCarInfo info);
 
         [OperationContract]
@@ -180,6 +183,60 @@ namespace TGis.RemoteContract
             set { reason = value; }
         }
 
+        [DataMember]
+        public DateTime Time
+        {
+            get { return time; }
+            set { time = value; }
+        }
+    }
+
+    [DataContract]
+    public enum GisEventType
+    {
+        [EnumMember]
+        Connect = 0,
+        [EnumMember]
+        DisConnect = 1,
+        [EnumMember]
+        OutOfPath = 2,
+        [EnumMember]
+        RollBackward = 3,
+    }
+
+    [DataContract]
+    public class GisEventInfo
+    {
+        private GisEventType type;
+        private int carId;
+        private double x;
+        private double y;
+        private DateTime time;
+
+        [DataMember]
+        public GisEventType Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+        [DataMember]
+        public int CarId
+        {
+            get { return carId; }
+            set { carId = value; }
+        }
+        [DataMember]
+        public double X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+        [DataMember]
+        public double Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
         [DataMember]
         public DateTime Time
         {

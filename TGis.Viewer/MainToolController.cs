@@ -40,6 +40,12 @@ namespace TGis.Viewer
             csm.Run(2000);
             NaviHelper.NaviTo(viewGisCar);
         }
+        public void EventsMode()
+        {
+            EventsQueryModel model = new EventsQueryModel();
+            Form viewEvents = new ViewEvents(model);
+            NaviHelper.NaviTo(viewEvents);
+        }
         public void CreateNewPath()
         {
             string newName = null;
@@ -64,6 +70,7 @@ namespace TGis.Viewer
             if (newName == null) return;
             GisPathInfo newp = new GisPathInfo();
             newp.Name = newName;
+            newp.Points = new double[] { 0, 0, 1, 1, 2, 2 };
             GisGlobal.GPathMgr.InsertPath(newp);
         }
         public void CreateNewCar()
@@ -90,6 +97,7 @@ namespace TGis.Viewer
             if (newName == null) return;
             GisCarInfo newp = new GisCarInfo();
             newp.Name = newName;
+            newp.PathId = -1;
             GisGlobal.GCarMgr.InsertCar(newp);
         }
         public void ModifyPath(int pid)

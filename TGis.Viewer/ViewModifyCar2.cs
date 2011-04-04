@@ -35,6 +35,7 @@ namespace TGis.Viewer
                 if (c.PathId == p.Id)
                     this.comboPath.SelectedItem = p.Name;
             }
+            this.ribbon.SelectedPage = ribbonPage1;
         }
 
         private void barButtonOk_ItemClick(object sender, ItemClickEventArgs e)

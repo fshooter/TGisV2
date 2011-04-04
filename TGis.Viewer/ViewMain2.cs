@@ -126,5 +126,10 @@ namespace TGis.Viewer
         {
             controller.HistoryMode();
         }
+
+        private void barButtonEventsMode_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            controller.EventsMode();
+        }
     }
 }

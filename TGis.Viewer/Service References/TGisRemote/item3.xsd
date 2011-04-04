@@ -56,4 +56,29 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="GisSessionInfo" nillable="true" type="tns:GisSessionInfo" />
+  <xs:complexType name="ArrayOfGisEventInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="GisEventInfo" nillable="true" type="tns:GisEventInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfGisEventInfo" nillable="true" type="tns:ArrayOfGisEventInfo" />
+  <xs:complexType name="GisEventInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CarId" type="xs:int" />
+      <xs:element minOccurs="0" name="Time" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Type" type="tns:GisEventType" />
+      <xs:element minOccurs="0" name="X" type="xs:double" />
+      <xs:element minOccurs="0" name="Y" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GisEventInfo" nillable="true" type="tns:GisEventInfo" />
+  <xs:simpleType name="GisEventType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Connect" />
+      <xs:enumeration value="DisConnect" />
+      <xs:enumeration value="OutOfPath" />
+      <xs:enumeration value="RollBackward" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="GisEventType" nillable="true" type="tns:GisEventType" />
 </xs:schema>

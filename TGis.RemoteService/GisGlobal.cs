@@ -16,6 +16,8 @@ namespace TGis.RemoteService
         public static IDbConnection GConnection;
         public static CarSessionLogger GSessionLogger;
         public static HistoryCarSession GCarSessionQueryer;
+        public static CarEventLogger GEventLogger;
+        public static CarEventQueryer GEventQueryer;
 
         public static void Init()
         {
@@ -29,10 +31,17 @@ namespace TGis.RemoteService
 
             GSessionLogger = new CarSessionLogger(GImmCarSessionMgr, GConnection);
             GSessionLogger.Run(2000);
+
+            GEventLogger = new CarEventLogger(GisGlobal.GConnection,
+                GisGlobal.GImmCarSessionMgr);
+            GEventLogger.Run();
+
             immTerminal.Run();
+            GEventQueryer = new CarEventQueryer(GConnection);
         }
         public static void UnInit()
         {
+            GEventLogger.Stop();
             GImmCarSessionMgr.Terminal.Stop();
             GImmCarSessionMgr.Stop();
             GSessionLogger.Stop();

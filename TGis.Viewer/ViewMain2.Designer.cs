@@ -42,6 +42,7 @@
             this.ribbonPagePath = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroupAllPaths = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.barButtonEventsMode = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,9 +60,10 @@
             this.barBtnImmMode,
             this.barbtnHistoryMode,
             this.barButtonNewCar,
-            this.barBtnNewPath});
+            this.barBtnNewPath,
+            this.barButtonEventsMode});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 11;
+            this.ribbon.MaxItemId = 12;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageMode,
@@ -125,6 +127,7 @@
             this.ribbonPageGroup1.ItemLinks.Add(this.barBtnWelcomeMode);
             this.ribbonPageGroup1.ItemLinks.Add(this.barBtnImmMode);
             this.ribbonPageGroup1.ItemLinks.Add(this.barbtnHistoryMode);
+            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonEventsMode);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.Text = "显示模式";
             // 
@@ -168,6 +171,14 @@
             this.ribbonPageGroupAllPaths.Name = "ribbonPageGroupAllPaths";
             this.ribbonPageGroupAllPaths.Text = "所有路径";
             // 
+            // barButtonEventsMode
+            // 
+            this.barButtonEventsMode.Caption = "事件查询";
+            this.barButtonEventsMode.Id = 11;
+            this.barButtonEventsMode.Name = "barButtonEventsMode";
+            this.barButtonEventsMode.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.barButtonEventsMode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonEventsMode_ItemClick);
+            // 
             // ViewMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -201,5 +212,6 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupAllCars;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupAllPaths;
+        private DevExpress.XtraBars.BarButtonItem barButtonEventsMode;
     }
 }

@@ -23,8 +23,10 @@ namespace TGis.Viewer
             GisGlobal.Init();
             MainToolModel model = new MainToolModel();
             MainToolController controller = new MainToolController(model);
-            NaviHelper.FormMain = new ViewMain2(controller, model);
 
+            DevExpress.Utils.AppearanceObject.DefaultFont = new System.Drawing.Font("微软雅黑", 12);
+
+            NaviHelper.FormMain = new ViewMain2(controller, model);
             Application.Run(NaviHelper.FormMain);
 
             GisGlobal.UnInit();

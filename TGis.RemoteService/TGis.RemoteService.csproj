@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CarEventLogger.cs" />
     <Compile Include="CarMgr.cs" />
     <Compile Include="CarSessionMgr.cs" />
     <Compile Include="CarSessionLogger.cs" />

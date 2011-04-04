@@ -130,6 +130,15 @@ namespace TGis.Viewer
                 return proxy.RemovePathInfo(id);
             }
         }
+
+        public GisEventInfo[] QueryEventInfo( out bool bTobeContinue, DateTime tmStart, DateTime tmEnd)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.QueryEventInfo(out bTobeContinue, tmStart, tmEnd);
+            }
+        }
     }
     class GisGlobal
     {

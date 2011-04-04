@@ -7,9 +7,11 @@ namespace TGis.RemoteService
 {
     public class ServiceController
     {
+
         public void Run()
         {
             GisGlobal.Init();
+            
         }
         public void Stop()
         {

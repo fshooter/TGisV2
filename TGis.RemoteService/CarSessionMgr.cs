@@ -258,6 +258,7 @@ namespace TGis.RemoteService
             {
                 if (!TryGetCarSession(cid, out cs))
                     return CarProcResult.Miss;
+                cs.LastUpdateTime = arg.Time;
                 if ((cs.SessionStr == null) || !sessionMgr.Tick(cs.SessionStr))
                 {
                     Debug.Assert(cs.Alive == false);
