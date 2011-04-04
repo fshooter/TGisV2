@@ -28,7 +28,7 @@ body {
   }
 }
 </style>
-<title>Google Maps JavaScript API v3 Example: Map Simple</title>
+<title>Google Maps</title>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="map.js"></script>
 <script type="text/javascript">
@@ -62,44 +62,47 @@ body {
     google.maps.event.addListener(map, 'center_changed', on_center_changed);
 	google.maps.event.addListener(map, 'zoom_changed', on_zoom_changed);
   }
-  function add_car(name, x, y, excep){
-	var pos = new google.maps.LatLng(y, x)
+  function add_car(id){
+	var pos = new google.maps.LatLng(0, 0)
 	var option = {
 		position : pos,
-		title : name
 	}
 	var marker = new google.maps.Marker(option);
-	if(excep)
-		marker.setIcon(car_img_excep);
-	else
-		marker.setIcon(car_img);
-	marker.setMap(map);
-	cars.put(name, marker);
-	return name;
+	cars.put(id, marker);
  }
  
- function remove_car(key)
+ function remove_car(id)
  {
-	marker = cars.get(key);
+	marker = cars.get(id);
 	if(marker == null) return;
-	cars.remove(key);
+	cars.remove(id);
 	marker.setMap(null);
-	
  }
  
- function update_car(key, x, y, excep)
+ function update_car(id, x, y, excep, show)
  {
-	marker = cars.get(key);
+	marker = cars.get(id);
 	if(marker == null) return;
+	if(!show)
+	{
+		marker.setMap(null);
+		return;
+	}
 	if(excep)
 		marker.setIcon(car_img_excep);
 	else
 		marker.setIcon(car_img);
 	marker.setPosition(new google.maps.LatLng(y, x));
+	marker.setMap(map);
  }
- 
- function add_path(name, points)
+ function add_path(id, name, points)
  {
+	path = gPaths.get(id);
+	if(path != null)
+	{
+		path.setMap(map);
+		return;
+	}
 	points_convert = [];
 	for(i = 0; i < points.length / 2; i++)
 	{
@@ -110,14 +113,13 @@ body {
 	}
 	var path = new google.maps.Polygon(option);
 	path.setMap(map);
-	gPaths.put(name, path);
-	return name;
+	gPaths.put(id, path);
  }
- function remove_path(pathIdentify)
+ function remove_path(id)
  {
-	path = gPaths.get(pathIdentify);
+	path = gPaths.get(id);
 	if(path == null) return;
-	gPaths.remove(pathIdentify);
+	gPaths.remove(id);
 	path.setMap(null);
  }
  

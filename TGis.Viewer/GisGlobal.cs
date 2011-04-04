@@ -5,43 +5,92 @@ using System.Text;
 using System.Data;
 using System.Data.SQLite;
 using TGis.Common;
+using System.ServiceModel;
+using TGis.Viewer.TGisRemote;
 
 namespace TGis.Viewer
 {
+    class GisServiceWrapper : IGisServiceAblity
+    {
+        static GisServiceWrapper instance = null;
+        ChannelFactory<IGisServiceAblity> channelFactory;
+        private GisServiceWrapper()
+        {
+            channelFactory = new ChannelFactory<IGisServiceAblity>("NetTcpBinding_IGisServiceAblity");
+        }
+        public static IGisServiceAblity Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new GisServiceWrapper();
+                return instance;
+            }
+            set
+            {
+                if (instance != null)
+                    instance.Close();
+                instance = null;
+            }
+        }
+        public void Close()
+        {
+            channelFactory.Close();
+        }
+        public int GetVersion()
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.GetVersion();
+            }
+        }
+        public DateTime GetCurrentTime()
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.GetCurrentTime();
+            }
+        }
+        public GisCarInfo[] GetCarInfo()
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.GetCarInfo();
+            }
+        }
+        public GisPathInfo[] GetPathInfo()
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.GetPathInfo();
+            }
+        }
+        public GisSessionInfo[] QuerySessionInfo(DateTime tmStart, DateTime tmEnd)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.QuerySessionInfo(tmStart, tmEnd);
+            }
+        }
+    }
     class GisGlobal
     {
         public static CarMgr GCarMgr;
-        public static PathMgr GPathMgr;
-        public static CarSessionMgr GImmCarSessionMgr;
-        public static IDbConnection GConnection;
-        public static CarTerminalLogger GTerminalLogger;
+        public static PathMgr GPathMgr;       
 
         public static void Init()
         {
-            OpenDb();
-            GCarMgr = new CarMgr(GConnection);
-            GPathMgr = new PathMgr(GConnection);
-            GImmCarSessionMgr = new CarSessionMgr(GCarMgr, GPathMgr);
-            ICarTerminalAbility immTerminal = new TestCarTerminalAbility();
-            GImmCarSessionMgr.Terminal = immTerminal;
-            immTerminal.Run();
-
-            GTerminalLogger = new CarTerminalLogger(immTerminal, GConnection);
-            GTerminalLogger.Run(5000);
+            GCarMgr = new CarMgr();
+            GPathMgr = new PathMgr();
         }
         public static void UnInit()
         {
-            GTerminalLogger.Stop();
-            GImmCarSessionMgr.Terminal.Stop();
-            GImmCarSessionMgr.Stop();
-        }
-        private static void OpenDb()
-        {
-            IDbConnection conn = new System.Data.SQLite.SQLiteConnection(
-                String.Format(@"Data Source={0}\GisDb.db;Pooling=true;FailIfMissing=false",
-                Ultility.GetDataDir()));
-            conn.Open();
-            GConnection = conn;
+            
         }
     }
 }

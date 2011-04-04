@@ -108,6 +108,7 @@ namespace TGis.RemoteService
     class HistoryCarSession
     {
         IDbConnection conn;
+        const int MAX_DATA_PER_QUERY = 50;
         public HistoryCarSession(IDbConnection connection)
         {
             conn = connection;
@@ -117,7 +118,6 @@ namespace TGis.RemoteService
             int start = Ultility.TimeEncode(tmStart);
             int end = Ultility.TimeEncode(tmEnd);
             List<GisSessionInfo> result = new List<GisSessionInfo>();
-            BinaryFormatter serialer = new BinaryFormatter();
             byte[] buffer = new byte[1024 * 1024];
             using (IDbCommand cmd = conn.CreateCommand())
             {
@@ -125,10 +125,12 @@ namespace TGis.RemoteService
                     start, end);
                 using (var reader = cmd.ExecuteReader())
                 {
+                    int nDataNum = 0;
                     while (reader.Read())
                     {
+                        if (nDataNum++ > MAX_DATA_PER_QUERY) break;
                         long dateLen = reader.GetBytes(0, 0, buffer, 0, buffer.Length);
-                        GisSessionInfo[] resultTemp = serialer.Deserialize(new MemoryStream(buffer, 0, (int)dateLen, false)) as GisSessionInfo[];
+                        GisSessionInfo[] resultTemp = DataContractFormatSerializer.Deserialize<GisSessionInfo[]>(buffer, (int)dateLen, false);
                         if(resultTemp == null) continue;
                         result.AddRange(resultTemp);
                     }

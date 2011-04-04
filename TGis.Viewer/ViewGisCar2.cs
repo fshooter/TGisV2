@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using DevExpress.XtraBars;
 using TGis.Common;
 using TGis.MapControl;
+using TGis.Viewer.TGisRemote;
 
 namespace TGis.Viewer
 {
@@ -26,52 +27,47 @@ namespace TGis.Viewer
 
         private void ViewGisCar_Load(object sender, EventArgs e)
         {
+            if (model.SessionMgr.ImmMode)
+                this.ribbonPageControl.Visible = false;
             MapControl_Load(sender, e);
             TreeList_Load(sender, e);
-            GridCar_Load(sender, e); ;
-            
+            GridCar_Load(sender, e);
+            ControlPanel_Load(sender, e);
         }
-        
+#region ControlPanel
+        private void ControlPanel_Load(object sender, EventArgs e)
+        {
+            this.ControlPanel_Day.EditValue = model.SessionMgr.CurrentTime;
+            this.ControlPanel_Time.EditValue = model.SessionMgr.CurrentTime;
+            this.model.SessionMgr.OnBeginQuerySessionMsg += new EventHandler(ControlPanel_OnBeginQuerySessionMsg);
+        }
+        private void ControlPanel_BtnGo_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            this.model.SessionMgr.CurrentTime = ((DateTime)this.ControlPanel_Day.EditValue).Date
+                + ((DateTime)this.ControlPanel_Time.EditValue).TimeOfDay;
+        }
+        private void ControlPanel_OnBeginQuerySessionMsg(object sender, EventArgs e)
+        {
+            this.BeginInvoke(new EventHandler(ControlPanel_OnBeginQuerySessionMsgInner),
+                new object[] { sender, e });
+        }
+        private void ControlPanel_OnBeginQuerySessionMsgInner(object sender, EventArgs e)
+        {
+            this.barStaticUpdateTime.Caption = string.Format("更新时间: {0}",
+                model.SessionMgr.CurrentTime);
+        }
+        private void ControlPanel_Close(object sender, EventArgs e)
+        {
+            this.model.SessionMgr.OnBeginQuerySessionMsg -= new EventHandler(ControlPanel_OnBeginQuerySessionMsg);
+        }
+#endregion
 
 #region MapControl
         private void MapControl_Load(object sender, EventArgs e)
         {
             mapControl1.Navigate(Ultility.GetAppDir() + @"\map\map.html");
             mapControl1.OnMapLoadCompleted += new MapLoadCompleteHandler(AsynInitMapFirstTime);
-            model.OnCarShowableChanged += new CarShowableMsgHandler(CarShowableChange_Map);
-            model.OnPathShowableChanged += new PathShowableMsgHandler(PathShowableChange_Map);
-        }
-        private void CarShowableChange_Map(object sender, GisCarModelReasonCar reason, int id, string name,
-            double x, double y, bool bException)
-        {
-            if (!bInitComplete) return;
-            switch (reason)
-            {
-                case GisCarModelReasonCar.Add:
-                    mapControl1.AsynAddCar(id, name, x, y, bException);
-                    break;
-                case GisCarModelReasonCar.Update:
-                    mapControl1.AsynUpdateCar(id, name, x, y, bException);
-                    break;
-                case GisCarModelReasonCar.Remove:
-                    mapControl1.AsynRemoveCar(id);
-                    break;
-            }
-        }
-        private void PathShowableChange_Map(object sender, GisCarModelReasonPath reason, int id)
-        {
-            Path path;
-            if (!GisGlobal.GPathMgr.TryGetPath(id, out path))
-                return;
-            switch (reason)
-            {
-                case GisCarModelReasonPath.Add:
-                    mapControl1.AsynAddPath(id, path.Name, path.PathPolygon.Points);
-                    break;
-                case GisCarModelReasonPath.Remove:
-                    mapControl1.AsynRemovePath(id);
-                    break;
-            }   
+            
         }
         private void AsynInitMapFirstTime(object map)
         {
@@ -80,13 +76,58 @@ namespace TGis.Viewer
         private void InitMapFirstTime(object map, EventArgs e)
         {
             bInitComplete = true;
-            model.InitCarStateFirstTime();
+            foreach (GisCarInfo c in GisGlobal.GCarMgr.Cars)
+            {
+                mapControl1.AsynAddCar(c.Id);
+            }
+            model.SessionMgr.OnSessionMsgReceived += new CarSessionMsgHandler(MapCotrol_SessionMessageHandler);
+            model.OnCarShowChanged += new EventHandler(MapControl_CarShowChang);
+            model.OnPathShowChanged += new EventHandler(MapControl_PathShowChang);
         }
         private void MapCotrol_Closeing()
         {
             mapControl1.OnMapLoadCompleted -= new MapLoadCompleteHandler(AsynInitMapFirstTime);
-            model.OnCarShowableChanged -= new CarShowableMsgHandler(CarShowableChange_Map);
-            model.OnPathShowableChanged -= new PathShowableMsgHandler(PathShowableChange_Map);
+            model.SessionMgr.OnSessionMsgReceived -= new CarSessionMsgHandler(MapCotrol_SessionMessageHandler);
+            model.OnCarShowChanged -= new EventHandler(MapControl_CarShowChang);
+            model.OnPathShowChanged -= new EventHandler(MapControl_PathShowChang);
+            
+        }
+        private void MapCotrol_SessionMessageHandler(object sender, GisSessionInfo msg)
+        {
+            this.BeginInvoke(new CarSessionMsgHandler(MapCotrol_SessionMessageHandlerInner),
+                new object[] { sender, msg });
+        }
+        private void MapCotrol_SessionMessageHandlerInner(object sender, GisSessionInfo msg)
+        {
+            
+            switch (msg.Reason)
+            {
+                case GisSessionReason.Update:
+                    if(model.GetCarShow(msg.CarId))
+                        mapControl1.UpdateCar(msg.CarId, "", msg.X, msg.Y, msg.OutOfPath, true);
+                    break;
+                case GisSessionReason.Remove:
+                    mapControl1.UpdateCar(msg.CarId, "", 0, 0, true, false);
+                    break;
+            }
+        }
+        private void MapControl_CarShowChang(object sender, EventArgs e)
+        {
+            foreach (var c in GisGlobal.GCarMgr.Cars)
+            {
+                if (!model.GetCarShow(c.Id))
+                    mapControl1.UpdateCar(c.Id, "", 0, 0, true, false);
+            }
+        }
+        private void MapControl_PathShowChang(object sender, EventArgs e)
+        {
+            foreach (var p in GisGlobal.GPathMgr.Paths)
+            {
+                if (model.GetPathShow(p.Id))
+                    mapControl1.AddPath(p.Id, p.Name, p.Points);
+                else
+                    mapControl1.RemovePath(p.Id);
+            }
         }
 #endregion
        
@@ -96,7 +137,7 @@ namespace TGis.Viewer
             DevExpress.XtraEditors.CheckEdit[] checks =
                 new DevExpress.XtraEditors.CheckEdit[GisGlobal.GCarMgr.Cars.Length];
             int i = 0;
-            foreach (Car c in GisGlobal.GCarMgr.Cars)
+            foreach (GisCarInfo c in GisGlobal.GCarMgr.Cars)
             {
                 DevExpress.XtraEditors.CheckEdit check = new DevExpress.XtraEditors.CheckEdit();
                 
@@ -111,7 +152,7 @@ namespace TGis.Viewer
             DevExpress.XtraEditors.CheckEdit[] checksPath =
                 new DevExpress.XtraEditors.CheckEdit[GisGlobal.GPathMgr.Paths.Length];
             i = 0;
-            foreach (Path p in GisGlobal.GPathMgr.Paths)
+            foreach (GisPathInfo p in GisGlobal.GPathMgr.Paths)
             {
                 DevExpress.XtraEditors.CheckEdit check = new DevExpress.XtraEditors.CheckEdit();
                 check.Text = p.Name;
@@ -128,10 +169,10 @@ namespace TGis.Viewer
             switch (check.CheckState)
             {
                 case CheckState.Checked:
-                    model.UserMakeCarShowable((int)check.Tag, true);
+                    model.UserMakeCarShow((int)check.Tag, true);
                     break;
                 case CheckState.Unchecked:
-                    model.UserMakeCarShowable((int)check.Tag, false);
+                    model.UserMakeCarShow((int)check.Tag, false);
                     break;
             }
         }
@@ -141,10 +182,10 @@ namespace TGis.Viewer
             switch (check.CheckState)
             {
                 case CheckState.Checked:
-                    model.UserMakePathShowable((int)check.Tag, true);
+                    model.UserMakePathShow((int)check.Tag, true);
                     break;
                 case CheckState.Unchecked:
-                    model.UserMakePathShowable((int)check.Tag, false);
+                    model.UserMakePathShow((int)check.Tag, false);
                     break;
             }
         }
@@ -153,65 +194,62 @@ namespace TGis.Viewer
 #region CarStatusGrid
         private void GridCar_Load(object sender, EventArgs e)
         {
-            //dataGridView1.SuspendLayout();
-            model.CsMgr.EnumCarSession(GridCar_OnCarSession);
-            //dataGridView1.ResumeLayout(true);
-            //dataGridView1.Invalidate();
-            this.model.CsMgr.OnCarSessionStateChanged += new CarSessionStateChangeHandler(GridCar_AsynCarSessionState_Change);
-        }
-        private void GridCar_OnCarSession(CarSession cs)
-        {
-            int id = dataGridView1.Rows.Add();
-            GridCar_ModifyRow(id, cs);
-        }
-        private void GridCar_ModifyRow(int rowid, CarSession cs)
-        {
-            DataGridViewRow row = dataGridView1.Rows[rowid];
-            row.Tag = cs.CarInstance.Id;
-            row.Cells[0].Value = cs.CarInstance.Name;
-            row.Cells[1].Value = cs.X;
-            row.Cells[2].Value = cs.Y;
-            row.Cells[3].Value = cs.RollDirection == CarRollDirection.Forward ? "正转" : "反转";
-            row.Cells[4].Value = (!cs.OutOfPath) ? "正常" : "异常";
-            row.Cells[5].Value = cs.Alive ? "连线" : "掉线";
-        }
-        private void GridCar_AsynCarSessionState_Change(object sender, CarSessionStateChangeArgs arg)
-        {
-            this.BeginInvoke(new CarSessionStateChangeHandler(GridCar_CarSessionState_Change),
-                new object[] { sender, arg });
-        }
-        private void GridCar_CarSessionState_Change(object sender, CarSessionStateChangeArgs arg)
-        {
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            foreach (GisCarInfo c in GisGlobal.GCarMgr.Cars)
             {
-                if (row.Tag == null) continue;
-                if ((int)row.Tag == arg.CarSessionArg.CarInstance.Id)
-                {
-                    GridCar_ModifyRow(row.Index, arg.CarSessionArg);
-                    break;
-                }
+                int newRowId = dataGridView1.Rows.Add();
+                DataGridViewRow row = dataGridView1.Rows[newRowId];
+                row.Cells[0].Value = c.Name;
+                row.Cells[1].Value = 0;
+                row.Cells[2].Value = 0;
+                row.Cells[3].Value = "正转";
+                row.Cells[4].Value = "正常";
+                row.Cells[5].Value = "掉线";
+                row.Tag = c.Id;
             }
+            model.SessionMgr.OnSessionMsgReceived += new CarSessionMsgHandler(GridCar_SessionMessageHandler);
         }
         private void GridCar_Closing(object sender, EventArgs e)
         {
-            this.model.CsMgr.OnCarSessionStateChanged -= new CarSessionStateChangeHandler(GridCar_AsynCarSessionState_Change);
+            model.SessionMgr.OnSessionMsgReceived -= new CarSessionMsgHandler(GridCar_SessionMessageHandler);
         }
-#endregion
-        
-        private void TableControlSessionState_Change(object sender, CarSessionStateChangeArgs arg)
+        private void GridCar_SessionMessageHandler(object sender, GisSessionInfo msg)
         {
-            switch (arg.ReasonArg)
+            switch (msg.Reason)
             {
-                case CarSessionStateChangeArgs.Reason.Add:
-                case CarSessionStateChangeArgs.Reason.Remove:
-                case CarSessionStateChangeArgs.Reason.Update:
+                case GisSessionReason.Update:
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        if ((int)row.Tag == msg.CarId)
+                        {
+                            row.Cells[1].Value = msg.X;
+                            row.Cells[2].Value = msg.Y;
+                            row.Cells[3].Value = msg.RoolDirection ? "正转" : "反转";
+                            row.Cells[4].Value = msg.OutOfPath ? "正常路径" : "异常路径";
+                            row.Cells[5].Value = msg.Alive ? "连线" : "掉线";
+                            break;
+                        }
+                    }
                     break;
-                case CarSessionStateChangeArgs.Reason.UpdateTemprary:
-                case CarSessionStateChangeArgs.Reason.Connect:
-                case CarSessionStateChangeArgs.Reason.Disconnect:
+                case GisSessionReason.Remove:
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        if ((int)row.Tag == msg.CarId)
+                        {
+                            row.Cells[1].Value = msg.X;
+                            row.Cells[2].Value = msg.Y;
+                            row.Cells[3].Value = msg.RoolDirection ? "正转" : "反转";
+                            row.Cells[4].Value = msg.OutOfPath ? "正常路径" : "异常路径";
+                            row.Cells[5].Value = "掉线";
+                            break;
+                        }
+                    }
                     break;
             }
         }
+
+#endregion
+        
+        
         
 
         private void ViewGisCar_FormClosing(object sender, FormClosingEventArgs e)
@@ -220,5 +258,7 @@ namespace TGis.Viewer
             GridCar_Closing(sender, e);
             model.Stop();
         }
+
+        
     }
 }

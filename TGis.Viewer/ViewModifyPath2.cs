@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using DevExpress.XtraBars;
 using TGis.Common;
 using TGis.MapControl;
+using TGis.Viewer.TGisRemote;
 
 namespace TGis.Viewer
 {
@@ -49,13 +50,13 @@ namespace TGis.Viewer
             {
             	
             }
-            Path path;
+            GisPathInfo path;
             if (!GisGlobal.GPathMgr.TryGetPath(model.Id, out path))
                 return;
             barEditPathName.EditValue = path.Name;
-            mapControl.AddPath(path.Id, path.Name, path.PathPolygon.Points);
+            mapControl.AddPath(path.Id, path.Name, path.Points);
         }
-        private void PathState_Change(object sender, PathStateChangeArgs arg)
+        private void PathState_Change(object sender, EventArgs arg)
         {
             this.BeginInvoke(new EventHandler(ReloadPath), new object[] { this, null });
         }
@@ -79,7 +80,7 @@ namespace TGis.Viewer
 
         private void barBtnSave_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Path path;
+            GisPathInfo path;
             if (!GisGlobal.GPathMgr.TryGetPath(model.Id, out path))
                 return;
             double[] points;
@@ -93,10 +94,10 @@ namespace TGis.Viewer
                 }
             }
             else
-                points = path.PathPolygon.Points;
+                points = path.Points;
             
             string newName = (string)barEditPathName.EditValue;
-            foreach (Path p in GisGlobal.GPathMgr.Paths)
+            foreach (GisPathInfo p in GisGlobal.GPathMgr.Paths)
             {
                 if((p.Id != model.Id) && (p.Name == newName))
                 {
@@ -104,7 +105,10 @@ namespace TGis.Viewer
                     return;
                 }
             }
-            Path newp = new Path(path.Id, newName, points);
+            GisPathInfo newp = new GisPathInfo();
+            newp.Id = model.Id;
+            newp.Name = newName;
+            newp.Points = points;
             GisGlobal.GPathMgr.UpdatePath(newp);
             NaviHelper.NaviToWelcome();
         }
@@ -116,10 +120,10 @@ namespace TGis.Viewer
 
         private void barBtnDelete_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Path path;
+            GisPathInfo path;
             if (!GisGlobal.GPathMgr.TryGetPath(model.Id, out path))
                 return;
-            GisGlobal.GPathMgr.RemovePath(path);
+            GisGlobal.GPathMgr.RemovePath(path.Id);
             NaviHelper.NaviToWelcome();
         }
     }

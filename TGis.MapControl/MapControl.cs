@@ -12,10 +12,8 @@ namespace TGis.MapControl
     public delegate void MapLoadCompleteHandler(object sender);
     public partial class MapControl : UserControl
     {
-        private IDictionary<int, string> dictMarkers = new Dictionary<int, string>();
-        private IDictionary<int, string> dictPathIdentify = new Dictionary<int, string>();
-        private delegate void DeleAddUpdateCar(int id, string name, double x, double y, bool bException);
-        private delegate void DeleRemoveCar(int id);
+        private delegate void DeleUpdateCar(int id, string name, double x, double y, bool bException, bool bShow);
+        private delegate void DeleAddRemoveCar(int id);
         private delegate void DeleAddPath(int id, string name, double[] points);
         private delegate void DeleRemovePath(int id);
         public MapControl()
@@ -32,27 +30,17 @@ namespace TGis.MapControl
         {
             webBrowser.Navigate(path);
         }
-        public void AddCar(int id, string name, double x, double y, bool bException)
+        public void AddCar(int id)
         {
-            if (dictMarkers.ContainsKey(id))
-                return;
-            string marker = (string)webBrowser.Document.InvokeScript("add_car", new object[] { name, x, y, bException });
-            dictMarkers[id] = marker;
+            webBrowser.Document.InvokeScript("add_car", new object[] { id });
         }
-        public void UpdateCar(int id, string name, double x, double y, bool bException)
+        public void UpdateCar(int id, string name, double x, double y, bool bException, bool bShow)
         {
-            string marker;
-            if (!dictMarkers.TryGetValue(id, out marker))
-                return;
-            webBrowser.Document.InvokeScript("update_car", new object[] { marker, x, y, bException });
+            webBrowser.Document.InvokeScript("update_car", new object[] { id, x, y, bException, bShow });
         }
         public void RemoveCar(int id)
         {
-            string marker;
-            if (!dictMarkers.TryGetValue(id, out marker))
-                return;
-            dictMarkers.Remove(id);
-            webBrowser.Document.InvokeScript("remove_car", new object[] { marker });
+            webBrowser.Document.InvokeScript("remove_car", new object[] { id });
         }
         public void AsynAddPath(int id, string name, double[] points)
         {
@@ -68,16 +56,11 @@ namespace TGis.MapControl
             for (int i = 0; i < points.Length; ++i)
                 points_c[i] = points[i];
             var jsarr = Microsoft.JScript.GlobalObject.Array.ConstructArray(points_c);
-            string pathIdentify = (string)webBrowser.Document.InvokeScript("add_path", new object[] { name, jsarr });
-            dictPathIdentify[id] = pathIdentify;
+            webBrowser.Document.InvokeScript("add_path", new object[] {id, name, jsarr });
         }
         public void RemovePath(int id)
         {
-            string pathIdentify;
-            if (!dictPathIdentify.TryGetValue(id, out pathIdentify))
-                throw new ApplicationException("MapControl!UpdateCar error");
-            dictPathIdentify.Remove(id);
-            webBrowser.Document.InvokeScript("remove_path", new object[] { pathIdentify });
+            webBrowser.Document.InvokeScript("remove_path", new object[] { id });
         }
         public void BeginDrawPath()
         {
@@ -95,17 +78,17 @@ namespace TGis.MapControl
             return result;
         }
         public MapLoadCompleteHandler OnMapLoadCompleted;
-        public void AsynAddCar(int id, string name, double x, double y, bool bException)
+        public void AsynAddCar(int id)
         {
-            this.BeginInvoke(new DeleAddUpdateCar(AddCar), new object[] { id, name, x, y, bException });
+            this.BeginInvoke(new DeleAddRemoveCar(AddCar), new object[] { id });
         }
-        public void AsynUpdateCar(int id, string name, double x, double y, bool bException)
+        public void AsynUpdateCar(int id, string name, double x, double y, bool bException, bool bShow)
         {
-            this.BeginInvoke(new DeleAddUpdateCar(UpdateCar), new object[] { id, name, x, y, bException });
+            this.BeginInvoke(new DeleUpdateCar(UpdateCar), new object[] { id, name, x, y, bException, bShow });
         }
         public void AsynRemoveCar(int id)
         {
-            this.BeginInvoke(new DeleRemoveCar(RemoveCar), new object[] { id });
+            this.BeginInvoke(new DeleAddRemoveCar(RemoveCar), new object[] { id });
         }
         private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {

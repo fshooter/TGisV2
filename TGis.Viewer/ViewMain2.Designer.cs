@@ -67,7 +67,7 @@
             this.ribbonPageMode,
             this.ribbonPageCar,
             this.ribbonPagePath});
-            this.ribbon.SelectedPage = this.ribbonPagePath;
+            this.ribbon.SelectedPage = this.ribbonPageMode;
             this.ribbon.Size = new System.Drawing.Size(442, 149);
             // 
             // barBtnWelcomeMode
@@ -95,6 +95,7 @@
             this.barbtnHistoryMode.LargeWidth = 100;
             this.barbtnHistoryMode.Name = "barbtnHistoryMode";
             this.barbtnHistoryMode.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.barbtnHistoryMode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barbtnHistoryMode_ItemClick);
             // 
             // barButtonNewCar
             // 

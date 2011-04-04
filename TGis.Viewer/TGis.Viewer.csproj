@@ -92,7 +92,6 @@
     <Compile Include="ModifyPathModel.cs" />
     <Compile Include="NaviHelper.cs" />
     <Compile Include="PathMgr.cs" />
-    <Compile Include="Polygon.cs" />
     <Compile Include="Service References\TGisRemote\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -105,12 +104,6 @@
     <Compile Include="ViewGisCar2.Designer.cs">
       <DependentUpon>ViewGisCar2.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ViewMain.Designer.cs">
-      <DependentUpon>ViewMain.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainToolController.cs" />
     <Compile Include="MainToolModel.cs" />
     <Compile Include="Program.cs" />
@@ -120,12 +113,6 @@
     </Compile>
     <Compile Include="ViewMain2.Designer.cs">
       <DependentUpon>ViewMain2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModifyCar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ViewModifyCar.Designer.cs">
-      <DependentUpon>ViewModifyCar.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModifyCar2.cs">
       <SubType>Form</SubType>
@@ -149,9 +136,6 @@
     <EmbeddedResource Include="ViewGisCar2.resx">
       <DependentUpon>ViewGisCar2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ViewMain.resx">
-      <DependentUpon>ViewMain.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -164,9 +148,6 @@
     </Compile>
     <EmbeddedResource Include="ViewMain2.resx">
       <DependentUpon>ViewMain2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ViewModifyCar.resx">
-      <DependentUpon>ViewModifyCar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewModifyCar2.resx">
       <DependentUpon>ViewModifyCar2.cs</DependentUpon>

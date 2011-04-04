@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using TGis.Common;
+using TGis.Viewer.TGisRemote;
 
 namespace TGis.Viewer
 {
@@ -20,9 +21,23 @@ namespace TGis.Viewer
         }
         public void ImmediateMode()
         {
-            GisCarModel model = new GisCarModel(GisGlobal.GImmCarSessionMgr);
+            CarSessionMgr csm = new CarSessionMgr(true);
+            GisCarModel model = new GisCarModel(csm);
             GisCarController controller = new GisCarController();
             Form viewGisCar = new ViewGisCar2(model, controller);
+            csm.SynObject = viewGisCar;
+            csm.Run(2000);
+            NaviHelper.NaviTo(viewGisCar);
+        }
+        public void HistoryMode()
+        {
+            CarSessionMgr csm = new CarSessionMgr(false);
+            csm.CurrentTime = DateTime.Now - new TimeSpan(1, 0, 0, 0);
+            GisCarModel model = new GisCarModel(csm);
+            GisCarController controller = new GisCarController();
+            Form viewGisCar = new ViewGisCar2(model, controller);
+            csm.SynObject = viewGisCar;
+            csm.Run(2000);
             NaviHelper.NaviTo(viewGisCar);
         }
         public void CreateNewPath()
@@ -32,7 +47,7 @@ namespace TGis.Viewer
             {
                 string testName = string.Format("新建路径-{0}", i);
                 bool bValid = true;
-                foreach(Path p in GisGlobal.GPathMgr.Paths)
+                foreach(GisPathInfo p in GisGlobal.GPathMgr.Paths)
                 {
                     if (p.Name == testName)
                     {
@@ -47,7 +62,7 @@ namespace TGis.Viewer
                 }
             }
             if (newName == null) return;
-            Path newp = new Path();
+            GisPathInfo newp = new GisPathInfo();
             newp.Name = newName;
             GisGlobal.GPathMgr.InsertPath(newp);
         }
@@ -58,7 +73,7 @@ namespace TGis.Viewer
             {
                 string testName = string.Format("新建车辆-{0}", i);
                 bool bValid = true;
-                foreach (Car c in GisGlobal.GCarMgr.Cars)
+                foreach (GisCarInfo c in GisGlobal.GCarMgr.Cars)
                 {
                     if (c.Name == testName)
                     {
@@ -73,7 +88,7 @@ namespace TGis.Viewer
                 }
             }
             if (newName == null) return;
-            Car newp = new Car();
+            GisCarInfo newp = new GisCarInfo();
             newp.Name = newName;
             GisGlobal.GCarMgr.InsertCar(newp);
         }

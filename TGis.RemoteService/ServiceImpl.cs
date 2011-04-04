@@ -25,21 +25,29 @@ namespace TGis.RemoteService
             int i = 0;
             foreach (Car c in cars)
             {
-                infos[i].Id = c.Id;
-                infos[i].Name = c.Name;
-                infos[i].PathId = c.PathId;
-                i++;
+                GisCarInfo info = new GisCarInfo();
+                info.Id = c.Id;
+                info.Name = c.Name;
+                info.PathId = c.PathId;
+                infos[i++] = info;
             }
             return infos;
         }
 
         public GisPathInfo[] GetPathInfo()
         {
-            GisPathInfo path = new GisPathInfo();
-            path.Id = 1;
-            path.Name = "testPath";
-            path.Points = new double[] { 1, 1, 2, 2, 3, 3 };
-            return new GisPathInfo[] { path };
+            Path[] paths = GisGlobal.GPathMgr.Paths;
+            GisPathInfo[] infos = new GisPathInfo[paths.Length];
+            int i = 0;
+            foreach (var c in paths)
+            {
+                GisPathInfo info = new GisPathInfo();
+                info.Id = c.Id;
+                info.Name = c.Name;
+                info.Points = c.PathPolygon.Points;
+                infos[i++] = info;
+            }
+            return infos;
         }
 
         public GisSessionInfo[] QuerySessionInfo(DateTime tmStart, DateTime tmEnd)

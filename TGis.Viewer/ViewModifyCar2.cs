@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraBars;
+using TGis.Viewer.TGisRemote;
 
 namespace TGis.Viewer
 {
@@ -20,7 +21,7 @@ namespace TGis.Viewer
 
         private void ViewModifyCar_Load(object sender, EventArgs e)
         {
-            Car c;
+            GisCarInfo c;
             if (!GisGlobal.GCarMgr.TryGetCar(carId, out c))
             {
                 MessageBox.Show("传入车辆ID错误");
@@ -28,7 +29,7 @@ namespace TGis.Viewer
                 return;
             }
             this.textEditName.EditValue = c.Name;
-            foreach (Path p in GisGlobal.GPathMgr.Paths)
+            foreach (GisPathInfo p in GisGlobal.GPathMgr.Paths)
             {
                 this.comboPath.Properties.Items.Add(p.Name);
                 if (c.PathId == p.Id)
@@ -44,8 +45,8 @@ namespace TGis.Viewer
                 return;
             }
             string pathName = (string)comboPath.SelectedItem;
-            Path selectedPath = null;
-            foreach (Path p in GisGlobal.GPathMgr.Paths)
+            GisPathInfo selectedPath = null;
+            foreach (var p in GisGlobal.GPathMgr.Paths)
             {
                 if (p.Name == pathName)
                 {
@@ -58,9 +59,12 @@ namespace TGis.Viewer
                 MessageBox.Show("请选择该车辆适用的路径");
                 return;
             }
-            Car newcarinfo = new Car(carId, this.textEditName.Text, selectedPath.Id);
+            GisCarInfo newcarinfo = new GisCarInfo();
+            newcarinfo.Id = carId;
+            newcarinfo.Name = this.textEditName.Text;
+            newcarinfo.PathId = selectedPath.Id;
             bool bNameValid = true;
-            foreach (Car c in GisGlobal.GCarMgr.Cars)
+            foreach (var c in GisGlobal.GCarMgr.Cars)
             {
                 if ((c.Id != newcarinfo.Id) && (c.Name == newcarinfo.Name))
                 {
@@ -84,7 +88,7 @@ namespace TGis.Viewer
 
         private void barButtonDelete_ItemClick(object sender, ItemClickEventArgs e)
         {
-            GisGlobal.GCarMgr.RemoveCar(new Car(carId, "", -1));
+            GisGlobal.GCarMgr.RemoveCar(carId);
             NaviHelper.NaviToWelcome();
         }
     }

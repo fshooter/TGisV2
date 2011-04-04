@@ -44,17 +44,17 @@ namespace TGis.RemoteService
                 return default(T);
 
             byte[] buffer = Convert.FromBase64String(baseString);
-            return Deserialize<T>(buffer, decompress);
+            return Deserialize<T>(buffer, buffer.Length, decompress);
         }
 
-        public static T Deserialize<T>(byte[] info, bool decompress)
+        public static T Deserialize<T>(byte[] info, int len, bool decompress)
         {
             T ret = default(T);
             if (info == null || info.Length <= 0)
             {
                 return ret;
             }
-            using (MemoryStream stream = new MemoryStream(info))
+            using (MemoryStream stream = new MemoryStream(info, 0, len))
             {
                 DataContractSerializer serializer = new DataContractSerializer(typeof(T));
                 using (XmlDictionaryReader binaryDictionaryReader = XmlDictionaryReader.CreateBinaryReader(stream, XmlDictionaryReaderQuotas.Max))

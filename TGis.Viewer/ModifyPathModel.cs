@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TGis.Viewer.TGisRemote;
 
 namespace TGis.Viewer
 {
@@ -17,7 +18,7 @@ namespace TGis.Viewer
 
         public ModifyPathModel(int pid)
         {
-            Path path;
+            GisPathInfo path;
             if (!GisGlobal.GPathMgr.TryGetPath(pid, out path))
                 throw new ApplicationException("PathId Error");
             id = pid;

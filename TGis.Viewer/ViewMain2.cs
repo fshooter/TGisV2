@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraBars;
+using TGis.Viewer.TGisRemote;
 
 namespace TGis.Viewer
 {
@@ -37,7 +38,7 @@ namespace TGis.Viewer
             foreach (BarItem item in barItems)
                 this.ribbon.Items.Remove(item);
             this.ribbonPageGroupAllPaths.ItemLinks.Clear();
-            foreach (Path p in GisGlobal.GPathMgr.Paths)
+            foreach (GisPathInfo p in GisGlobal.GPathMgr.Paths)
             {
                 var btnNew = this.ribbon.Items.CreateButton(p.Name);
                 btnNew.Tag = p.Id;
@@ -63,7 +64,7 @@ namespace TGis.Viewer
             foreach (BarItem item in barItems)
                 this.ribbon.Items.Remove(item);
             this.ribbonPageGroupAllCars.ItemLinks.Clear();
-            foreach (Car c in GisGlobal.GCarMgr.Cars)
+            foreach (GisCarInfo c in GisGlobal.GCarMgr.Cars)
             {
                 var btnNew = this.ribbon.Items.CreateButton(c.Name);
                 btnNew.Tag = c.Id;
@@ -79,24 +80,24 @@ namespace TGis.Viewer
         }
         private void ViewMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            GisGlobal.GPathMgr.OnPathStateChanged -= new PathStateChangeHandler(PathState_Change);
-            GisGlobal.GCarMgr.OnCarStateChanged -= new CarStateChangeHandler(CarState_Change);
+            GisGlobal.GPathMgr.OnPathStateChanged -= new EventHandler(PathState_Change);
+            GisGlobal.GCarMgr.OnCarStateChanged -= new EventHandler(CarState_Change);
         }
 
         private void ViewMain_Load(object sender, EventArgs e)
         {
             ReloadPathMenu(this, null);
             ReloadCarMenu(this, null);
-            GisGlobal.GPathMgr.OnPathStateChanged += new PathStateChangeHandler(PathState_Change);
-            GisGlobal.GCarMgr.OnCarStateChanged += new CarStateChangeHandler(CarState_Change);
+            GisGlobal.GPathMgr.OnPathStateChanged += new EventHandler(PathState_Change);
+            GisGlobal.GCarMgr.OnCarStateChanged += new EventHandler(CarState_Change);
             this.ribbon.SelectedPage = ribbonPageMode;
             NaviHelper.NaviToWelcome();
         }
-        private void PathState_Change(object sender, PathStateChangeArgs arg)
+        private void PathState_Change(object sender, EventArgs arg)
         {
             this.BeginInvoke(new EventHandler(ReloadPathMenu), new object[] { this, null });
         }
-        private void CarState_Change(object sender, CarStateChangeArgs arg)
+        private void CarState_Change(object sender, EventArgs arg)
         {
             this.BeginInvoke(new EventHandler(ReloadCarMenu), new object[] { this, null });
         }
@@ -119,6 +120,11 @@ namespace TGis.Viewer
         private void barButtonNewCar_ItemClick(object sender, ItemClickEventArgs e)
         {
             controller.CreateNewCar();
+        }
+
+        private void barbtnHistoryMode_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            controller.HistoryMode();
         }
     }
 }
