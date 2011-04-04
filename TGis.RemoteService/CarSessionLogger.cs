@@ -1,0 +1,140 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using TGis.Common;
+using System.Timers;
+using System.Data;
+using TGis.RemoteContract;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.Data.SQLite;
+
+namespace TGis.RemoteService
+{
+    class CarSessionLogger
+    {
+        CarSessionMgr csm;
+        IList<GisSessionInfo> listCachedMsg = new List<GisSessionInfo>();
+        Timer timer = new Timer();
+        IDbConnection conn;
+        bool bRunning = false;
+        public CarSessionLogger(CarSessionMgr csm, IDbConnection connection)
+        {
+            this.csm = csm;
+            conn = connection;
+            using (IDbCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"create table if not exists csmmsg 
+                    (time INTEGER, data BLOB)";
+                cmd.ExecuteNonQuery();
+            }
+            timer.Elapsed += new ElapsedEventHandler(FlushCachedMsg);
+
+        }
+        public void Run(int interval)
+        {
+            listCachedMsg.Clear();
+            bRunning = true;
+            timer.AutoReset = true;
+            timer.Interval = interval;
+            timer.Start();
+            csm.OnCarSessionStateChanged += new CarSessionStateChangeHandler(SessionMsgHandler);
+        }
+        public void Stop()
+        {
+            bRunning = false;
+            csm.OnCarSessionStateChanged -= new CarSessionStateChangeHandler(SessionMsgHandler);
+            timer.Stop();
+        }
+
+        private void SessionMsgHandler(object sender, CarSessionStateChangeArgs arg)
+        {
+            if (!bRunning) return;
+            lock (this)
+            {
+                listCachedMsg.Add(ConvertSessionMsg(arg));
+            }
+            return;
+        }
+
+        private GisSessionInfo ConvertSessionMsg(CarSessionStateChangeArgs arg)
+        {
+            GisSessionInfo info = new GisSessionInfo();
+            info.CarId = arg.CarSessionArg.CarInstance.Id;
+            info.Alive = arg.CarSessionArg.Alive;
+            info.RoolDirection = (arg.CarSessionArg.RollDirection == CarRollDirection.Forward ? true : false);
+            info.OutOfPath = arg.CarSessionArg.OutOfPath;
+            info.X = arg.CarSessionArg.X;
+            info.Y = arg.CarSessionArg.Y;
+            switch (arg.ReasonArg)
+            {
+                case CarSessionStateChangeArgs.Reason.Connect:
+                    info.Reason = GisSessionReason.Add;
+                    break;
+                case CarSessionStateChangeArgs.Reason.Disconnect:
+                    info.Reason = GisSessionReason.Remove;
+                    break;
+                case CarSessionStateChangeArgs.Reason.UpdateTemprary:
+                    info.Reason = GisSessionReason.Update;
+                    break;
+            }
+            info.Time = DateTime.Now;
+            return info;
+        }
+
+        private void FlushCachedMsg(object sender, EventArgs e)
+        {
+            if (!bRunning) return;
+            lock (this)
+            {
+                if (listCachedMsg.Count == 0)
+                    return;
+                byte[] data = DataContractFormatSerializer.Serialize(listCachedMsg, false);
+                using (SQLiteCommand cmd = (SQLiteCommand)conn.CreateCommand())
+                {
+                    SQLiteParameter paramData = new SQLiteParameter("@data");
+                    paramData.Value = data;
+                    cmd.CommandText = string.Format("insert into csmmsg (time, data) values ({0}, @data)",
+                        Ultility.TimeEncode(listCachedMsg[0].Time));
+                    cmd.Parameters.Add(paramData);
+                    cmd.ExecuteNonQuery();
+                }
+                listCachedMsg.Clear();
+            }
+        }
+    }
+   
+    class HistoryCarSession
+    {
+        IDbConnection conn;
+        public HistoryCarSession(IDbConnection connection)
+        {
+            conn = connection;
+        }
+        public GisSessionInfo[] Query(DateTime tmStart, DateTime tmEnd)
+        {
+            int start = Ultility.TimeEncode(tmStart);
+            int end = Ultility.TimeEncode(tmEnd);
+            List<GisSessionInfo> result = new List<GisSessionInfo>();
+            BinaryFormatter serialer = new BinaryFormatter();
+            byte[] buffer = new byte[1024 * 1024];
+            using (IDbCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = string.Format("select data from csmmsg where time > {0} and time < {1}",
+                    start, end);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        long dateLen = reader.GetBytes(0, 0, buffer, 0, buffer.Length);
+                        GisSessionInfo[] resultTemp = serialer.Deserialize(new MemoryStream(buffer, 0, (int)dateLen, false)) as GisSessionInfo[];
+                        if(resultTemp == null) continue;
+                        result.AddRange(resultTemp);
+                    }
+                }
+            }
+            return result.ToArray();
+        }
+    }
+}

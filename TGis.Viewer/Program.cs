@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using TGis.Common;
+using TGis.Viewer.TGisRemote;
+using System.ServiceModel;
 
 namespace TGis.Viewer
 {
@@ -22,6 +24,7 @@ namespace TGis.Viewer
             MainToolModel model = new MainToolModel();
             MainToolController controller = new MainToolController(model);
             NaviHelper.FormMain = new ViewMain2(controller, model);
+
             Application.Run(NaviHelper.FormMain);
 
             GisGlobal.UnInit();
