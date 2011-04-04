@@ -54,5 +54,91 @@ namespace TGis.RemoteService
         {
             return GisGlobal.GCarSessionQueryer.Query(tmStart, tmEnd);
         }
+
+        public bool AddCarInfo(GisCarInfo info)
+        {
+            bool br = true;
+            try
+            {
+                GisGlobal.GCarMgr.InsertCar(new Car(info.Id, info.Name, info.PathId));
+            }
+            catch (System.Exception)
+            {
+                br = false;
+            }
+            return br;
+        }
+
+        public bool UpdateCarInfo(GisCarInfo info)
+        {
+            bool br = true;
+            try
+            {
+                GisGlobal.GCarMgr.UpdateCar(new Car(info.Id, info.Name, info.PathId));
+            }
+            catch (System.Exception)
+            {
+                br = false;
+            }
+            return br;
+        }
+
+        public bool RemoveCarInfo(int id)
+        {
+            bool br = true;
+            try
+            {
+                GisGlobal.GCarMgr.RemoveCar(new Car(id, "", 0));
+            }
+            catch (System.Exception)
+            {
+                br = false;
+            }
+            return br;
+        }
+
+        public bool AddPathInfo(GisPathInfo info)
+        {
+            bool br = true;
+            try
+            {
+                GisGlobal.GPathMgr.InsertPath(new Path(info.Id, info.Name, info.Points));
+            }
+            catch (System.Exception)
+            {
+                br = false;
+            }
+            return br;
+        }
+
+        public bool UpdatePathInfo(GisPathInfo info)
+        {
+            bool br = true;
+            try
+            {
+                GisGlobal.GPathMgr.UpdatePath(new Path(info.Id, info.Name, info.Points));
+            }
+            catch (System.Exception)
+            {
+                br = false;
+            }
+            return br;
+        }
+
+        public bool RemovePathInfo(int id)
+        {
+            bool br = true;
+            try
+            {
+                Path p = new Path();
+                p.Id = id;
+                GisGlobal.GPathMgr.RemovePath(p);
+            }
+            catch (System.Exception)
+            {
+                br = false;
+            }
+            return br;
+        }
     }
 }

@@ -34,6 +34,12 @@ namespace TGis.Viewer
             GridCar_Load(sender, e);
             ControlPanel_Load(sender, e);
         }
+        private void ViewGisCar_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MapCotrol_Closeing();
+            GridCar_Closing(sender, e);
+            model.Stop();
+        }
 #region ControlPanel
         private void ControlPanel_Load(object sender, EventArgs e)
         {
@@ -46,12 +52,13 @@ namespace TGis.Viewer
             this.model.SessionMgr.CurrentTime = ((DateTime)this.ControlPanel_Day.EditValue).Date
                 + ((DateTime)this.ControlPanel_Time.EditValue).TimeOfDay;
         }
-        private void ControlPanel_OnBeginQuerySessionMsg(object sender, EventArgs e)
+        private void ControlPanel_BtnSpeedOk_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.BeginInvoke(new EventHandler(ControlPanel_OnBeginQuerySessionMsgInner),
-                new object[] { sender, e });
+            object editvalue = ControlPanel_Speed.EditValue;
+            if(editvalue == null) return;
+            model.SessionMgr.Multiply = Convert.ToInt32(editvalue.ToString());
         }
-        private void ControlPanel_OnBeginQuerySessionMsgInner(object sender, EventArgs e)
+        private void ControlPanel_OnBeginQuerySessionMsg(object sender, EventArgs e)
         {
             this.barStaticUpdateTime.Caption = string.Format("更新时间: {0}",
                 model.SessionMgr.CurrentTime);
@@ -93,11 +100,6 @@ namespace TGis.Viewer
             
         }
         private void MapCotrol_SessionMessageHandler(object sender, GisSessionInfo msg)
-        {
-            this.BeginInvoke(new CarSessionMsgHandler(MapCotrol_SessionMessageHandlerInner),
-                new object[] { sender, msg });
-        }
-        private void MapCotrol_SessionMessageHandlerInner(object sender, GisSessionInfo msg)
         {
             
             switch (msg.Reason)
@@ -249,16 +251,6 @@ namespace TGis.Viewer
 
 #endregion
         
-        
-        
-
-        private void ViewGisCar_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            MapCotrol_Closeing();
-            GridCar_Closing(sender, e);
-            model.Stop();
-        }
-
         
     }
 }

@@ -28,6 +28,9 @@ namespace TGis.RemoteService
                 cmd.CommandText = @"create table if not exists csmmsg 
                     (time INTEGER, data BLOB)";
                 cmd.ExecuteNonQuery();
+                cmd.CommandText = @"create index if not exists csmmsg_index 
+                    on csmmsg (time)";
+                cmd.ExecuteNonQuery();
             }
             timer.Elapsed += new ElapsedEventHandler(FlushCachedMsg);
 
@@ -121,7 +124,7 @@ namespace TGis.RemoteService
             byte[] buffer = new byte[1024 * 1024];
             using (IDbCommand cmd = conn.CreateCommand())
             {
-                cmd.CommandText = string.Format("select data from csmmsg where time > {0} and time < {1}",
+                cmd.CommandText = string.Format("select data from csmmsg where time >= {0} and time < {1}",
                     start, end);
                 using (var reader = cmd.ExecuteReader())
                 {

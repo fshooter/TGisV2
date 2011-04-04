@@ -77,6 +77,59 @@ namespace TGis.Viewer
                 return proxy.QuerySessionInfo(tmStart, tmEnd);
             }
         }
+        public bool AddCarInfo(GisCarInfo info)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.AddCarInfo(info);
+            }
+        }
+
+        public bool UpdateCarInfo(GisCarInfo info)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.UpdateCarInfo(info);
+            }
+        }
+
+        public bool RemoveCarInfo(int id)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.RemoveCarInfo(id);
+            }
+        }
+
+        public bool AddPathInfo(GisPathInfo info)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.AddPathInfo(info);
+            }
+        }
+
+        public bool UpdatePathInfo(GisPathInfo info)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.UpdatePathInfo(info);
+            }
+        }
+
+        public bool RemovePathInfo(int id)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.RemovePathInfo(id);
+            }
+        }
     }
     class GisGlobal
     {

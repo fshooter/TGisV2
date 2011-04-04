@@ -39,6 +39,21 @@ namespace TGis.Viewer
 
         private void barButtonOk_ItemClick(object sender, ItemClickEventArgs e)
         {
+            btnSave_Click(sender, e);
+        }
+
+        private void barButtonCancel_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            btnCancel_Click(sender, e);
+        }
+
+        private void barButtonDelete_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            btnDelete_Click(sender, e);
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
             if (comboPath.SelectedItem == null)
             {
                 MessageBox.Show("请选择该车辆适用的路径");
@@ -81,14 +96,14 @@ namespace TGis.Viewer
             NaviHelper.NaviToWelcome();
         }
 
-        private void barButtonCancel_ItemClick(object sender, ItemClickEventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
+            GisGlobal.GCarMgr.RemoveCar(carId);
             NaviHelper.NaviToWelcome();
         }
 
-        private void barButtonDelete_ItemClick(object sender, ItemClickEventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
-            GisGlobal.GCarMgr.RemoveCar(carId);
             NaviHelper.NaviToWelcome();
         }
     }

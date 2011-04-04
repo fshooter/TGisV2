@@ -38,6 +38,7 @@
             this.ControlPanel_BtnGo = new DevExpress.XtraBars.BarButtonItem();
             this.ControlPanel_Speed = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.ControlPanel_BtnSpeedOk = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageControl = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -104,9 +105,10 @@
             this.ControlPanel_Day,
             this.barStaticUpdateTime,
             this.ControlPanel_BtnGo,
-            this.ControlPanel_Speed});
+            this.ControlPanel_Speed,
+            this.ControlPanel_BtnSpeedOk});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 10;
+            this.ribbon.MaxItemId = 11;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageControl});
@@ -173,6 +175,7 @@
             this.ControlPanel_Speed.Edit = this.repositoryItemComboBox1;
             this.ControlPanel_Speed.Id = 9;
             this.ControlPanel_Speed.Name = "ControlPanel_Speed";
+            this.ControlPanel_Speed.Width = 100;
             // 
             // repositoryItemComboBox1
             // 
@@ -190,7 +193,15 @@
             "8",
             "9"});
             this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
-            this.repositoryItemComboBox1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
+            this.repositoryItemComboBox1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            // 
+            // ControlPanel_BtnSpeedOk
+            // 
+            this.ControlPanel_BtnSpeedOk.Caption = "使用此速率";
+            this.ControlPanel_BtnSpeedOk.Id = 10;
+            this.ControlPanel_BtnSpeedOk.Name = "ControlPanel_BtnSpeedOk";
+            this.ControlPanel_BtnSpeedOk.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.ControlPanel_BtnSpeedOk.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ControlPanel_BtnSpeedOk_ItemClick);
             // 
             // ribbonPageControl
             // 
@@ -211,6 +222,7 @@
             // ribbonPageGroup2
             // 
             this.ribbonPageGroup2.ItemLinks.Add(this.ControlPanel_Speed);
+            this.ribbonPageGroup2.ItemLinks.Add(this.ControlPanel_BtnSpeedOk);
             this.ribbonPageGroup2.Name = "ribbonPageGroup2";
             this.ribbonPageGroup2.Text = "速率控制";
             // 
@@ -542,5 +554,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit repositoryItemButtonEdit1;
+        private DevExpress.XtraBars.BarButtonItem ControlPanel_BtnSpeedOk;
     }
 }

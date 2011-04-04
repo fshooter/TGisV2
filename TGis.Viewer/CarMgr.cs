@@ -43,16 +43,22 @@ namespace TGis.Viewer
         }
         public void RemoveCar(int id)
         {
-           
+            if (!GisServiceWrapper.Instance.RemoveCarInfo(id))
+                throw new ApplicationException("RemoveCar error");
+            ReloadFromSever();
         }
         public void UpdateCar(GisCarInfo c)
         {
-            
+            if (!GisServiceWrapper.Instance.UpdateCarInfo(c))
+                throw new ApplicationException("UpdateCar error");
+            ReloadFromSever();
         }
 
         public void InsertCar(GisCarInfo c)
         {
-            
+            if (!GisServiceWrapper.Instance.AddCarInfo(c))
+                throw new ApplicationException("InsertCar error");
+            ReloadFromSever();
         }
         public void ReloadFromSever()
         {
@@ -65,6 +71,7 @@ namespace TGis.Viewer
                     dictCars[c.Id] = c;
                 }
             }
+            DispatchStateChangeMsg();
         }
 
         private void DispatchStateChangeMsg()

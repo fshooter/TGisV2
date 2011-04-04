@@ -27,6 +27,24 @@ namespace TGis.RemoteContract
 
         [OperationContract]
         GisSessionInfo[] QuerySessionInfo(DateTime tmStart, DateTime tmEnd);
+
+        [OperationContract]
+        bool AddCarInfo(GisCarInfo info);
+
+        [OperationContract]
+        bool UpdateCarInfo(GisCarInfo info);
+       
+        [OperationContract]
+        bool RemoveCarInfo(int id);
+
+        [OperationContract]
+        bool AddPathInfo(GisPathInfo info);
+
+        [OperationContract]
+        bool UpdatePathInfo(GisPathInfo info);
+
+        [OperationContract]
+        bool RemovePathInfo(int id);
     }
 
     // 使用下面示例中说明的数据协定将复合类型添加到服务操作

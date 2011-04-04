@@ -24,7 +24,11 @@ namespace TGis.Viewer
         {
             get { return bImmMode; }
         }
-
+        public int Multiply
+        {
+            get { return multiply; }
+            set { multiply = value; }
+        }
         public ISynchronizeInvoke SynObject
         {
             get { return timer.SynchronizingObject; }

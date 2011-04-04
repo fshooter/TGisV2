@@ -42,17 +42,23 @@ namespace TGis.Viewer
 
         public void RemovePath(int id)
         {
-           
+            if (!GisServiceWrapper.Instance.RemovePathInfo(id))
+                throw new ApplicationException("RemovePath error");
+            ReloadFromSever();
         }
 
         public void UpdatePath(GisPathInfo c)
         {
-           
+            if (!GisServiceWrapper.Instance.UpdatePathInfo(c))
+                throw new ApplicationException("UpdatePath error");
+            ReloadFromSever();
         }
 
         public void InsertPath(GisPathInfo c)
         {
-           
+            if (!GisServiceWrapper.Instance.AddPathInfo(c))
+                throw new ApplicationException("InsertPath error");
+            ReloadFromSever();
         }
 
         public void ReloadFromSever()
@@ -66,7 +72,7 @@ namespace TGis.Viewer
                     dictPaths[p.Id] = p;
                 }
             }
-            
+            DispatchStateChangeMsg();
         }
         private void DispatchStateChangeMsg()
         {
