@@ -21,6 +21,7 @@ namespace TGis.Viewer
 
         private void ViewModifyCar_Load(object sender, EventArgs e)
         {
+            this.barStaticInfo.Caption = "您可以点击菜单上的编辑按钮编辑车辆配置";
             GisCarInfo c;
             if (!GisGlobal.GCarMgr.TryGetCar(carId, out c))
             {
@@ -93,13 +94,29 @@ namespace TGis.Viewer
                 MessageBox.Show("名称重复");
                 return;
             }
-            GisGlobal.GCarMgr.UpdateCar(newcarinfo);
+            try
+            {
+                GisGlobal.GCarMgr.UpdateCar(newcarinfo);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("更新车辆信息失败");
+            }
+            
             NaviHelper.NaviToWelcome();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            GisGlobal.GCarMgr.RemoveCar(carId);
+            try
+            {
+                GisGlobal.GCarMgr.RemoveCar(carId);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("更新车辆信息失败");
+            }
+            
             NaviHelper.NaviToWelcome();
         }
 

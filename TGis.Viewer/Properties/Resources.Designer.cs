@@ -59,5 +59,12 @@ namespace TGis.Viewer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Bitmap CarViewSmall {
+            get {
+                object obj = ResourceManager.GetObject("CarViewSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

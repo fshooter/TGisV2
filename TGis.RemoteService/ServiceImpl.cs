@@ -13,6 +13,16 @@ namespace TGis.RemoteService
             return 100; // 1.0.0
         }
 
+        public bool VerifyPassword(byte[] pass)
+        {
+            return GisGlobal.GPassMgr.VerifyPass(pass);
+        }
+
+        public void ModifyPassword(byte[] newPass)
+        {
+            GisGlobal.GPassMgr.ModifyPass(newPass);
+        }
+
         public DateTime GetCurrentTime()
         {
             return DateTime.Now;

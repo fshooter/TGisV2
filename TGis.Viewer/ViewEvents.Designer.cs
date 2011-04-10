@@ -39,6 +39,7 @@
             this.barEditTimeEnd = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemTimeEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTimeEdit();
             this.barButtonOk = new DevExpress.XtraBars.BarButtonItem();
+            this.barStaticInfo = new DevExpress.XtraBars.BarStaticItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -79,9 +80,10 @@
             this.barEditTimeStart,
             this.barEditDateEnd,
             this.barEditTimeEnd,
-            this.barButtonOk});
+            this.barButtonOk,
+            this.barStaticInfo});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 8;
+            this.ribbon.MaxItemId = 9;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
@@ -166,6 +168,13 @@
             this.barButtonOk.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.barButtonOk.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonOk_ItemClick);
             // 
+            // barStaticInfo
+            // 
+            this.barStaticInfo.Caption = "barStaticItem1";
+            this.barStaticInfo.Id = 8;
+            this.barStaticInfo.Name = "barStaticInfo";
+            this.barStaticInfo.TextAlignment = System.Drawing.StringAlignment.Near;
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -197,6 +206,7 @@
             // 
             // ribbonStatusBar
             // 
+            this.ribbonStatusBar.ItemLinks.Add(this.barStaticInfo);
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 418);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
@@ -334,5 +344,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonOk;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
+        private DevExpress.XtraBars.BarStaticItem barStaticInfo;
     }
 }

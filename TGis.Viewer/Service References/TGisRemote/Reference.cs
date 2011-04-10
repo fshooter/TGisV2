@@ -471,6 +471,12 @@ namespace TGis.Viewer.TGisRemote {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/GetVersion", ReplyAction="http://tempuri.org/IGisServiceAblity/GetVersionResponse")]
         int GetVersion();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/VerifyPassword", ReplyAction="http://tempuri.org/IGisServiceAblity/VerifyPasswordResponse")]
+        bool VerifyPassword(byte[] pass);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/ModifyPassword", ReplyAction="http://tempuri.org/IGisServiceAblity/ModifyPasswordResponse")]
+        void ModifyPassword(byte[] newPass);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/GetCurrentTime", ReplyAction="http://tempuri.org/IGisServiceAblity/GetCurrentTimeResponse")]
         System.DateTime GetCurrentTime();
         
@@ -534,6 +540,14 @@ namespace TGis.Viewer.TGisRemote {
         
         public int GetVersion() {
             return base.Channel.GetVersion();
+        }
+        
+        public bool VerifyPassword(byte[] pass) {
+            return base.Channel.VerifyPassword(pass);
+        }
+        
+        public void ModifyPassword(byte[] newPass) {
+            base.Channel.ModifyPassword(newPass);
         }
         
         public System.DateTime GetCurrentTime() {

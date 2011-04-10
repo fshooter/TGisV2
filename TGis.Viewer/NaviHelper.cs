@@ -8,10 +8,17 @@ namespace TGis.Viewer
 {
     class NaviHelper
     {
-        private static Form formMain = null;
+        private static Form formStartup = null;
+        private static ViewMain2 formMain = null;
         private static Form formCurrent = null;
 
-        public static Form FormMain
+        public static Form FormStartup
+        {
+            get { return NaviHelper.formStartup; }
+            set { NaviHelper.formStartup = value; }
+        }
+
+        public static ViewMain2 FormMain
         {
             get { return NaviHelper.formMain; }
             set { NaviHelper.formMain = value; }

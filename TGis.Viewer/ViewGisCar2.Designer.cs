@@ -39,6 +39,7 @@
             this.ControlPanel_Speed = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.ControlPanel_BtnSpeedOk = new DevExpress.XtraBars.BarButtonItem();
+            this.barStaticInfo = new DevExpress.XtraBars.BarStaticItem();
             this.ribbonPageControl = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -106,9 +107,10 @@
             this.barStaticUpdateTime,
             this.ControlPanel_BtnGo,
             this.ControlPanel_Speed,
-            this.ControlPanel_BtnSpeedOk});
+            this.ControlPanel_BtnSpeedOk,
+            this.barStaticInfo});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 11;
+            this.ribbon.MaxItemId = 12;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageControl});
@@ -125,7 +127,7 @@
             // 
             // ControlPanel_Time
             // 
-            this.ControlPanel_Time.Caption = "barEditItem1";
+            this.ControlPanel_Time.Caption = "时间：";
             this.ControlPanel_Time.Edit = this.repositoryItemTimeEdit2;
             this.ControlPanel_Time.Id = 4;
             this.ControlPanel_Time.Name = "ControlPanel_Time";
@@ -140,7 +142,7 @@
             // 
             // ControlPanel_Day
             // 
-            this.ControlPanel_Day.Caption = "barEditItem2";
+            this.ControlPanel_Day.Caption = "日期：";
             this.ControlPanel_Day.Edit = this.repositoryItemDateEdit2;
             this.ControlPanel_Day.Id = 5;
             this.ControlPanel_Day.Name = "ControlPanel_Day";
@@ -203,6 +205,13 @@
             this.ControlPanel_BtnSpeedOk.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.ControlPanel_BtnSpeedOk.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ControlPanel_BtnSpeedOk_ItemClick);
             // 
+            // barStaticInfo
+            // 
+            this.barStaticInfo.Caption = "BarInfo";
+            this.barStaticInfo.Id = 11;
+            this.barStaticInfo.Name = "barStaticInfo";
+            this.barStaticInfo.TextAlignment = System.Drawing.StringAlignment.Near;
+            // 
             // ribbonPageControl
             // 
             this.ribbonPageControl.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -252,6 +261,7 @@
             // ribbonStatusBar
             // 
             this.ribbonStatusBar.ItemLinks.Add(this.barStaticUpdateTime);
+            this.ribbonStatusBar.ItemLinks.Add(this.barStaticInfo);
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 398);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
@@ -555,5 +565,6 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit repositoryItemButtonEdit1;
         private DevExpress.XtraBars.BarButtonItem ControlPanel_BtnSpeedOk;
+        private DevExpress.XtraBars.BarStaticItem barStaticInfo;
     }
 }

@@ -12,21 +12,25 @@ namespace TGis.RemoteService
     {
         public static CarMgr GCarMgr;
         public static PathMgr GPathMgr;
+        public static PassMgr GPassMgr;
         public static CarSessionMgr GImmCarSessionMgr;
         public static IDbConnection GConnection;
         public static CarSessionLogger GSessionLogger;
         public static HistoryCarSession GCarSessionQueryer;
         public static CarEventLogger GEventLogger;
         public static CarEventQueryer GEventQueryer;
+        private static TaskSchduler GTasks;
 
         public static void Init()
         {
             OpenDb();
             GCarMgr = new CarMgr(GConnection);
             GPathMgr = new PathMgr(GConnection);
+            GPassMgr = new PassMgr(GConnection);
             GImmCarSessionMgr = new CarSessionMgr(GCarMgr, GPathMgr);
             GCarSessionQueryer = new HistoryCarSession(GConnection);
-            ICarTerminalAbility immTerminal = new TestCarTerminalAbility();
+            //ICarTerminalAbility immTerminal = new TestCarTerminalAbility();
+            ICarTerminalAbility immTerminal = new UdpCarTerminalAbility();
             GImmCarSessionMgr.Terminal = immTerminal;
 
             GSessionLogger = new CarSessionLogger(GImmCarSessionMgr, GConnection);
@@ -38,9 +42,13 @@ namespace TGis.RemoteService
 
             immTerminal.Run();
             GEventQueryer = new CarEventQueryer(GConnection);
+
+            GTasks = new TaskSchduler();
+            GTasks.Run(GConnection, Ultility.GetDataDir() + "\\GisDb.db");
         }
         public static void UnInit()
         {
+            GTasks.Stop();
             GEventLogger.Stop();
             GImmCarSessionMgr.Terminal.Stop();
             GImmCarSessionMgr.Stop();

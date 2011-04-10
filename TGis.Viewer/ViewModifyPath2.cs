@@ -25,8 +25,9 @@ namespace TGis.Viewer
 
         private void ViewModifyPath_Load(object sender, EventArgs e)
         {
+            this.barStaticInfo.Caption = "您可以点击菜单上的编辑按钮编辑指定路径的信息";
             this.ribbon.SelectedPage = ribbonPage1;
-            mapControl.Navigate(Ultility.GetAppDir() + @"\map\map.html");
+            mapControl.Navigate(GisGlobal.GetSelectedMapPath());
             mapControl.OnMapLoadCompleted += new MapLoadCompleteHandler(InitMapFirstTime);
         }
         private void InitMapFirstTime(object sender)
@@ -109,7 +110,15 @@ namespace TGis.Viewer
             newp.Id = model.Id;
             newp.Name = newName;
             newp.Points = points;
-            GisGlobal.GPathMgr.UpdatePath(newp);
+            try
+            {
+                GisGlobal.GPathMgr.UpdatePath(newp);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("更新路径失败");
+            }
+            
             NaviHelper.NaviToWelcome();
         }
 
@@ -123,7 +132,15 @@ namespace TGis.Viewer
             GisPathInfo path;
             if (!GisGlobal.GPathMgr.TryGetPath(model.Id, out path))
                 return;
-            GisGlobal.GPathMgr.RemovePath(path.Id);
+            try
+            {
+                GisGlobal.GPathMgr.RemovePath(path.Id);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("更新路径失败");
+            }
+            
             NaviHelper.NaviToWelcome();
         }
     }

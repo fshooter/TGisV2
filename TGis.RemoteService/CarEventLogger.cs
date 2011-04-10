@@ -81,15 +81,23 @@ namespace TGis.RemoteService
             info.Y = arg.CarSessionArg.Y;
             info.Time = arg.CarSessionArg.LastUpdateTime;
             byte[] data = DataContractFormatSerializer.Serialize(info, false);
-            using (IDbCommand cmd = conn.CreateCommand())
+            try
             {
-                SQLiteParameter paramData = new SQLiteParameter("@data");
-                paramData.Value = data;
-                cmd.CommandText = string.Format("insert into events (time, data) values ({0}, @data)",
-                    Ultility.TimeEncode(info.Time));
-                cmd.Parameters.Add(paramData);
-                cmd.ExecuteNonQuery();
+                using (IDbCommand cmd = conn.CreateCommand())
+                {
+                    SQLiteParameter paramData = new SQLiteParameter("@data");
+                    paramData.Value = data;
+                    cmd.CommandText = string.Format("insert into events (time, data) values ({0}, @data)",
+                        Ultility.TimeEncode(info.Time));
+                    cmd.Parameters.Add(paramData);
+                    cmd.ExecuteNonQuery();
+                }
             }
+            catch (System.Exception)
+            {
+            	
+            }
+            
         }
     }
 

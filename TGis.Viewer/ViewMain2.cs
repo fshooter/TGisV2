@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraBars;
 using TGis.Viewer.TGisRemote;
+using DevExpress.XtraEditors;
 
 namespace TGis.Viewer
 {
@@ -82,12 +83,15 @@ namespace TGis.Viewer
         {
             GisGlobal.GPathMgr.OnPathStateChanged -= new EventHandler(PathState_Change);
             GisGlobal.GCarMgr.OnCarStateChanged -= new EventHandler(CarState_Change);
+
+            NaviHelper.FormStartup.Close();
         }
 
         private void ViewMain_Load(object sender, EventArgs e)
         {
             ReloadPathMenu(this, null);
             ReloadCarMenu(this, null);
+            ReloadAllMaps(this, e);
             GisGlobal.GPathMgr.OnPathStateChanged += new EventHandler(PathState_Change);
             GisGlobal.GCarMgr.OnCarStateChanged += new EventHandler(CarState_Change);
             this.ribbon.SelectedPage = ribbonPageMode;
@@ -130,6 +134,31 @@ namespace TGis.Viewer
         private void barButtonEventsMode_ItemClick(object sender, ItemClickEventArgs e)
         {
             controller.EventsMode();
+        }
+
+        private void btnModifyPass_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if((this.editNewPass.EditValue == null)
+                || (this.editNewPass.EditValue.ToString().Length == 0))
+            {
+                MessageBox.Show("密码不能为空");
+                return;
+            }
+            controller.ModifyPass(this.editNewPass.EditValue.ToString());
+        }
+        private void ReloadAllMaps(object sender, EventArgs e)
+        {
+            var dictMap = GisGlobal.GetAllMaps();
+            this.repositoryItemComboBox1.Items.Clear();
+            foreach (var kv in dictMap)
+            {
+                this.repositoryItemComboBox1.Items.Add(kv.Key);
+            }
+        }
+        private void btnChangeMap_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (this.editNewMap.EditValue != null)
+                GisGlobal.SetSelectedMapName(this.editNewMap.EditValue.ToString());
         }
     }
 }

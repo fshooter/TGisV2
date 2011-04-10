@@ -34,12 +34,13 @@
             this.barBtnRedraw = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnSave = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnCancel = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnDelete = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.mapControl = new TGis.MapControl.MapControl();
-            this.barBtnDelete = new DevExpress.XtraBars.BarButtonItem();
+            this.barStaticInfo = new DevExpress.XtraBars.BarStaticItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             this.SuspendLayout();
@@ -58,9 +59,10 @@
             this.barBtnRedraw,
             this.barBtnSave,
             this.barBtnCancel,
-            this.barBtnDelete});
+            this.barBtnDelete,
+            this.barStaticInfo});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 9;
+            this.ribbon.MaxItemId = 10;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
@@ -108,6 +110,14 @@
             this.barBtnCancel.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.barBtnCancel.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnCancel_ItemClick);
             // 
+            // barBtnDelete
+            // 
+            this.barBtnDelete.Caption = "删除";
+            this.barBtnDelete.Id = 5;
+            this.barBtnDelete.Name = "barBtnDelete";
+            this.barBtnDelete.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.barBtnDelete.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnDelete_ItemClick);
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -134,6 +144,7 @@
             // 
             // ribbonStatusBar
             // 
+            this.ribbonStatusBar.ItemLinks.Add(this.barStaticInfo);
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 418);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
@@ -147,13 +158,12 @@
             this.mapControl.Size = new System.Drawing.Size(442, 269);
             this.mapControl.TabIndex = 2;
             // 
-            // barBtnDelete
+            // barStaticInfo
             // 
-            this.barBtnDelete.Caption = "删除";
-            this.barBtnDelete.Id = 5;
-            this.barBtnDelete.Name = "barBtnDelete";
-            this.barBtnDelete.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            this.barBtnDelete.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnDelete_ItemClick);
+            this.barStaticInfo.Caption = "barStaticItem1";
+            this.barStaticInfo.Id = 9;
+            this.barStaticInfo.Name = "barStaticInfo";
+            this.barStaticInfo.TextAlignment = System.Drawing.StringAlignment.Near;
             // 
             // ViewModifyPath2
             // 
@@ -189,5 +199,6 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private MapControl.MapControl mapControl;
         private DevExpress.XtraBars.BarButtonItem barBtnDelete;
+        private DevExpress.XtraBars.BarStaticItem barStaticInfo;
     }
 }

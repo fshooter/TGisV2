@@ -15,7 +15,12 @@ namespace TGis.RemoteContract
         [OperationContract]
         int GetVersion();
 
-        //用户客户端/服务器对时
+        [OperationContract]
+        bool VerifyPassword(byte[] pass);
+
+        [OperationContract]
+        void ModifyPassword(byte[] newPass);
+       
         [OperationContract]
         DateTime GetCurrentTime();
 

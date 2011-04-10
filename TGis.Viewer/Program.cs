@@ -19,18 +19,35 @@ namespace TGis.Viewer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            DevExpress.Utils.AppearanceObject.DefaultFont = new System.Drawing.Font("微软雅黑", 12); 
+
+            try
+            {
+                NaviHelper.FormStartup = new Login();
+                Application.Run(NaviHelper.FormStartup);
+            }
+            catch (System.ServiceModel.CommunicationException)
+            {
+                MessageBox.Show("与服务器的连接中断，请检查服务端程序或重试");
+                return;
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("无处理的内部错误");
+                return;
+            }
+            
+
+            GisGlobal.UnInit();
+        }
+        public static void MainStart()
+        {
             Directory.CreateDirectory(Ultility.GetDataDir());
             GisGlobal.Init();
             MainToolModel model = new MainToolModel();
             MainToolController controller = new MainToolController(model);
-
-            DevExpress.Utils.AppearanceObject.DefaultFont = new System.Drawing.Font("微软雅黑", 12);
-
             NaviHelper.FormMain = new ViewMain2(controller, model);
-            Application.Run(NaviHelper.FormMain);
-
-            GisGlobal.UnInit();
+            NaviHelper.FormMain.Show();
         }
-        
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using TGis.Common;
 using TGis.Viewer.TGisRemote;
+using System.Security.Cryptography;
 
 namespace TGis.Viewer
 {
@@ -48,6 +49,7 @@ namespace TGis.Viewer
         }
         public void CreateNewPath()
         {
+            GisGlobal.GPathMgr.ReloadFromSever();
             string newName = null;
             for (int i = 1; i < 20; i++)
             {
@@ -75,6 +77,7 @@ namespace TGis.Viewer
         }
         public void CreateNewCar()
         {
+            GisGlobal.GCarMgr.ReloadFromSever();
             string newName = null;
             for (int i = 1; i < 20; i++)
             {
@@ -107,6 +110,15 @@ namespace TGis.Viewer
         public void ModifyCar(int cid)
         {
             NaviHelper.NaviToModifyCar(cid);
+        }
+
+        public void ModifyPass(string pass)
+        {
+            if ((pass == null) || (pass.Length == 0))
+                throw new ApplicationException("密码不能为空");
+            SHA1 hash = SHA1.Create();
+            byte[] newpass = hash.ComputeHash(Encoding.Default.GetBytes(pass));
+            GisServiceWrapper.Instance.ModifyPassword(newpass);
         }
     }
 }

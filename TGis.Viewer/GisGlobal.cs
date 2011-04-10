@@ -7,6 +7,8 @@ using System.Data.SQLite;
 using TGis.Common;
 using System.ServiceModel;
 using TGis.Viewer.TGisRemote;
+using System.Configuration;
+using System.ServiceModel.Description;
 
 namespace TGis.Viewer
 {
@@ -16,7 +18,11 @@ namespace TGis.Viewer
         ChannelFactory<IGisServiceAblity> channelFactory;
         private GisServiceWrapper()
         {
-            channelFactory = new ChannelFactory<IGisServiceAblity>("NetTcpBinding_IGisServiceAblity");
+            ContractDescription contract = ContractDescription.GetContract(typeof(TGisRemote.IGisServiceAblity));
+            EndpointAddress address = new EndpointAddress(GisGlobal.GetServerUri());
+            var binding = new NetTcpBinding();
+            ServiceEndpoint endpoint = new ServiceEndpoint(contract, binding, address);
+            channelFactory = new ChannelFactory<IGisServiceAblity>(endpoint);
         }
         public static IGisServiceAblity Instance
         {
@@ -139,6 +145,23 @@ namespace TGis.Viewer
                 return proxy.QueryEventInfo(out bTobeContinue, tmStart, tmEnd);
             }
         }
+
+        public bool VerifyPassword(byte[] pass)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.VerifyPassword(pass);
+            }
+        }
+        public void ModifyPassword(byte[] pass)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                proxy.ModifyPassword(pass);
+            }
+        }
     }
     class GisGlobal
     {
@@ -153,6 +176,89 @@ namespace TGis.Viewer
         public static void UnInit()
         {
             
+        }
+
+        public static string GetServerUri()
+        {
+            string url = string.Format("net.tcp://{0}:{1}/TGisService/100",
+                System.Configuration.ConfigurationManager.AppSettings["ServerAddr"],
+                System.Configuration.ConfigurationManager.AppSettings["ServerPort"]);
+            return url;
+        }
+        public static bool GetServerConnectionConf(out string addr, out int port)
+        {
+            bool br = true;
+            addr = "";
+            port = 0;
+            try
+            {
+                System.Configuration.Configuration config =
+                    ConfigurationManager.OpenExeConfiguration(
+                    ConfigurationUserLevel.None);
+                AppSettingsSection appSection = (AppSettingsSection)config.GetSection("appSettings");
+                addr = appSection.Settings["ServerAddr"].Value;
+                port = Convert.ToInt32(appSection.Settings["ServerPort"].Value);
+            }
+            catch (System.Exception ex)
+            {
+                br = false;
+            }
+            return br;
+        }
+        public static void SetServerConnectionConf(string addr, int port)
+        {
+            System.Configuration.Configuration config =
+                ConfigurationManager.OpenExeConfiguration(
+                ConfigurationUserLevel.None);
+            AppSettingsSection appSection = (AppSettingsSection)config.GetSection("appSettings");
+            appSection.Settings["ServerAddr"].Value = addr;
+            appSection.Settings["ServerPort"].Value = port.ToString();
+            config.Save();
+        }
+
+        public static string GetSelectedMapPath()
+        {
+            return Ultility.GetAppDir() + "\\map\\" + GetAllMaps()[GetSelectedMapName()];
+        }
+        public static string GetSelectedMapName()
+        {
+            string mapName;
+            try
+            {
+                System.Configuration.Configuration config =
+                    ConfigurationManager.OpenExeConfiguration(
+                    ConfigurationUserLevel.None);
+                AppSettingsSection appSection = (AppSettingsSection)config.GetSection("appSettings");
+                mapName = appSection.Settings["MapName"].Value;
+            }
+            catch (System.Exception ex)
+            {
+                mapName = "谷歌地图";
+            }
+            return mapName;
+        }
+        public static void SetSelectedMapName(string name)
+        {
+            try
+            {
+                System.Configuration.Configuration config =
+                    ConfigurationManager.OpenExeConfiguration(
+                    ConfigurationUserLevel.None);
+                AppSettingsSection appSection = (AppSettingsSection)config.GetSection("appSettings");
+                appSection.Settings["MapName"].Value = name;
+                config.Save();
+            }
+            catch (System.Exception)
+            {
+                
+            }
+        }
+        public static IDictionary<string, string> GetAllMaps()
+        {
+            IDictionary<string, string> r = new Dictionary<string, string>();
+            r["谷歌地图"] = "mapg.html";
+            r["百度地图"] = "mapb.html";
+            return r;
         }
     }
 }

@@ -34,6 +34,13 @@
             this.barbtnHistoryMode = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonNewCar = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnNewPath = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonEventsMode = new DevExpress.XtraBars.BarButtonItem();
+            this.editNewMap = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.editNewPass = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.btnModifyPass = new DevExpress.XtraBars.BarButtonItem();
+            this.btnChangeMap = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageMode = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageCar = new DevExpress.XtraBars.Ribbon.RibbonPage();
@@ -42,8 +49,12 @@
             this.ribbonPagePath = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroupAllPaths = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.barButtonEventsMode = new DevExpress.XtraBars.BarButtonItem();
+            this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup5 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbon
@@ -61,14 +72,22 @@
             this.barbtnHistoryMode,
             this.barButtonNewCar,
             this.barBtnNewPath,
-            this.barButtonEventsMode});
+            this.barButtonEventsMode,
+            this.editNewMap,
+            this.editNewPass,
+            this.btnModifyPass,
+            this.btnChangeMap});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 12;
+            this.ribbon.MaxItemId = 17;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageMode,
             this.ribbonPageCar,
-            this.ribbonPagePath});
+            this.ribbonPagePath,
+            this.ribbonPage1});
+            this.ribbon.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemComboBox1,
+            this.repositoryItemTextEdit1});
             this.ribbon.SelectedPage = this.ribbonPageMode;
             this.ribbon.Size = new System.Drawing.Size(442, 149);
             // 
@@ -114,6 +133,59 @@
             this.barBtnNewPath.Name = "barBtnNewPath";
             this.barBtnNewPath.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.barBtnNewPath.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnNewPath_ItemClick);
+            // 
+            // barButtonEventsMode
+            // 
+            this.barButtonEventsMode.Caption = "事件查询";
+            this.barButtonEventsMode.Id = 11;
+            this.barButtonEventsMode.Name = "barButtonEventsMode";
+            this.barButtonEventsMode.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.barButtonEventsMode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonEventsMode_ItemClick);
+            // 
+            // editNewMap
+            // 
+            this.editNewMap.Caption = "选择地图：";
+            this.editNewMap.Edit = this.repositoryItemComboBox1;
+            this.editNewMap.Id = 12;
+            this.editNewMap.Name = "editNewMap";
+            this.editNewMap.Width = 100;
+            // 
+            // repositoryItemComboBox1
+            // 
+            this.repositoryItemComboBox1.AutoHeight = false;
+            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
+            this.repositoryItemComboBox1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            // 
+            // editNewPass
+            // 
+            this.editNewPass.Caption = "修改密码";
+            this.editNewPass.Edit = this.repositoryItemTextEdit1;
+            this.editNewPass.Id = 13;
+            this.editNewPass.Name = "editNewPass";
+            this.editNewPass.Width = 100;
+            // 
+            // repositoryItemTextEdit1
+            // 
+            this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
+            // 
+            // btnModifyPass
+            // 
+            this.btnModifyPass.Caption = "确定";
+            this.btnModifyPass.Id = 14;
+            this.btnModifyPass.Name = "btnModifyPass";
+            this.btnModifyPass.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnModifyPass.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnModifyPass_ItemClick);
+            // 
+            // btnChangeMap
+            // 
+            this.btnChangeMap.Caption = "确定";
+            this.btnChangeMap.Id = 15;
+            this.btnChangeMap.Name = "btnChangeMap";
+            this.btnChangeMap.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnChangeMap.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnChangeMap_ItemClick);
             // 
             // ribbonPageMode
             // 
@@ -171,13 +243,27 @@
             this.ribbonPageGroupAllPaths.Name = "ribbonPageGroupAllPaths";
             this.ribbonPageGroupAllPaths.Text = "所有路径";
             // 
-            // barButtonEventsMode
+            // ribbonPage1
             // 
-            this.barButtonEventsMode.Caption = "事件查询";
-            this.barButtonEventsMode.Id = 11;
-            this.barButtonEventsMode.Name = "barButtonEventsMode";
-            this.barButtonEventsMode.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            this.barButtonEventsMode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonEventsMode_ItemClick);
+            this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.ribbonPageGroup4,
+            this.ribbonPageGroup5});
+            this.ribbonPage1.Name = "ribbonPage1";
+            this.ribbonPage1.Text = "设置";
+            // 
+            // ribbonPageGroup4
+            // 
+            this.ribbonPageGroup4.ItemLinks.Add(this.editNewPass);
+            this.ribbonPageGroup4.ItemLinks.Add(this.btnModifyPass);
+            this.ribbonPageGroup4.Name = "ribbonPageGroup4";
+            this.ribbonPageGroup4.Text = "密码设置";
+            // 
+            // ribbonPageGroup5
+            // 
+            this.ribbonPageGroup5.ItemLinks.Add(this.editNewMap);
+            this.ribbonPageGroup5.ItemLinks.Add(this.btnChangeMap);
+            this.ribbonPageGroup5.Name = "ribbonPageGroup5";
+            this.ribbonPageGroup5.Text = "地图设置";
             // 
             // ViewMain2
             // 
@@ -192,13 +278,14 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewMain_FormClosing);
             this.Load += new System.EventHandler(this.ViewMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageMode;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageCar;
@@ -213,5 +300,15 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupAllPaths;
         private DevExpress.XtraBars.BarButtonItem barButtonEventsMode;
+        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup5;
+        private DevExpress.XtraBars.BarEditItem editNewMap;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
+        private DevExpress.XtraBars.BarEditItem editNewPass;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
+        private DevExpress.XtraBars.BarButtonItem btnModifyPass;
+        private DevExpress.XtraBars.BarButtonItem btnChangeMap;
+        public DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
     }
 }

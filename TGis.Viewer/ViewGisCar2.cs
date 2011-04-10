@@ -29,10 +29,15 @@ namespace TGis.Viewer
         {
             if (model.SessionMgr.ImmMode)
                 this.ribbonPageControl.Visible = false;
+            else
+            {
+                this.barStaticInfo.Caption = "您可以通过点击菜单上的控制按钮进行控制";
+            }
             MapControl_Load(sender, e);
             TreeList_Load(sender, e);
             GridCar_Load(sender, e);
             ControlPanel_Load(sender, e);
+
         }
         private void ViewGisCar_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -72,7 +77,7 @@ namespace TGis.Viewer
 #region MapControl
         private void MapControl_Load(object sender, EventArgs e)
         {
-            mapControl1.Navigate(Ultility.GetAppDir() + @"\map\map.html");
+            mapControl1.Navigate(GisGlobal.GetSelectedMapPath());
             mapControl1.OnMapLoadCompleted += new MapLoadCompleteHandler(AsynInitMapFirstTime);
             
         }
@@ -146,8 +151,11 @@ namespace TGis.Viewer
                 check.Text = c.Name;
                 checks[i++] = check;
                 check.Tag = c.Id;
+                model.UserMakeCarShow(c.Id, true);
+                check.Checked = model.GetCarShow(c.Id);
                 check.CheckStateChanged += new EventHandler(TreeListCarCheck_Changed);
                 check.Size = check.CalcBestSize();
+                
             }
             this.flowLayoutPanel1.Controls.AddRange(checks);
 
@@ -160,6 +168,7 @@ namespace TGis.Viewer
                 check.Text = p.Name;
                 checksPath[i++] = check;
                 check.Tag = p.Id;
+                check.Checked = model.GetPathShow(p.Id);
                 check.CheckStateChanged += new EventHandler(TreeListPathCheck_Changed);
                 check.Size = check.CalcBestSize();
             }

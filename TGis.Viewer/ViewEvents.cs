@@ -23,6 +23,7 @@ namespace TGis.Viewer
 
         private void ViewEvents_Load(object sender, EventArgs e)
         {
+            this.barStaticInfo.Caption = "您可以点击菜单上的查询按钮查询指定时间的时间";
             List_Load(sender, e);
             MapControl_Load(sender, e);
         }
@@ -70,7 +71,7 @@ namespace TGis.Viewer
         private int oldCarId = -1;
         private void MapControl_Load(object sender, EventArgs e)
         {
-            mapControl.Navigate(Ultility.GetAppDir() + @"\map\map.html");
+            mapControl.Navigate(GisGlobal.GetSelectedMapPath());
             mapControl.OnMapLoadCompleted += new MapLoadCompleteHandler(AsynInitMapFirstTime);
 
         }

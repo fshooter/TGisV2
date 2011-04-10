@@ -94,15 +94,23 @@ namespace TGis.RemoteService
                 if (listCachedMsg.Count == 0)
                     return;
                 byte[] data = DataContractFormatSerializer.Serialize(listCachedMsg, false);
-                using (SQLiteCommand cmd = (SQLiteCommand)conn.CreateCommand())
+                try
                 {
-                    SQLiteParameter paramData = new SQLiteParameter("@data");
-                    paramData.Value = data;
-                    cmd.CommandText = string.Format("insert into csmmsg (time, data) values ({0}, @data)",
-                        Ultility.TimeEncode(listCachedMsg[0].Time));
-                    cmd.Parameters.Add(paramData);
-                    cmd.ExecuteNonQuery();
+                    using (SQLiteCommand cmd = (SQLiteCommand)conn.CreateCommand())
+                    {
+                        SQLiteParameter paramData = new SQLiteParameter("@data");
+                        paramData.Value = data;
+                        cmd.CommandText = string.Format("insert into csmmsg (time, data) values ({0}, @data)",
+                            Ultility.TimeEncode(listCachedMsg[0].Time));
+                        cmd.Parameters.Add(paramData);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
+                catch (System.Exception)
+                {
+                	
+                }
+                
                 listCachedMsg.Clear();
             }
         }
@@ -118,13 +126,20 @@ namespace TGis.RemoteService
         }
         public GisSessionInfo[] Query(DateTime tmStart, DateTime tmEnd)
         {
+            if (tmStart != DateTime.MaxValue)
+                return QueryHistory(tmStart, tmEnd);
+            else
+                return QueryImmdiate();
+        }
+        private GisSessionInfo[] QueryHistory(DateTime tmStart, DateTime tmEnd)
+        {
             int start = Ultility.TimeEncode(tmStart);
             int end = Ultility.TimeEncode(tmEnd);
             List<GisSessionInfo> result = new List<GisSessionInfo>();
             byte[] buffer = new byte[1024 * 1024];
             using (IDbCommand cmd = conn.CreateCommand())
             {
-                cmd.CommandText = string.Format("select data from csmmsg where time >= {0} and time < {1}",
+                cmd.CommandText = string.Format("select data from csmmsg where time >= {0} and time < {1} order by time DESC limit 0,1",
                     start, end);
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -134,7 +149,32 @@ namespace TGis.RemoteService
                         if (nDataNum++ > MAX_DATA_PER_QUERY) break;
                         long dateLen = reader.GetBytes(0, 0, buffer, 0, buffer.Length);
                         GisSessionInfo[] resultTemp = DataContractFormatSerializer.Deserialize<GisSessionInfo[]>(buffer, (int)dateLen, false);
-                        if(resultTemp == null) continue;
+                        if (resultTemp == null) continue;
+                        result.AddRange(resultTemp);
+                    }
+                }
+            }
+            return result.ToArray();
+        }
+        private GisSessionInfo[] QueryImmdiate()
+        {
+            List<GisSessionInfo> result = new List<GisSessionInfo>();
+            byte[] buffer = new byte[1024 * 1024];
+            using (IDbCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = string.Format("select * from csmmsg order by time DESC limit 0,1");
+                using (var reader = cmd.ExecuteReader())
+                {
+                    int nDataNum = 0;
+                    while (reader.Read())
+                    {
+                        int itm = reader.GetInt32(0);
+                        DateTime tm = Ultility.TimeDecode(itm);
+                        if ((DateTime.Now - tm).Duration().Minutes > 1) break;
+                        if (nDataNum++ > MAX_DATA_PER_QUERY) break;
+                        long dateLen = reader.GetBytes(1, 0, buffer, 0, buffer.Length);
+                        GisSessionInfo[] resultTemp = DataContractFormatSerializer.Deserialize<GisSessionInfo[]>(buffer, (int)dateLen, false);
+                        if (resultTemp == null) continue;
                         result.AddRange(resultTemp);
                     }
                 }

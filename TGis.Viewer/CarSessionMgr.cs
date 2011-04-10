@@ -7,6 +7,7 @@ using TGis.Common;
 using System.Diagnostics;
 using TGis.Viewer.TGisRemote;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace TGis.Viewer
 {
@@ -15,10 +16,11 @@ namespace TGis.Viewer
     {
         int interval;
         int multiply;
-        Timer timer = new Timer();
+        System.Timers.Timer timer = new System.Timers.Timer();
         DateTime currentTime;
         bool bImmMode;
         TimeSpan delayTime = new TimeSpan(0, 0, 10);
+        int totalFailTime = 0;
         
         public bool ImmMode
         {
@@ -51,7 +53,7 @@ namespace TGis.Viewer
             this.bImmMode = bImmMode;
             if (this.bImmMode)
             {
-                currentTime = GisServiceWrapper.Instance.GetCurrentTime() - delayTime;
+                currentTime = DateTime.MaxValue;
             }
             timer.Elapsed += new ElapsedEventHandler(QueryCarStates);
         }
@@ -71,20 +73,33 @@ namespace TGis.Viewer
         }
         private void QueryCarStates(object sender, EventArgs e)
         {
-            if (OnBeginQuerySessionMsg != null)
-                OnBeginQuerySessionMsg(this, null);
-            DateTime endTime;
-
-            if (bImmMode)
-                endTime = GisServiceWrapper.Instance.GetCurrentTime() - delayTime;
-            else
-                endTime = currentTime.AddMilliseconds(interval * multiply);
-            var sessionMsgs = GisServiceWrapper.Instance.QuerySessionInfo(currentTime, endTime);
-            foreach (var msg in sessionMsgs)
+            if (totalFailTime > 10) return;
+            try
             {
-                SessionMsgHandler(msg);
+                if (OnBeginQuerySessionMsg != null)
+                    OnBeginQuerySessionMsg(this, null);
+                DateTime endTime;
+
+                if (bImmMode)
+                    endTime = DateTime.MaxValue;
+                else
+                    endTime = currentTime.AddMilliseconds(interval * multiply);
+                var sessionMsgs = GisServiceWrapper.Instance.QuerySessionInfo(currentTime, endTime);
+                foreach (var msg in sessionMsgs)
+                {
+                    SessionMsgHandler(msg);
+                }
+                currentTime = endTime;
+                totalFailTime = 0;
             }
-            currentTime = endTime;
+            catch (System.Exception ex)
+            {
+                totalFailTime++;
+                if (totalFailTime > 10)
+                {
+                    MessageBox.Show("与服务器的连接中断，请检查服务器或重试");
+                }
+            }
         }
 
         private void SessionMsgHandler(GisSessionInfo msg)

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=9" >
+	
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<style type="text/css">
+html {
+  height: auto;
+}
+body {
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+#map_canvas {
+  height: auto;
+  position: absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  top:0;
+}
+@media print {
+  #map_canvas {
+    height: 950px;
+  }
+}
+</style>
+<title>Baidu Maps</title>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.1&services=true"></script>
+<script type="text/javascript" src="map.js"></script>
+<script type="text/javascript">
+  var map;
+  var cars = new Map();
+  var car_img = new BMap.Icon("car.bmp", new BMap.Size(40,40));
+  var car_img_excep = new BMap.Icon("car_excep.bmp", new BMap.Size(40,40));
+  var gPaths = new Map();
+  var path_LatLngs;
+  var path_markers = [];
+  var path_current_draw = null;
+  var mode = 'none';
+  var LAT_MIN = 38.32;
+  var LAT_MAX = 38.68;
+  var LNG_MIN = 116;
+  var LNG_MAX = 116.3;
+  var LNG_DELTA = 0.00001;
+  
+  function initialize() {
+	var opt = {
+		zoomLevelMin : 10,
+		zoomLevelMax : 14,
+	}
+	map = new BMap.Map("map_canvas", opt);            // 创建Map实例
+	var point = new BMap.Point(116.08, 38.42);    // 创建点坐标
+	map.centerAndZoom(point,10);                     // 初始化地图,设置中心点坐标和地图级别。
+	map.addControl(new BMap.NavigationControl());               // 添加平移缩放控件
+	map.addControl(new BMap.ScaleControl());                    // 添加比例尺控件
+	map.addControl(new BMap.OverviewMapControl());              //添加缩略地图控件
+	map.addEventListener("click", function(event){
+		on_click(event.point);
+	});
+	//add_car(1);
+	//update_car(1, 116.08, 38.42, false, true);
+	//begin_draw_path();
+//	google.maps.event.addListener(map, 'click', function(event) {
+//    on_click(event.latLng);
+//  });
+//    google.maps.event.addListener(map, 'center_changed', on_center_changed);
+//	google.maps.event.addListener(map, 'zoom_changed', on_zoom_changed);
+  }
+  function add_car(id){
+	var marker = new BMap.Marker(new BMap.Point(0, 0))
+	cars.put(id, marker);
+ }
+ 
+ function remove_car(id)
+ {
+	marker = cars.get(id);
+	if(marker == null) return;
+	cars.remove(id);
+	map.removeOverlay(marker);
+ }
+ 
+ function update_car(id, x, y, excep, show)
+ {
+	marker = cars.get(id);
+	if(marker == null) return;
+	if(!show)
+	{
+		map.removeOverlay(marker);
+		return;
+	}
+	if(excep)
+		marker.setIcon(car_img_excep);
+	else
+		marker.setIcon(car_img);
+	marker.setPoint(new BMap.Point(x, y));
+	map.addOverlay(marker);
+ }
+ function add_path(id, name, points)
+ {
+	path = gPaths.get(id);
+	if(path != null)
+	{
+		map.removeOverlay(path);
+		return;
+	}
+	points_convert = [];
+	for(i = 0; i < points.length / 2; i++)
+	{
+		points_convert = points_convert.concat(new BMap.Point(points[i * 2], points[i * 2 + 1]));
+	}
+	var path = new BMap.Polygon(points_convert);
+	map.addOverlay(path);
+	gPaths.put(id, path);
+ }
+ function remove_path(id)
+ {
+	path = gPaths.get(id);
+	if(path == null) return;
+	gPaths.remove(id);
+	map.removeOverlay(path);
+ }
+ 
+ function begin_draw_path()
+ {
+	path_LatLngs = [];
+	mode = 'draw_path';
+	path_current_draw = null;
+ }
+ function end_draw_path()
+ {
+	clearPolygnMarker();
+	clearPolygn();
+	if(path_LatLngs.length < 3)
+	{
+		path_LatLngs = [];
+		return null;
+	}
+	result_points = [];
+	for(i = 0; i < path_LatLngs.length; ++i)
+	{
+		result_points = result_points.concat(path_LatLngs[i].lng).concat(path_LatLngs[i].lat);
+	}
+	path_LatLngs = [];
+	return result_points.toString();
+ }
+ function on_click(location)
+ {
+	if(mode == 'draw_path')
+	{
+		path_LatLngs = path_LatLngs.concat(location);
+		if(path_LatLngs.length < 3)
+			placeMarker(location);
+		else
+			polygnMarker(path_LatLngs);
+	}
+ }
+ function placeMarker(location) {
+  var marker = new BMap.Marker(location);
+  map.addOverlay(marker);
+  path_markers = path_markers.concat(marker);
+ }
+ function clearPolygnMarker()
+ {
+	for(i = 0; i < path_markers.length; ++i)
+		map.removeOverlay(path_markers[i]);
+	path_markers = [];
+ }
+ function clearPolygn()
+ {
+	if(path_current_draw != null)
+	{
+		map.removeOverlay(path_current_draw);
+		path_current_draw = null;
+	}
+ }
+ function polygnMarker(LatLngs)
+ {
+	clearPolygnMarker();
+	clearPolygn()
+	
+	var polygn = new BMap.Polygon(path_LatLngs);
+	map.addOverlay(polygn);
+	path_current_draw = polygn;
+ }
+ function on_center_changed()
+ {
+	latlng = map.getCenter();
+	var newlat = latlng.lat();
+	var newlng = latlng.lng();
+	var changed = false;
+	if(latlng.lat() < LAT_MIN)
+	{	newlat = LAT_MIN + LNG_DELTA; changed = true; }
+	if(latlng.lat() > LAT_MAX)
+	{	newlat = LAT_MAX - LNG_DELTA; changed = true; }
+	if(latlng.lng() < LNG_MIN)
+	{	newlng = LNG_MIN + LNG_DELTA; changed = true; }
+	if(latlng.lng() > LNG_MAX)
+	{	newlng = LNG_MAX - LNG_DELTA; changed = true; }
+	if(changed)
+	{
+		var latlng2 = new google.maps.LatLng(newlat, newlng, true);
+		map.setCenter(latlng2);
+	}
+ }
+</script>
+</head>
+<body onload="initialize()">
+  <div id="map_canvas"></div>
+</body>
+
+</html>
+
