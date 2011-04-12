@@ -495,7 +495,7 @@
             this.Name = "ViewGisCar2";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
-            this.Text = "ViewGisCar2";
+            this.Text = "车辆定位";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewGisCar_FormClosing);
             this.Load += new System.EventHandler(this.ViewGisCar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();

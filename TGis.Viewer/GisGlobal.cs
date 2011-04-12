@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.SQLite;
 using TGis.Common;
 using System.ServiceModel;
 using TGis.Viewer.TGisRemote;
@@ -21,8 +20,10 @@ namespace TGis.Viewer
             ContractDescription contract = ContractDescription.GetContract(typeof(TGisRemote.IGisServiceAblity));
             EndpointAddress address = new EndpointAddress(GisGlobal.GetServerUri());
             var binding = new NetTcpBinding();
+            binding.Security.Mode = SecurityMode.None;
             ServiceEndpoint endpoint = new ServiceEndpoint(contract, binding, address);
             channelFactory = new ChannelFactory<IGisServiceAblity>(endpoint);
+            channelFactory.Open();
         }
         public static IGisServiceAblity Instance
         {

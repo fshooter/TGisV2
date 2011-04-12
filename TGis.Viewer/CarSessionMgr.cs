@@ -88,8 +88,12 @@ namespace TGis.Viewer
                 foreach (var msg in sessionMsgs)
                 {
                     SessionMsgHandler(msg);
+                    currentTime = msg.Time > currentTime ? msg.Time : currentTime;
                 }
-                currentTime = endTime;
+                if (bImmMode)
+                    currentTime = currentTime.AddMilliseconds(1);
+                else
+                    currentTime = endTime;
                 totalFailTime = 0;
             }
             catch (System.Exception ex)

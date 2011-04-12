@@ -30,6 +30,7 @@ namespace TGis.Viewer
                 return;
             }
             this.textEditName.EditValue = c.Name;
+            this.textEditSerial.EditValue = c.SerialNum;
             foreach (GisPathInfo p in GisGlobal.GPathMgr.Paths)
             {
                 this.comboPath.Properties.Items.Add(p.Name);
@@ -79,6 +80,7 @@ namespace TGis.Viewer
             GisCarInfo newcarinfo = new GisCarInfo();
             newcarinfo.Id = carId;
             newcarinfo.Name = this.textEditName.Text;
+            newcarinfo.SerialNum = this.textEditSerial.Text;
             newcarinfo.PathId = selectedPath.Id;
             bool bNameValid = true;
             foreach (var c in GisGlobal.GCarMgr.Cars)

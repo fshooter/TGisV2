@@ -46,7 +46,7 @@
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 1;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(442, 149);
+            this.ribbon.Size = new System.Drawing.Size(442, 50);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // ribbonStatusBar
@@ -66,7 +66,7 @@
             this.Name = "ViewWelcome2";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
-            this.Text = "ViewWelcome2";
+            this.Text = "首页";
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             this.ResumeLayout(false);
 

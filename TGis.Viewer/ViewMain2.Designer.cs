@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewMain2));
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.barBtnWelcomeMode = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnImmMode = new DevExpress.XtraBars.BarButtonItem();
@@ -60,6 +61,7 @@
             // ribbon
             // 
             this.ribbon.ApplicationButtonText = null;
+            this.ribbon.ApplicationIcon = global::TGis.Viewer.Properties.Resources.client;
             // 
             // 
             // 
@@ -271,10 +273,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(442, 445);
             this.Controls.Add(this.ribbon);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "ViewMain2";
             this.Ribbon = this.ribbon;
-            this.Text = "ViewMain2";
+            this.Text = "Gps客户端";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewMain_FormClosing);
             this.Load += new System.EventHandler(this.ViewMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();

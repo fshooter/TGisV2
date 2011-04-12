@@ -35,6 +35,7 @@
             this.barButtonOk = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonCancel = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonDelete = new DevExpress.XtraBars.BarButtonItem();
+            this.barStaticInfo = new DevExpress.XtraBars.BarStaticItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
@@ -52,7 +53,8 @@
             this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.barStaticInfo = new DevExpress.XtraBars.BarStaticItem();
+            this.textEditSerial = new DevExpress.XtraEditors.TextEdit();
+            this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
@@ -67,6 +69,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditSerial.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbon
@@ -135,6 +139,13 @@
             this.barButtonDelete.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.barButtonDelete.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonDelete_ItemClick);
             // 
+            // barStaticInfo
+            // 
+            this.barStaticInfo.Caption = "barStaticItem1";
+            this.barStaticInfo.Id = 6;
+            this.barStaticInfo.Name = "barStaticInfo";
+            this.barStaticInfo.TextAlignment = System.Drawing.StringAlignment.Near;
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -160,6 +171,7 @@
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.textEditSerial);
             this.layoutControl1.Controls.Add(this.comboPath);
             this.layoutControl1.Controls.Add(this.textEditName);
             this.layoutControl1.Controls.Add(this.pictureEdit1);
@@ -178,22 +190,22 @@
             // comboPath
             // 
             this.comboPath.EditValue = "请选择路径";
-            this.comboPath.Location = new System.Drawing.Point(341, 37);
+            this.comboPath.Location = new System.Drawing.Point(296, 62);
             this.comboPath.MenuManager = this.ribbon;
             this.comboPath.Name = "comboPath";
             this.comboPath.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.comboPath.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.comboPath.Size = new System.Drawing.Size(89, 21);
+            this.comboPath.Size = new System.Drawing.Size(134, 21);
             this.comboPath.StyleController = this.layoutControl1;
             this.comboPath.TabIndex = 5;
             // 
             // textEditName
             // 
-            this.textEditName.Location = new System.Drawing.Point(341, 12);
+            this.textEditName.Location = new System.Drawing.Point(296, 12);
             this.textEditName.MenuManager = this.ribbon;
             this.textEditName.Name = "textEditName";
-            this.textEditName.Size = new System.Drawing.Size(89, 21);
+            this.textEditName.Size = new System.Drawing.Size(134, 21);
             this.textEditName.StyleController = this.layoutControl1;
             this.textEditName.TabIndex = 4;
             // 
@@ -210,7 +222,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(232, 114);
+            this.btnCancel.Location = new System.Drawing.Point(232, 139);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(198, 22);
             this.btnCancel.StyleController = this.layoutControl1;
@@ -220,7 +232,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(232, 88);
+            this.btnDelete.Location = new System.Drawing.Point(232, 113);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(198, 22);
             this.btnDelete.StyleController = this.layoutControl1;
@@ -230,7 +242,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(232, 62);
+            this.btnSave.Location = new System.Drawing.Point(232, 87);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(198, 22);
             this.btnSave.StyleController = this.layoutControl1;
@@ -249,7 +261,8 @@
             this.layoutControlItem6,
             this.layoutControlItem5,
             this.layoutControlItem1,
-            this.layoutControlItem2});
+            this.layoutControlItem2,
+            this.layoutControlItem7});
             this.layoutControl.Location = new System.Drawing.Point(0, 0);
             this.layoutControl.Name = "layoutControl";
             this.layoutControl.Size = new System.Drawing.Size(442, 269);
@@ -261,7 +274,7 @@
             // 
             this.layoutControlItem4.Control = this.btnDelete;
             this.layoutControlItem4.CustomizationFormText = "layoutControlItem4";
-            this.layoutControlItem4.Location = new System.Drawing.Point(220, 76);
+            this.layoutControlItem4.Location = new System.Drawing.Point(220, 101);
             this.layoutControlItem4.Name = "layoutControlItem4";
             this.layoutControlItem4.Size = new System.Drawing.Size(202, 26);
             this.layoutControlItem4.Text = "layoutControlItem4";
@@ -273,7 +286,7 @@
             // 
             this.layoutControlItem3.Control = this.btnSave;
             this.layoutControlItem3.CustomizationFormText = "layoutControlItem3";
-            this.layoutControlItem3.Location = new System.Drawing.Point(220, 50);
+            this.layoutControlItem3.Location = new System.Drawing.Point(220, 75);
             this.layoutControlItem3.Name = "layoutControlItem3";
             this.layoutControlItem3.Size = new System.Drawing.Size(202, 26);
             this.layoutControlItem3.Text = "layoutControlItem3";
@@ -297,9 +310,9 @@
             // 
             this.layoutControlItem5.Control = this.btnCancel;
             this.layoutControlItem5.CustomizationFormText = "layoutControlItem5";
-            this.layoutControlItem5.Location = new System.Drawing.Point(220, 102);
+            this.layoutControlItem5.Location = new System.Drawing.Point(220, 127);
             this.layoutControlItem5.Name = "layoutControlItem5";
-            this.layoutControlItem5.Size = new System.Drawing.Size(202, 147);
+            this.layoutControlItem5.Size = new System.Drawing.Size(202, 122);
             this.layoutControlItem5.Text = "layoutControlItem5";
             this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem5.TextToControlDistance = 0;
@@ -312,25 +325,37 @@
             this.layoutControlItem1.Location = new System.Drawing.Point(220, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Size = new System.Drawing.Size(202, 25);
-            this.layoutControlItem1.Text = "layoutControlItem1";
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(105, 14);
+            this.layoutControlItem1.Text = "名称：";
+            this.layoutControlItem1.TextSize = new System.Drawing.Size(60, 14);
             // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.comboPath;
             this.layoutControlItem2.CustomizationFormText = "layoutControlItem2";
-            this.layoutControlItem2.Location = new System.Drawing.Point(220, 25);
+            this.layoutControlItem2.Location = new System.Drawing.Point(220, 50);
             this.layoutControlItem2.Name = "layoutControlItem2";
             this.layoutControlItem2.Size = new System.Drawing.Size(202, 25);
-            this.layoutControlItem2.Text = "layoutControlItem2";
-            this.layoutControlItem2.TextSize = new System.Drawing.Size(105, 14);
+            this.layoutControlItem2.Text = "行驶路径：";
+            this.layoutControlItem2.TextSize = new System.Drawing.Size(60, 14);
             // 
-            // barStaticInfo
+            // textEditSerial
             // 
-            this.barStaticInfo.Caption = "barStaticItem1";
-            this.barStaticInfo.Id = 6;
-            this.barStaticInfo.Name = "barStaticInfo";
-            this.barStaticInfo.TextAlignment = System.Drawing.StringAlignment.Near;
+            this.textEditSerial.Location = new System.Drawing.Point(296, 37);
+            this.textEditSerial.MenuManager = this.ribbon;
+            this.textEditSerial.Name = "textEditSerial";
+            this.textEditSerial.Size = new System.Drawing.Size(134, 21);
+            this.textEditSerial.StyleController = this.layoutControl1;
+            this.textEditSerial.TabIndex = 10;
+            // 
+            // layoutControlItem7
+            // 
+            this.layoutControlItem7.Control = this.textEditSerial;
+            this.layoutControlItem7.CustomizationFormText = "序列号：";
+            this.layoutControlItem7.Location = new System.Drawing.Point(220, 25);
+            this.layoutControlItem7.Name = "layoutControlItem7";
+            this.layoutControlItem7.Size = new System.Drawing.Size(202, 25);
+            this.layoutControlItem7.Text = "序列号：";
+            this.layoutControlItem7.TextSize = new System.Drawing.Size(60, 14);
             // 
             // ViewModifyCar2
             // 
@@ -343,7 +368,7 @@
             this.Name = "ViewModifyCar2";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
-            this.Text = "ViewModifyCar2";
+            this.Text = "修改车辆信息";
             this.Load += new System.EventHandler(this.ViewModifyCar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
@@ -359,6 +384,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditSerial.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -389,5 +416,7 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
         private DevExpress.XtraBars.BarStaticItem barStaticInfo;
+        private DevExpress.XtraEditors.TextEdit textEditSerial;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
     }
 }

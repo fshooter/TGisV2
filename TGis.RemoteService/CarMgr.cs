@@ -25,16 +25,19 @@ namespace TGis.RemoteService
         public int Id;
         public int PathId;
         public string Name;
+        public string SerialNum;
         
         public Car()
         {
             Id = -1;
             PathId = -1;
             Name = "未赋值";
+            SerialNum = "";
         }
-        public Car(int id, string name, int pathId)
+        public Car(int id, string name, string serialNum, int pathId)
         {
             Id = id;
+            SerialNum = serialNum;
             PathId = pathId;
             Name = name;
         }
@@ -103,8 +106,8 @@ namespace TGis.RemoteService
         {
             using (IDbCommand cmd = connection.CreateCommand())
             {
-                cmd.CommandText = String.Format("update cars set name = '{0}', pathid = {1} where cid = {2}",
-                    c.Name, c.PathId, c.Id);
+                cmd.CommandText = String.Format("update cars set name = '{0}', pathid = {1}, serial = {2} where cid = {3}",
+                    c.Name, c.PathId, c.SerialNum, c.Id);
                 if (cmd.ExecuteNonQuery() != 1)
                     throw new ApplicationException("Update Failed");
             }
@@ -120,7 +123,8 @@ namespace TGis.RemoteService
         {
             using (IDbCommand cmd = connection.CreateCommand())
             {
-                cmd.CommandText = String.Format(@"insert into cars (name, pathid) values ('{0}', -1)", c.Name);
+                cmd.CommandText = String.Format(@"insert into cars (name, serial, pathid) values ('{0}', '{1}', {2})",
+                    c.Name, c.SerialNum, c.PathId);
                 if (cmd.ExecuteNonQuery() != 1)
                     throw new ApplicationException("Insert Failed");
             }
@@ -133,8 +137,9 @@ namespace TGis.RemoteService
                     {
                         int id = rd.GetInt32(0);
                         string name = rd.GetString(1);
-                        int pid = rd.GetInt32(2);
-                        Car newc = new Car(id, name, pid);
+                        string serial = rd.GetString(2);
+                        int pid = rd.GetInt32(3);
+                        Car newc = new Car(id, name, serial, pid);
                         dictCars.Add(id, newc);
                         DispatchStateChangeMsg(newc, CarStateChangeArgs.Reason.Add);
                     }
@@ -152,7 +157,7 @@ namespace TGis.RemoteService
             using (IDbCommand cmd = connection.CreateCommand())
             {
                 cmd.CommandText = @"create table if not exists cars 
-                                    (cid INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, pathid INTEGER)";
+                                    (cid INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, serial TEXT, pathid INTEGER)";
                 cmd.ExecuteNonQuery();
             }
             using (IDbCommand cmd = connection.CreateCommand())
@@ -164,8 +169,9 @@ namespace TGis.RemoteService
                     {
                         int id = rd.GetInt32(0);
                         string name = rd.GetString(1);
-                        int pid = rd.GetInt32(2);
-                        Car newc = new Car(id, name, pid);
+                        string seril = rd.GetString(2);
+                        int pid = rd.GetInt32(3);
+                        Car newc = new Car(id, name, seril, pid);
                         dictCars.Add(id, newc);
                     }
                 }
@@ -174,15 +180,19 @@ namespace TGis.RemoteService
                 DispatchStateChangeMsg(c, CarStateChangeArgs.Reason.Add);
         }
 
-        public bool MapPhoneToCarId(string phone, out int id)
+        public bool MapSerialNumToCarId(string serial, out int id)
         {
-            lock (this)
-                return MapPhoneToCarIdInner(phone, out id);
-        }
-        private bool MapPhoneToCarIdInner(string phone, out int id)
-        {
-            id = 1;
-            return true;
+            var cars = this.Cars;
+            foreach (var c in cars)
+            {
+                if (c.SerialNum == serial)
+                {
+                    id = c.Id;
+                    return true;
+                }
+            }
+            id = -1;
+            return false;
         }
         
         private void DispatchStateChangeMsg(Car c, CarStateChangeArgs.Reason reason)

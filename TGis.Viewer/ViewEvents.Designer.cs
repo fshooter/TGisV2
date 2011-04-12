@@ -301,7 +301,7 @@
             this.Name = "ViewEvents";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
-            this.Text = "ViewEvents";
+            this.Text = "事件查看";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewEvents_FormClosing);
             this.Load += new System.EventHandler(this.ViewEvents_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();

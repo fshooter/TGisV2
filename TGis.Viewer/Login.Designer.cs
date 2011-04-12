@@ -131,7 +131,7 @@
             this.Controls.Add(this.pictureEdit1);
             this.Controls.Add(this.textEditPassword);
             this.Name = "Login";
-            this.Text = "Login";
+            this.Text = "登录";
             this.Load += new System.EventHandler(this.Login_Load);
             ((System.ComponentModel.ISupportInitialize)(this.textEditPassword.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureEdit1.Properties)).EndInit();

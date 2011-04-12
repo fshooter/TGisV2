@@ -38,6 +38,7 @@ namespace TGis.RemoteService
                 GisCarInfo info = new GisCarInfo();
                 info.Id = c.Id;
                 info.Name = c.Name;
+                info.SerialNum = c.SerialNum;
                 info.PathId = c.PathId;
                 infos[i++] = info;
             }
@@ -70,7 +71,7 @@ namespace TGis.RemoteService
             bool br = true;
             try
             {
-                GisGlobal.GCarMgr.InsertCar(new Car(info.Id, info.Name, info.PathId));
+                GisGlobal.GCarMgr.InsertCar(new Car(info.Id, info.Name, info.SerialNum, info.PathId));
             }
             catch (System.Exception)
             {
@@ -84,7 +85,7 @@ namespace TGis.RemoteService
             bool br = true;
             try
             {
-                GisGlobal.GCarMgr.UpdateCar(new Car(info.Id, info.Name, info.PathId));
+                GisGlobal.GCarMgr.UpdateCar(new Car(info.Id, info.Name, info.SerialNum, info.PathId));
             }
             catch (System.Exception)
             {
@@ -98,7 +99,7 @@ namespace TGis.RemoteService
             bool br = true;
             try
             {
-                GisGlobal.GCarMgr.RemoveCar(new Car(id, "", 0));
+                GisGlobal.GCarMgr.RemoveCar(new Car(id, "", "", -1));
             }
             catch (System.Exception)
             {

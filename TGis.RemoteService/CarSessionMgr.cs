@@ -252,7 +252,7 @@ namespace TGis.RemoteService
         {
             CarSession cs;
             int cid;
-            if (!carMgr.MapPhoneToCarId(arg.PhoneNum, out cid))
+            if (!carMgr.MapSerialNumToCarId(arg.PhoneNum, out cid))
                 return CarProcResult.Miss;
             lock (this)
             {

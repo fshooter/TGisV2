@@ -35,12 +35,12 @@
             this.barBtnSave = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnCancel = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnDelete = new DevExpress.XtraBars.BarButtonItem();
+            this.barStaticInfo = new DevExpress.XtraBars.BarStaticItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.mapControl = new TGis.MapControl.MapControl();
-            this.barStaticInfo = new DevExpress.XtraBars.BarStaticItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             this.SuspendLayout();
@@ -118,6 +118,13 @@
             this.barBtnDelete.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.barBtnDelete.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnDelete_ItemClick);
             // 
+            // barStaticInfo
+            // 
+            this.barStaticInfo.Caption = "barStaticItem1";
+            this.barStaticInfo.Id = 9;
+            this.barStaticInfo.Name = "barStaticInfo";
+            this.barStaticInfo.TextAlignment = System.Drawing.StringAlignment.Near;
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -158,13 +165,6 @@
             this.mapControl.Size = new System.Drawing.Size(442, 269);
             this.mapControl.TabIndex = 2;
             // 
-            // barStaticInfo
-            // 
-            this.barStaticInfo.Caption = "barStaticItem1";
-            this.barStaticInfo.Id = 9;
-            this.barStaticInfo.Name = "barStaticInfo";
-            this.barStaticInfo.TextAlignment = System.Drawing.StringAlignment.Near;
-            // 
             // ViewModifyPath2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -176,7 +176,7 @@
             this.Name = "ViewModifyPath2";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
-            this.Text = "ViewModifyPath2";
+            this.Text = "修改路径信息";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewModifyPath_FormClosing);
             this.Load += new System.EventHandler(this.ViewModifyPath_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();

@@ -31,6 +31,9 @@ namespace TGis.Viewer.TGisRemote {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int PathIdField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SerialNumField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -76,6 +79,19 @@ namespace TGis.Viewer.TGisRemote {
                 if ((this.PathIdField.Equals(value) != true)) {
                     this.PathIdField = value;
                     this.RaisePropertyChanged("PathId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SerialNum {
+            get {
+                return this.SerialNumField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SerialNumField, value) != true)) {
+                    this.SerialNumField = value;
+                    this.RaisePropertyChanged("SerialNum");
                 }
             }
         }

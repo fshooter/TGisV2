@@ -61,6 +61,7 @@ namespace TGis.RemoteContract
     {
         int id;
         string name;
+        string serialNum;
         int pathId;
 
 
@@ -76,6 +77,13 @@ namespace TGis.RemoteContract
         {
             get { return name; }
             set { name = value; }
+        }
+
+        [DataMember]
+        public string SerialNum
+        {
+            get { return serialNum; }
+            set { serialNum = value; }
         }
 
         [DataMember]

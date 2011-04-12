@@ -69,9 +69,9 @@ namespace TGis.Viewer
                     return;
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                MessageBox.Show("连接服务器失败");
+                MessageBox.Show("连接服务器失败:" + ex.Message);
                 return;
             }
             this.Visible = false;
