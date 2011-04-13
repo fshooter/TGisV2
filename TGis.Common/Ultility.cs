@@ -22,6 +22,10 @@ namespace TGis.Common
         {
             if (tm <= tmMin)
                 throw new ApplicationException("TinyGis时间/日期错误,溢出");
+            if (tm == DateTime.MaxValue)
+                tm = new DateTime(2030, 1, 1);
+            if (tm == DateTime.MinValue)
+                tm = new DateTime(2000, 1, 1);
             return (int)(tm - tmMin).TotalSeconds;
 
         }

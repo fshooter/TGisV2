@@ -76,12 +76,12 @@ namespace TGis.Viewer
                 return proxy.GetPathInfo();
             }
         }
-        public GisSessionInfo[] QuerySessionInfo(DateTime tmStart, DateTime tmEnd)
+        public GisSessionInfo[] QuerySessionInfo(out DateTime tmCursor, DateTime tmStart, DateTime tmEnd)
         {
             var proxy = channelFactory.CreateChannel();
             using (proxy as IDisposable)
             {
-                return proxy.QuerySessionInfo(tmStart, tmEnd);
+                return proxy.QuerySessionInfo(out tmCursor,tmStart, tmEnd);
             }
         }
         public bool AddCarInfo(GisCarInfo info)

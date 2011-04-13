@@ -87,6 +87,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/TGis.RemoteContract" minOccurs="0" name="QuerySessionInfoResult" nillable="true" type="q3:ArrayOfGisSessionInfo" />
+        <xs:element minOccurs="0" name="tmCursor" type="xs:dateTime" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

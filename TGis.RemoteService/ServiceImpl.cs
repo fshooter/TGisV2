@@ -61,9 +61,9 @@ namespace TGis.RemoteService
             return infos;
         }
 
-        public GisSessionInfo[] QuerySessionInfo(DateTime tmStart, DateTime tmEnd)
+        public GisSessionInfo[] QuerySessionInfo(DateTime tmStart, DateTime tmEnd, out DateTime tmCorser)
         {
-            return GisGlobal.GCarSessionQueryer.Query(tmStart, tmEnd);
+            return GisGlobal.GCarSessionQueryer.Query(tmStart, tmEnd, out tmCorser);
         }
 
         public bool AddCarInfo(GisCarInfo info)

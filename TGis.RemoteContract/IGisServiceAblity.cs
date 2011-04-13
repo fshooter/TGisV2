@@ -31,7 +31,7 @@ namespace TGis.RemoteContract
         GisPathInfo[] GetPathInfo();
 
         [OperationContract]
-        GisSessionInfo[] QuerySessionInfo(DateTime tmStart, DateTime tmEnd);
+        GisSessionInfo[] QuerySessionInfo(DateTime tmStart, DateTime tmEnd, out DateTime tmCursor);
 
         [OperationContract]
         GisEventInfo[] QueryEventInfo(DateTime tmStart, DateTime tmEnd, out bool bTobeContinue);

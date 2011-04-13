@@ -84,15 +84,12 @@ namespace TGis.Viewer
                     endTime = DateTime.MaxValue;
                 else
                     endTime = currentTime.AddMilliseconds(interval * multiply);
-                var sessionMsgs = GisServiceWrapper.Instance.QuerySessionInfo(currentTime, endTime);
+                var sessionMsgs = GisServiceWrapper.Instance.QuerySessionInfo(out currentTime, currentTime, endTime);
                 foreach (var msg in sessionMsgs)
                 {
                     SessionMsgHandler(msg);
-                    currentTime = msg.Time > currentTime ? msg.Time : currentTime;
                 }
-                if (bImmMode)
-                    currentTime = currentTime.AddMilliseconds(1);
-                else
+                if (!bImmMode)
                     currentTime = endTime;
                 totalFailTime = 0;
             }

@@ -106,7 +106,7 @@ namespace TGis.RemoteService
         {
             using (IDbCommand cmd = connection.CreateCommand())
             {
-                cmd.CommandText = String.Format("update cars set name = '{0}', pathid = {1}, serial = {2} where cid = {3}",
+                cmd.CommandText = String.Format("update cars set name = '{0}', pathid = {1}, serial = '{2}' where cid = {3}",
                     c.Name, c.PathId, c.SerialNum, c.Id);
                 if (cmd.ExecuteNonQuery() != 1)
                     throw new ApplicationException("Update Failed");

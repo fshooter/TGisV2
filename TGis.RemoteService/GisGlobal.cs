@@ -34,7 +34,7 @@ namespace TGis.RemoteService
             GImmCarSessionMgr.Terminal = immTerminal;
 
             GSessionLogger = new CarSessionLogger(GImmCarSessionMgr, GConnection);
-            GSessionLogger.Run(2000);
+            GSessionLogger.Run(10000);
 
             GEventLogger = new CarEventLogger(GisGlobal.GConnection,
                 GisGlobal.GImmCarSessionMgr);

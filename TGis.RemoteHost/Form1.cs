@@ -18,6 +18,8 @@ namespace TGis.RemoteHost
         public Form1()
         {
             InitializeComponent();
+            host = new ServiceHost(typeof(TGis.RemoteService.ServiceImpl));
+            host.Open();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -40,5 +42,28 @@ namespace TGis.RemoteHost
                 host = null;
             }
         }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (host != null)
+            {
+                host.Close();
+                host = null;
+            }
+            this.Close();
+        }
+
+        private bool windowCreate=true;
+        protected override void OnActivated(EventArgs e) 
+        { 
+            if (windowCreate) 
+            { 
+                base.Visible = false;
+                windowCreate = false;
+            } 
+
+            base.OnActivated(e); 
+        }
+
     }
 }

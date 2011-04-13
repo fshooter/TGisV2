@@ -119,35 +119,41 @@ namespace TGis.RemoteService
     class HistoryCarSession
     {
         IDbConnection conn;
-        const int MAX_DATA_PER_QUERY = 50;
+        const int MAX_DATA_PER_QUERY = 3;
         public HistoryCarSession(IDbConnection connection)
         {
             conn = connection;
         }
-        public GisSessionInfo[] Query(DateTime tmStart, DateTime tmEnd)
+        public GisSessionInfo[] Query(DateTime tmStart, DateTime tmEnd, out DateTime tmCursor)
         {
             if (tmStart != DateTime.MaxValue)
-                return QueryHistory(tmStart, tmEnd);
+                return QueryHistory(tmStart, tmEnd, out tmCursor);
             else
-                return QueryImmdiate();
+                return QueryImmdiate(out tmCursor);
         }
-        private GisSessionInfo[] QueryHistory(DateTime tmStart, DateTime tmEnd)
+        private GisSessionInfo[] QueryHistory(DateTime tmStart, DateTime tmEnd, out DateTime tmCursor)
         {
+            tmCursor = tmEnd;
+            if(tmCursor == DateTime.MaxValue)
+                tmCursor = tmStart.AddMilliseconds(1);
             int start = Ultility.TimeEncode(tmStart);
             int end = Ultility.TimeEncode(tmEnd);
             List<GisSessionInfo> result = new List<GisSessionInfo>();
             byte[] buffer = new byte[1024 * 1024];
             using (IDbCommand cmd = conn.CreateCommand())
             {
-                cmd.CommandText = string.Format("select data from csmmsg where time >= {0} and time < {1} order by time DESC limit 0,1",
+                cmd.CommandText = string.Format("select * from csmmsg where time >= {0} and time < {1} order by time ASC",
                     start, end);
                 using (var reader = cmd.ExecuteReader())
                 {
                     int nDataNum = 0;
                     while (reader.Read())
                     {
+                        int itm = reader.GetInt32(0);
+                        DateTime tm = Ultility.TimeDecode(itm);
+                        tmCursor = tm.AddMilliseconds(1);
                         if (nDataNum++ > MAX_DATA_PER_QUERY) break;
-                        long dateLen = reader.GetBytes(0, 0, buffer, 0, buffer.Length);
+                        long dateLen = reader.GetBytes(1, 0, buffer, 0, buffer.Length);
                         GisSessionInfo[] resultTemp = DataContractFormatSerializer.Deserialize<GisSessionInfo[]>(buffer, (int)dateLen, false);
                         if (resultTemp == null) continue;
                         result.AddRange(resultTemp);
@@ -156,8 +162,9 @@ namespace TGis.RemoteService
             }
             return result.ToArray();
         }
-        private GisSessionInfo[] QueryImmdiate()
+        private GisSessionInfo[] QueryImmdiate(out DateTime tmCursor)
         {
+            tmCursor = DateTime.MaxValue;
             List<GisSessionInfo> result = new List<GisSessionInfo>();
             byte[] buffer = new byte[1024 * 1024];
             using (IDbCommand cmd = conn.CreateCommand())
@@ -170,6 +177,7 @@ namespace TGis.RemoteService
                     {
                         int itm = reader.GetInt32(0);
                         DateTime tm = Ultility.TimeDecode(itm);
+                        tmCursor = tm.AddMilliseconds(1);
                         if ((DateTime.Now - tm).Duration().Minutes > 1) break;
                         if (nDataNum++ > MAX_DATA_PER_QUERY) break;
                         long dateLen = reader.GetBytes(1, 0, buffer, 0, buffer.Length);

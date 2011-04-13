@@ -50,7 +50,7 @@ namespace TGis.RemoteService
                         OnCarStateChanged(this, arg);
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
             	
             }

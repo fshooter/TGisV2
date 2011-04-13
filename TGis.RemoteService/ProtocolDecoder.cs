@@ -39,10 +39,10 @@ namespace TGis.RemoteService
         {
             RawProtocolStatusInfo? rawInfo = BytesToStruct(data, typeof(RawProtocolStatusInfo)) as RawProtocolStatusInfo?;
             if (rawInfo == null) return false;
-            status.SerialNum = string.Format("{0:x}{1:x}{2:x}{3:x}{4:x}", rawInfo.Value.SerialNum[0],
-                rawInfo.Value.SerialNum[0], rawInfo.Value.SerialNum[1],
-                rawInfo.Value.SerialNum[2], rawInfo.Value.SerialNum[3],
-                rawInfo.Value.SerialNum[4]);
+            if (rawInfo.Value.Head != 0x24) return false;
+            status.SerialNum = string.Format("{0:x2}{1:x2}{2:x2}{3:x2}{4:x2}", rawInfo.Value.SerialNum[0],
+                rawInfo.Value.SerialNum[1], rawInfo.Value.SerialNum[2],
+                rawInfo.Value.SerialNum[3], rawInfo.Value.SerialNum[4]);
             status.Time = DateTime.Now.Date;
             status.Time = status.Time.AddHours(Convert.ToDouble(string.Format("{0:x}", rawInfo.Value.Time[0])));
             status.Time = status.Time.AddMinutes(Convert.ToDouble(string.Format("{0:x}", rawInfo.Value.Time[1])));
