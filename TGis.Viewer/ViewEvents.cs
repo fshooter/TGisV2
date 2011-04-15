@@ -26,6 +26,7 @@ namespace TGis.Viewer
             this.barStaticInfo.Caption = "您可以点击菜单上的查询按钮查询指定时间的时间";
             List_Load(sender, e);
             MapControl_Load(sender, e);
+            ReloadPreNextBtnState();
         }
         private void ViewEvents_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -63,7 +64,9 @@ namespace TGis.Viewer
         {
             if (dataGridView1.SelectedRows.Count < 1)
                 return;
-            model.EventSelected = (GisEventInfo)dataGridView1.SelectedRows[0].Tag;
+            var ei = dataGridView1.SelectedRows[0].Tag as GisEventInfo;
+            if (ei == null) return;
+            model.EventSelected = ei;
         }
 #endregion
 
@@ -94,7 +97,28 @@ namespace TGis.Viewer
             GisEventInfo ei = model.EventSelected;
             mapControl.AddCar(ei.CarId);
             mapControl.UpdateCar(ei.CarId, "", ei.X, ei.Y, true, true);
+            mapControl.SetCenter(ei.X, ei.Y);
             oldCarId = ei.CarId;
+        }
+#endregion
+
+#region PreAndNextBtn
+        private void barBtnPrePage_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (model.CanQueryPre)
+                model.QueryPre();
+            ReloadPreNextBtnState();
+        }
+        private void barBtnNextPage_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (model.CanQueryNext)
+                model.QueryNext();
+            ReloadPreNextBtnState();
+        }
+        private void ReloadPreNextBtnState()
+        {
+            barBtnPrePage.Enabled = model.CanQueryPre;
+            barBtnNextPage.Enabled = model.CanQueryNext;
         }
 #endregion
 
@@ -116,7 +140,26 @@ namespace TGis.Viewer
             }
             
             model.Query(tmStart, tmEnd);
+            ReloadPreNextBtnState();
         }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            GisEventInfo ei = this.model.EventSelected;
+            if (ei == null) return;
+            CarSessionMgr csm = new CarSessionMgr(false);
+            csm.CurrentTime = ei.Time;
+            GisCarModel modelcar = new GisCarModel(csm);
+            GisCarController controller = new GisCarController();
+            Form viewGisCar = new ViewGisCar2(modelcar, controller);
+            csm.SynObject = viewGisCar;
+            csm.Run(2000);
+            NaviHelper.NaviTo(viewGisCar);
+        }
+
+        
+
+        
 
        
 

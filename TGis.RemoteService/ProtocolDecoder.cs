@@ -49,6 +49,7 @@ namespace TGis.RemoteService
             status.Time = status.Time.AddSeconds(Convert.ToDouble(string.Format("{0:x}", rawInfo.Value.Time[2])));
             status.Latitude = GpsPosConvertLat(rawInfo.Value.Latitude);
             status.Longitude = GpsPosConvertLon(rawInfo.Value.Longitude);
+            status.RollForward = true;
             return true;
         }
         static object BytesToStruct(byte[] bytes, Type strcutType)

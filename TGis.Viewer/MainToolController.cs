@@ -79,7 +79,7 @@ namespace TGis.Viewer
         {
             GisGlobal.GCarMgr.ReloadFromSever();
             string newName = null;
-            for (int i = 1; i < 20; i++)
+            for (int i = 1; i < 30; i++)
             {
                 string testName = string.Format("新建车辆-{0}", i);
                 bool bValid = true;

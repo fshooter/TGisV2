@@ -32,7 +32,15 @@ namespace TGis.RemoteService
                     on events (time)";
                 cmd.ExecuteNonQuery();
             }
-            
+
+            csm.EnumCarSession(AddAllCarSession);
+        }
+        private void AddAllCarSession(CarSession cs)
+        {
+            OldCarState state;
+            state.OutOfPath = false;
+            state.RollBackward = false;
+            oldStates[cs.CarInstance.Id] = state;
         }
         public void Run()
         {
@@ -44,33 +52,44 @@ namespace TGis.RemoteService
         }
         private void CarSessionStateChange_Handler(object sender, CarSessionStateChangeArgs args)
         {
-            OldCarState oldState;
-            switch(args.ReasonArg)
+            lock (this)
             {
-                case CarSessionStateChangeArgs.Reason.Add:
-                    OldCarState state;
-                    state.OutOfPath = false;
-                    state.RollBackward = false;
-                    oldStates[args.CarSessionArg.CarInstance.Id] = state;
-                    break;
-                case CarSessionStateChangeArgs.Reason.Remove:
-                    oldStates.Remove(args.CarSessionArg.CarInstance.Id);
-                    break;
-                case CarSessionStateChangeArgs.Reason.Connect:
-                    LogEvent(GisEventType.Connect, args);
-                    break;
-                case CarSessionStateChangeArgs.Reason.Disconnect:
-                    LogEvent(GisEventType.DisConnect, args);
-                    break;
-                case CarSessionStateChangeArgs.Reason.UpdateTemprary:
-                    if (!oldStates.TryGetValue(args.CarSessionArg.CarInstance.Id, out oldState))
+                OldCarState oldState;
+                switch (args.ReasonArg)
+                {
+                    case CarSessionStateChangeArgs.Reason.Add:
+                        OldCarState state;
+                        state.OutOfPath = false;
+                        state.RollBackward = false;
+                        oldStates[args.CarSessionArg.CarInstance.Id] = state;
                         break;
-                    if (!oldState.OutOfPath && args.CarSessionArg.OutOfPath)
-                        LogEvent(GisEventType.OutOfPath, args);
-                    if (!oldState.RollBackward && (args.CarSessionArg.RollDirection == CarRollDirection.Backward))
-                        LogEvent(GisEventType.RollBackward, args);
-                    break;
+                    case CarSessionStateChangeArgs.Reason.Remove:
+                        oldStates.Remove(args.CarSessionArg.CarInstance.Id);
+                        break;
+                    case CarSessionStateChangeArgs.Reason.Connect:
+                        //LogEvent(GisEventType.Connect, args);
+                        break;
+                    case CarSessionStateChangeArgs.Reason.Disconnect:
+                        LogEvent(GisEventType.DisConnect, args);
+                        break;
+                    case CarSessionStateChangeArgs.Reason.UpdateTemprary:
+                        if (!oldStates.TryGetValue(args.CarSessionArg.CarInstance.Id, out oldState))
+                            break;
+                        if (!oldState.OutOfPath && args.CarSessionArg.OutOfPath)
+                        {
+                            LogEvent(GisEventType.OutOfPath, args);
+                        }
+                        oldState.OutOfPath = args.CarSessionArg.OutOfPath;
+                        if (!oldState.RollBackward && (args.CarSessionArg.RollDirection == CarRollDirection.Backward))
+                        {
+                            LogEvent(GisEventType.RollBackward, args);
+                        }
+                        oldState.RollBackward = (args.CarSessionArg.RollDirection == CarRollDirection.Backward);
+                        oldStates[args.CarSessionArg.CarInstance.Id] = oldState;
+                        break;
+                }
             }
+            
         }
         private void LogEvent(GisEventType type, CarSessionStateChangeArgs arg)
         {
@@ -109,7 +128,7 @@ namespace TGis.RemoteService
         {
             conn = connection;
         }
-        public GisEventInfo[] Query(DateTime tmStart, DateTime tmEnd, out bool bTobeContinue)
+        public GisEventInfo[] Query(out bool bTobeContinue, DateTime tmStart, DateTime tmEnd, int startId)
         {
             bTobeContinue = false;
             int start = Ultility.TimeEncode(tmStart);
@@ -118,8 +137,8 @@ namespace TGis.RemoteService
             byte[] buffer = new byte[1024 * 1024];
             using (IDbCommand cmd = conn.CreateCommand())
             {
-                cmd.CommandText = string.Format("select data from events where time >= {0} and time < {1} ORDER BY time ASC",
-                    start, end);
+               cmd.CommandText = string.Format("select data from events where time >= {0} and time < {1} ORDER BY time ASC limit {2}, {3}",
+                    start, end, startId, MAX_DATA_PER_QUERY + 2);
                 using (var reader = cmd.ExecuteReader())
                 {
                     int nDataNum = 0;

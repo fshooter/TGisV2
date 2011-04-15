@@ -215,6 +215,7 @@ namespace TGis.Viewer
                 row.Cells[3].Value = "正转";
                 row.Cells[4].Value = "正常";
                 row.Cells[5].Value = "掉线";
+                row.DefaultCellStyle.ForeColor = Color.Red;
                 row.Tag = c.Id;
             }
             model.SessionMgr.OnSessionMsgReceived += new CarSessionMsgHandler(GridCar_SessionMessageHandler);
@@ -235,8 +236,12 @@ namespace TGis.Viewer
                             row.Cells[1].Value = msg.X;
                             row.Cells[2].Value = msg.Y;
                             row.Cells[3].Value = msg.RoolDirection ? "正转" : "反转";
-                            row.Cells[4].Value = msg.OutOfPath ? "正常路径" : "异常路径";
+                            row.Cells[4].Value = !msg.OutOfPath ? "正常路径" : "异常路径";
                             row.Cells[5].Value = msg.Alive ? "连线" : "掉线";
+                            if (!msg.RoolDirection || msg.OutOfPath || !msg.Alive)
+                                row.DefaultCellStyle.ForeColor = Color.Red;
+                            else
+                                row.DefaultCellStyle.ForeColor = Color.Black;
                             break;
                         }
                     }
@@ -249,16 +254,34 @@ namespace TGis.Viewer
                             row.Cells[1].Value = msg.X;
                             row.Cells[2].Value = msg.Y;
                             row.Cells[3].Value = msg.RoolDirection ? "正转" : "反转";
-                            row.Cells[4].Value = msg.OutOfPath ? "正常路径" : "异常路径";
+                            row.Cells[4].Value = !msg.OutOfPath ? "正常路径" : "异常路径";
                             row.Cells[5].Value = "掉线";
+                            row.DefaultCellStyle.ForeColor = Color.Red;
                             break;
                         }
                     }
                     break;
             }
         }
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                var row = dataGridView1.SelectedRows[0];
+                int cid = (int)dataGridView1.SelectedRows[0].Tag;
+                if (!model.GetCarShow(cid)) return;
+                mapControl1.SetCenter((double)row.Cells[1].Value, (double)row.Cells[2].Value);
+            }
+            catch (System.Exception)
+            {
+            	
+            }
+            
+        }
 
 #endregion
+
+        
         
         
     }

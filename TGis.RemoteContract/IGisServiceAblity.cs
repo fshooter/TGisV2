@@ -34,7 +34,7 @@ namespace TGis.RemoteContract
         GisSessionInfo[] QuerySessionInfo(DateTime tmStart, DateTime tmEnd, out DateTime tmCursor);
 
         [OperationContract]
-        GisEventInfo[] QueryEventInfo(DateTime tmStart, DateTime tmEnd, out bool bTobeContinue);
+        GisEventInfo[] QueryEventInfo(out bool bTobeContinue, DateTime tmStart, DateTime tmEnd, int startId);
 
         [OperationContract]
         bool AddCarInfo(GisCarInfo info);

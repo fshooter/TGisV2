@@ -1,37 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=9" >
-	
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-<style type="text/css">
-html {
-  height: auto;
-}
-body {
-  height: auto;
-  margin: 0;
-  padding: 0;
-}
-#map_canvas {
-  height: auto;
-  position: absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  top:0;
-}
-@media print {
-  #map_canvas {
-    height: 950px;
-  }
-}
-</style>
-<title>Baidu Maps</title>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.1&services=true"></script>
-<script type="text/javascript" src="map.js"></script>
-<script type="text/javascript">
   var map;
   var cars = new Map();
   var car_img = new BMap.Icon("car.bmp", new BMap.Size(40,40));
@@ -46,18 +12,20 @@ body {
   var LNG_MIN = 116;
   var LNG_MAX = 116.3;
   var LNG_DELTA = 0.00001;
+  var CORRECT_X = 0.012437;
+  var CORRECT_Y = 0.007771;
   
   function initialize() {
 	var opt = {
 		zoomLevelMin : 10,
 		zoomLevelMax : 14,
 	}
-	map = new BMap.Map("map_canvas", opt);            // 创建Map实例
-	var point = new BMap.Point(116.08, 38.42);    // 创建点坐标
-	map.centerAndZoom(point,10);                     // 初始化地图,设置中心点坐标和地图级别。
-	map.addControl(new BMap.NavigationControl());               // 添加平移缩放控件
-	map.addControl(new BMap.ScaleControl());                    // 添加比例尺控件
-	map.addControl(new BMap.OverviewMapControl());              //添加缩略地图控件
+	map = new BMap.Map("map_canvas", opt);            // ??Map?}
+	var point = new BMap.Point(116.08, 38.42);    // ?????
+	map.centerAndZoom(point,10);                     // ?????,???ф????????c
+	map.addControl(new BMap.NavigationControl());               // ????????
+	map.addControl(new BMap.ScaleControl());                    // ???}???
+	map.addControl(new BMap.OverviewMapControl());              //????????
 	map.addEventListener("click", function(event){
 		on_click(event.point);
 	});
@@ -206,11 +174,3 @@ body {
 		map.setCenter(latlng2);
 	}
  }
-</script>
-</head>
-<body onload="initialize()">
-  <div id="map_canvas"></div>
-</body>
-
-</html>
-

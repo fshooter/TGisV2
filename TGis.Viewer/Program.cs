@@ -31,11 +31,11 @@ namespace TGis.Viewer
                 MessageBox.Show("与服务器的连接中断，请检查服务端程序或重试");
                 return;
             }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("无处理的内部错误");
-                return;
-            }
+            //catch (System.Exception ex)
+            //{
+            //    MessageBox.Show("无处理的内部错误");
+            //    return;
+            //}
             
 
             GisGlobal.UnInit();

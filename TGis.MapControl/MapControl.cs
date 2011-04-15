@@ -95,5 +95,9 @@ namespace TGis.MapControl
             if (OnMapLoadCompleted != null)
                 OnMapLoadCompleted(this);
         }
+        public void SetCenter(double x, double y)
+        {
+            webBrowser.Document.InvokeScript("set_center", new object[] { x,y });
+        }
     }
 }

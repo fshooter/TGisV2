@@ -10,6 +10,10 @@ namespace TGis.Viewer
     {
         GisEventInfo[] events;
         private GisEventInfo eventSelected;
+        bool bTobeContinue = false;
+        int curPageNum = 0;
+        int eventsPerPage = 0;
+        DateTime tmStart, tmEnd;
 
         public GisEventInfo EventSelected
         {
@@ -30,10 +34,35 @@ namespace TGis.Viewer
                   OnEventsChanged(this, null);
             }
         }
-        public void Query(DateTime tmStart, DateTime tmEnd)
+        public void Query(DateTime tmStart, DateTime tmEnd, int startId = 0)
         {
-            bool bTobeContinue = false;
-            Events = GisServiceWrapper.Instance.QueryEventInfo(out bTobeContinue, tmStart, tmEnd);
+            this.tmStart = tmStart;
+            this.tmEnd = tmEnd;
+            bTobeContinue = false;
+            if (startId == 0) curPageNum = 0;
+            Events = GisServiceWrapper.Instance.QueryEventInfo(out bTobeContinue, tmStart, tmEnd, startId);
+            eventsPerPage = Events.Length;
+        }
+        public void QueryNext()
+        {
+            curPageNum++;
+            Query(tmStart, tmEnd, eventsPerPage * curPageNum);
+        }
+
+        public void QueryPre()
+        {
+            if (curPageNum <= 0)
+                return;
+            curPageNum--;
+            Query(tmStart, tmEnd, eventsPerPage * curPageNum);
+        }
+        public bool CanQueryNext
+        {
+            get { return bTobeContinue; }
+        }
+        public bool CanQueryPre
+        {
+            get { return curPageNum > 0; }
         }
 
         public event EventHandler OnEventsChanged;

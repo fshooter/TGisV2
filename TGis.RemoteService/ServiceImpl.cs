@@ -152,9 +152,9 @@ namespace TGis.RemoteService
             return br;
         }
 
-        public GisEventInfo[] QueryEventInfo(DateTime tmStart, DateTime tmEnd, out bool bTobeContinue)
+        public GisEventInfo[] QueryEventInfo(out bool bTobeContinue, DateTime tmStart, DateTime tmEnd, int startId)
         {
-            return GisGlobal.GEventQueryer.Query(tmStart, tmEnd, out bTobeContinue);
+            return GisGlobal.GEventQueryer.Query(out bTobeContinue, tmStart, tmEnd, startId);
         }
     }
 }

@@ -40,10 +40,13 @@
             this.repositoryItemTimeEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTimeEdit();
             this.barButtonOk = new DevExpress.XtraBars.BarButtonItem();
             this.barStaticInfo = new DevExpress.XtraBars.BarStaticItem();
+            this.barBtnPrePage = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnNextPage = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.dockPanel1 = new DevExpress.XtraBars.Docking.DockPanel();
@@ -81,9 +84,11 @@
             this.barEditDateEnd,
             this.barEditTimeEnd,
             this.barButtonOk,
-            this.barStaticInfo});
+            this.barStaticInfo,
+            this.barBtnPrePage,
+            this.barBtnNextPage});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 9;
+            this.ribbon.MaxItemId = 11;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
@@ -175,12 +180,27 @@
             this.barStaticInfo.Name = "barStaticInfo";
             this.barStaticInfo.TextAlignment = System.Drawing.StringAlignment.Near;
             // 
+            // barBtnPrePage
+            // 
+            this.barBtnPrePage.Caption = "上一页";
+            this.barBtnPrePage.Id = 9;
+            this.barBtnPrePage.Name = "barBtnPrePage";
+            this.barBtnPrePage.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnPrePage_ItemClick);
+            // 
+            // barBtnNextPage
+            // 
+            this.barBtnNextPage.Caption = "下一页";
+            this.barBtnNextPage.Id = 10;
+            this.barBtnNextPage.Name = "barBtnNextPage";
+            this.barBtnNextPage.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnNextPage_ItemClick);
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup1,
             this.ribbonPageGroup2,
-            this.ribbonPageGroup3});
+            this.ribbonPageGroup3,
+            this.ribbonPageGroup4});
             this.ribbonPage1.Name = "ribbonPage1";
             this.ribbonPage1.Text = "查询";
             // 
@@ -203,6 +223,12 @@
             this.ribbonPageGroup3.ItemLinks.Add(this.barButtonOk);
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             this.ribbonPageGroup3.Text = "命令";
+            // 
+            // ribbonPageGroup4
+            // 
+            this.ribbonPageGroup4.ItemLinks.Add(this.barBtnPrePage);
+            this.ribbonPageGroup4.ItemLinks.Add(this.barBtnNextPage);
+            this.ribbonPageGroup4.Name = "ribbonPageGroup4";
             // 
             // ribbonStatusBar
             // 
@@ -259,8 +285,10 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(192, 242);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
             // Column1
@@ -345,5 +373,8 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraBars.BarStaticItem barStaticInfo;
+        private DevExpress.XtraBars.BarButtonItem barBtnPrePage;
+        private DevExpress.XtraBars.BarButtonItem barBtnNextPage;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
     }
 }

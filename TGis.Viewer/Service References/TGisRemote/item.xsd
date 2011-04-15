@@ -96,6 +96,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="tmStart" type="xs:dateTime" />
         <xs:element minOccurs="0" name="tmEnd" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="startId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

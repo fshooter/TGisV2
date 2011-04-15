@@ -32,6 +32,7 @@ namespace TGis.RemoteService
             this.timeout = timeout;
             timer.AutoReset = true;
             timer.Elapsed += new System.Timers.ElapsedEventHandler(TimerRoutine);
+            timer.Start();
         }
         public string Register(object obj, bool bLocked = false)
         {
@@ -277,6 +278,8 @@ namespace TGis.RemoteService
                 {
                     if (!p.PathPolygon.IsPointInRegion(new double[] { cs.X, cs.Y }))
                         cs.OutOfPath = true;
+                    else
+                        cs.OutOfPath = false;
                 }
                 DispatchSessionStateChangeMsg(cs, CarSessionStateChangeArgs.Reason.UpdateTemprary);
             }

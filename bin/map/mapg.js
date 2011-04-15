@@ -1,37 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=9" >
-	
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-<style type="text/css">
-html {
-  height: auto;
-}
-body {
-  height: auto;
-  margin: 0;
-  padding: 0;
-}
-#map_canvas {
-  height: auto;
-  position: absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  top:0;
-}
-@media print {
-  #map_canvas {
-    height: 950px;
-  }
-}
-</style>
-<title>Google Maps</title>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript" src="map.js"></script>
-<script type="text/javascript">
   var map;
   var cars = new Map();
   var car_img = new google.maps.MarkerImage("car.bmp");
@@ -41,11 +7,13 @@ body {
   var path_markers = [];
   var path_current_draw;
   var mode = 'none';
-  var LAT_MIN = 38.32;
-  var LAT_MAX = 38.68;
+  var LAT_MIN = 38;
+  var LAT_MAX = 41;
   var LNG_MIN = 116;
-  var LNG_MAX = 116.3;
+  var LNG_MAX = 123;
   var LNG_DELTA = 0.00001;
+  var CORRECT_X = 0.006264;
+  var CORRECT_Y = 0.001127;
   
   function initialize() {
     var myLatlng = new google.maps.LatLng(38.42, 116.08);
@@ -61,6 +29,12 @@ body {
   });
     google.maps.event.addListener(map, 'center_changed', on_center_changed);
 	google.maps.event.addListener(map, 'zoom_changed', on_zoom_changed);
+  }
+  function set_center(x, y)
+  {
+	x += CORRECT_X;
+	y += CORRECT_Y;
+	map.setCenter(new google.maps.LatLng(y, x))
   }
   function add_car(id){
 	var pos = new google.maps.LatLng(0, 0)
@@ -81,6 +55,8 @@ body {
  
  function update_car(id, x, y, excep, show)
  {
+	x += CORRECT_X;
+	y += CORRECT_Y;
 	marker = cars.get(id);
 	if(marker == null) return;
 	if(!show)
@@ -106,7 +82,8 @@ body {
 	points_convert = [];
 	for(i = 0; i < points.length / 2; i++)
 	{
-		points_convert = points_convert.concat(new google.maps.LatLng(points[i * 2 + 1], points[i * 2]));
+		points_convert = points_convert.concat(new google.maps.LatLng(points[i * 2 + 1] + CORRECT_Y
+		, points[i * 2] + CORRECT_X));
 	}
 	var option = {
 		paths : points_convert
@@ -141,7 +118,7 @@ body {
 	result_points = [];
 	for(i = 0; i < path_LatLngs.length; ++i)
 	{
-		result_points = result_points.concat(path_LatLngs[i].lng()).concat(path_LatLngs[i].lat());
+		result_points = result_points.concat(path_LatLngs[i].lng() - CORRECT_X).concat(path_LatLngs[i].lat() - CORRECT_Y);
 	}
 	path_LatLngs = [];
 	return result_points.toString();
@@ -218,11 +195,3 @@ body {
 	if(map.getZoom() > 14)
 		map.setZoom(14);
  }
-</script>
-</head>
-<body onload="initialize()">
-  <div id="map_canvas"></div>
-</body>
-
-</html>
-

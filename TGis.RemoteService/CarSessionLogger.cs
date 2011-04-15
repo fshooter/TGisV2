@@ -177,6 +177,7 @@ namespace TGis.RemoteService
                     {
                         int itm = reader.GetInt32(0);
                         DateTime tm = Ultility.TimeDecode(itm);
+                        if ((DateTime.Now - tm).TotalSeconds > 60) break;
                         tmCursor = tm.AddMilliseconds(1);
                         if ((DateTime.Now - tm).Duration().Minutes > 1) break;
                         if (nDataNum++ > MAX_DATA_PER_QUERY) break;

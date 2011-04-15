@@ -506,7 +506,7 @@ namespace TGis.Viewer.TGisRemote {
         TGis.Viewer.TGisRemote.GisSessionInfo[] QuerySessionInfo(out System.DateTime tmCursor, System.DateTime tmStart, System.DateTime tmEnd);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/QueryEventInfo", ReplyAction="http://tempuri.org/IGisServiceAblity/QueryEventInfoResponse")]
-        TGis.Viewer.TGisRemote.GisEventInfo[] QueryEventInfo(out bool bTobeContinue, System.DateTime tmStart, System.DateTime tmEnd);
+        TGis.Viewer.TGisRemote.GisEventInfo[] QueryEventInfo(out bool bTobeContinue, System.DateTime tmStart, System.DateTime tmEnd, int startId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/AddCarInfo", ReplyAction="http://tempuri.org/IGisServiceAblity/AddCarInfoResponse")]
         bool AddCarInfo(TGis.Viewer.TGisRemote.GisCarInfo info);
@@ -582,8 +582,8 @@ namespace TGis.Viewer.TGisRemote {
             return base.Channel.QuerySessionInfo(out tmCursor, tmStart, tmEnd);
         }
         
-        public TGis.Viewer.TGisRemote.GisEventInfo[] QueryEventInfo(out bool bTobeContinue, System.DateTime tmStart, System.DateTime tmEnd) {
-            return base.Channel.QueryEventInfo(out bTobeContinue, tmStart, tmEnd);
+        public TGis.Viewer.TGisRemote.GisEventInfo[] QueryEventInfo(out bool bTobeContinue, System.DateTime tmStart, System.DateTime tmEnd, int startId) {
+            return base.Channel.QueryEventInfo(out bTobeContinue, tmStart, tmEnd, startId);
         }
         
         public bool AddCarInfo(TGis.Viewer.TGisRemote.GisCarInfo info) {

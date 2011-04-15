@@ -138,12 +138,12 @@ namespace TGis.Viewer
             }
         }
 
-        public GisEventInfo[] QueryEventInfo( out bool bTobeContinue, DateTime tmStart, DateTime tmEnd)
+        public GisEventInfo[] QueryEventInfo( out bool bTobeContinue, DateTime tmStart, DateTime tmEnd, int startId)
         {
             var proxy = channelFactory.CreateChannel();
             using (proxy as IDisposable)
             {
-                return proxy.QueryEventInfo(out bTobeContinue, tmStart, tmEnd);
+                return proxy.QueryEventInfo(out bTobeContinue, tmStart, tmEnd, startId);
             }
         }
 
