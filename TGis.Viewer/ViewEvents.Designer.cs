@@ -55,6 +55,7 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewLinkColumn();
             this.mapControl = new TGis.MapControl.MapControl();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
@@ -253,12 +254,12 @@
             // dockPanel1
             // 
             this.dockPanel1.Controls.Add(this.dockPanel1_Container);
-            this.dockPanel1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
+            this.dockPanel1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Bottom;
             this.dockPanel1.ID = new System.Guid("895d8659-d40c-467e-bc1e-475df26083b6");
-            this.dockPanel1.Location = new System.Drawing.Point(0, 149);
+            this.dockPanel1.Location = new System.Drawing.Point(0, 218);
             this.dockPanel1.Name = "dockPanel1";
             this.dockPanel1.OriginalSize = new System.Drawing.Size(200, 200);
-            this.dockPanel1.Size = new System.Drawing.Size(200, 269);
+            this.dockPanel1.Size = new System.Drawing.Size(644, 200);
             this.dockPanel1.Text = "事件";
             // 
             // dockPanel1_Container
@@ -266,7 +267,7 @@
             this.dockPanel1_Container.Controls.Add(this.dataGridView1);
             this.dockPanel1_Container.Location = new System.Drawing.Point(4, 23);
             this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(192, 242);
+            this.dockPanel1_Container.Size = new System.Drawing.Size(636, 173);
             this.dockPanel1_Container.TabIndex = 0;
             // 
             // dataGridView1
@@ -278,7 +279,8 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
-            this.Column3});
+            this.Column3,
+            this.Column4});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.MultiSelect = false;
@@ -286,9 +288,9 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(192, 242);
+            this.dataGridView1.Size = new System.Drawing.Size(636, 173);
             this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
             // Column1
@@ -309,12 +311,18 @@
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
             // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "转到此时间";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
             // mapControl
             // 
             this.mapControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mapControl.Location = new System.Drawing.Point(200, 149);
+            this.mapControl.Location = new System.Drawing.Point(0, 149);
             this.mapControl.Name = "mapControl";
-            this.mapControl.Size = new System.Drawing.Size(444, 269);
+            this.mapControl.Size = new System.Drawing.Size(644, 69);
             this.mapControl.TabIndex = 2;
             // 
             // ViewEvents
@@ -322,16 +330,20 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(644, 449);
+            this.ControlBox = false;
             this.Controls.Add(this.mapControl);
             this.Controls.Add(this.dockPanel1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ViewEvents";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
             this.Text = "事件查看";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewEvents_FormClosing);
             this.Load += new System.EventHandler(this.ViewEvents_Load);
+            this.Shown += new System.EventHandler(this.ViewEvents_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.VistaTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
@@ -358,9 +370,6 @@
         private DevExpress.XtraBars.Docking.ControlContainer dockPanel1_Container;
         private MapControl.MapControl mapControl;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private DevExpress.XtraBars.BarEditItem barEditDataStart;
         private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit1;
         private DevExpress.XtraBars.BarEditItem barEditTimeStart;
@@ -376,5 +385,9 @@
         private DevExpress.XtraBars.BarButtonItem barBtnPrePage;
         private DevExpress.XtraBars.BarButtonItem barBtnNextPage;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewLinkColumn Column4;
     }
 }

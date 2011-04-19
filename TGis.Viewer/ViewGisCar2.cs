@@ -28,7 +28,9 @@ namespace TGis.Viewer
         private void ViewGisCar_Load(object sender, EventArgs e)
         {
             if (model.SessionMgr.ImmMode)
-                this.ribbonPageControl.Visible = false;
+            {
+                this.ribbonPageControl.Visible = false; 
+            }
             else
             {
                 this.barStaticInfo.Caption = "您可以通过点击菜单上的控制按钮进行控制";
@@ -56,12 +58,14 @@ namespace TGis.Viewer
         {
             this.model.SessionMgr.CurrentTime = ((DateTime)this.ControlPanel_Day.EditValue).Date
                 + ((DateTime)this.ControlPanel_Time.EditValue).TimeOfDay;
+            MessageBox.Show(string.Format("成功前往时间：{0}", this.model.SessionMgr.CurrentTime));
         }
         private void ControlPanel_BtnSpeedOk_ItemClick(object sender, ItemClickEventArgs e)
         {
             object editvalue = ControlPanel_Speed.EditValue;
             if(editvalue == null) return;
             model.SessionMgr.Multiply = Convert.ToInt32(editvalue.ToString());
+            MessageBox.Show(string.Format("成功设置速率：{0}", model.SessionMgr.Multiply));
         }
         private void ControlPanel_OnBeginQuerySessionMsg(object sender, EventArgs e)
         {
@@ -280,6 +284,13 @@ namespace TGis.Viewer
         }
 
 #endregion
+
+        private void ViewGisCar2_Shown(object sender, EventArgs e)
+        {
+            if(!model.SessionMgr.ImmMode)
+                NaviHelper.FormMain.ribbon.SelectedPage = 
+                    NaviHelper.FormMain.ribbon.MergedPages["控制"];
+        }
 
         
         

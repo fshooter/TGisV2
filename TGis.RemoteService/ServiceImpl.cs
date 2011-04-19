@@ -156,5 +156,34 @@ namespace TGis.RemoteService
         {
             return GisGlobal.GEventQueryer.Query(out bTobeContinue, tmStart, tmEnd, startId);
         }
+
+        public bool QueryCarDetail(int id, out GisCarDetail detail)
+        {
+            bool br = true;
+            try
+            {
+                detail = GisGlobal.GCarMgr.QueryCarDetail(id);
+            }
+            catch (System.Exception)
+            {
+                br = false;
+                detail = null;
+            }
+            return br;
+        }
+
+        public bool UpdateCarDetail(GisCarDetail detail)
+        {
+            bool br = true;
+            try
+            {
+                GisGlobal.GCarMgr.UpdateCarDetail(detail);
+            }
+            catch (System.Exception)
+            {
+                br = false;
+            }
+            return br;
+        }
     }
 }

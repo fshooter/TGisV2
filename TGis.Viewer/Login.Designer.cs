@@ -47,6 +47,8 @@
             // 
             this.textEditPassword.Location = new System.Drawing.Point(276, 12);
             this.textEditPassword.Name = "textEditPassword";
+            this.textEditPassword.Properties.MaxLength = 20;
+            this.textEditPassword.Properties.PasswordChar = '*';
             this.textEditPassword.Size = new System.Drawing.Size(145, 21);
             this.textEditPassword.TabIndex = 0;
             // 
@@ -55,6 +57,7 @@
             this.pictureEdit1.EditValue = global::TGis.Viewer.Properties.Resources.CarViewSmall;
             this.pictureEdit1.Location = new System.Drawing.Point(0, 1);
             this.pictureEdit1.Name = "pictureEdit1";
+            this.pictureEdit1.Properties.ShowMenu = false;
             this.pictureEdit1.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
             this.pictureEdit1.Size = new System.Drawing.Size(170, 158);
             this.pictureEdit1.TabIndex = 1;
@@ -71,6 +74,11 @@
             // 
             this.textEditServerIp.Location = new System.Drawing.Point(276, 53);
             this.textEditServerIp.Name = "textEditServerIp";
+            this.textEditServerIp.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.textEditServerIp.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.textEditServerIp.Properties.Mask.EditMask = "[0-9]+.[0-9]+.[0-9]+.[0-9]+";
+            this.textEditServerIp.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.textEditServerIp.Properties.MaxLength = 20;
             this.textEditServerIp.Size = new System.Drawing.Size(145, 21);
             this.textEditServerIp.TabIndex = 1;
             // 
@@ -78,6 +86,11 @@
             // 
             this.textEditServerPort.Location = new System.Drawing.Point(276, 91);
             this.textEditServerPort.Name = "textEditServerPort";
+            this.textEditServerPort.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.textEditServerPort.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.textEditServerPort.Properties.Mask.EditMask = "d";
+            this.textEditServerPort.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.textEditServerPort.Properties.MaxLength = 20;
             this.textEditServerPort.Size = new System.Drawing.Size(145, 21);
             this.textEditServerPort.TabIndex = 2;
             // 

@@ -69,9 +69,11 @@ namespace TGis.Viewer
                     return;
                 }
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
-                MessageBox.Show("连接服务器失败:" + ex.Message);
+                MessageBox.Show("连接服务器失败,请检查您的网络连接");
+                GisServiceWrapper.Instance.Close();
+                GisServiceWrapper.Instance = null;
                 return;
             }
             this.Visible = false;

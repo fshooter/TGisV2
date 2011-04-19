@@ -25,7 +25,7 @@ namespace TGis.Viewer
             channelFactory = new ChannelFactory<IGisServiceAblity>(endpoint);
             channelFactory.Open();
         }
-        public static IGisServiceAblity Instance
+        public static GisServiceWrapper Instance
         {
             get
             {
@@ -163,6 +163,22 @@ namespace TGis.Viewer
                 proxy.ModifyPassword(pass);
             }
         }
+        public bool QueryCarDetail(out GisCarDetail detail, int id)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.QueryCarDetail(out detail, id);
+            }
+        }
+        public bool UpdateCarDetail(GisCarDetail detail)
+        {
+            var proxy = channelFactory.CreateChannel();
+            using (proxy as IDisposable)
+            {
+                return proxy.UpdateCarDetail(detail);
+            }
+        }
     }
     class GisGlobal
     {
@@ -181,9 +197,17 @@ namespace TGis.Viewer
 
         public static string GetServerUri()
         {
+            string addr;
+            int port;
+            System.Configuration.Configuration config =
+                    ConfigurationManager.OpenExeConfiguration(
+                    ConfigurationUserLevel.None);
+            AppSettingsSection appSection = (AppSettingsSection)config.GetSection("appSettings");
+            addr = appSection.Settings["ServerAddr"].Value;
+            port = Convert.ToInt32(appSection.Settings["ServerPort"].Value);
             string url = string.Format("net.tcp://{0}:{1}/TGisService/100",
-                System.Configuration.ConfigurationManager.AppSettings["ServerAddr"],
-                System.Configuration.ConfigurationManager.AppSettings["ServerPort"]);
+                addr,
+                port);
             return url;
         }
         public static bool GetServerConnectionConf(out string addr, out int port)
@@ -216,7 +240,10 @@ namespace TGis.Viewer
             appSection.Settings["ServerPort"].Value = port.ToString();
             config.Save();
         }
-
+        public static string GetGoogleMapPath()
+        {
+            return Ultility.GetAppDir() + "\\map\\" + GetAllMaps()["谷歌地图"];
+        }
         public static string GetSelectedMapPath()
         {
             return Ultility.GetAppDir() + "\\map\\" + GetAllMaps()[GetSelectedMapName()];

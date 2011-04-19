@@ -16,28 +16,34 @@ namespace TGis.Viewer
         public ViewModifyCar2(int cid)
         {
             carId = cid;
-            InitializeComponent();
+            InitializeComponent();   
         }
 
         private void ViewModifyCar_Load(object sender, EventArgs e)
         {
             this.barStaticInfo.Caption = "您可以点击菜单上的编辑按钮编辑车辆配置";
             GisCarInfo c;
-            if (!GisGlobal.GCarMgr.TryGetCar(carId, out c))
+            GisCarDetail detail;
+            if (!GisGlobal.GCarMgr.TryGetCar(carId, out c)
+                || !GisServiceWrapper.Instance.QueryCarDetail(out detail, carId))
             {
                 MessageBox.Show("传入车辆ID错误");
                 this.barButtonOk.Enabled = false;
                 return;
             }
+            
             this.textEditName.EditValue = c.Name;
             this.textEditSerial.EditValue = c.SerialNum;
+            this.textEditChepai.EditValue = detail.Chepai;
+            this.memoEditComment.Text = detail.Comment;
+            this.comboPath.Properties.Items.Add("自由飞翔");
+            this.comboPath.SelectedItem = "自由飞翔";
             foreach (GisPathInfo p in GisGlobal.GPathMgr.Paths)
             {
                 this.comboPath.Properties.Items.Add(p.Name);
                 if (c.PathId == p.Id)
                     this.comboPath.SelectedItem = p.Name;
             }
-            this.ribbon.SelectedPage = ribbonPage1;
         }
 
         private void barButtonOk_ItemClick(object sender, ItemClickEventArgs e)
@@ -57,6 +63,7 @@ namespace TGis.Viewer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            
             if (comboPath.SelectedItem == null)
             {
                 MessageBox.Show("请选择该车辆适用的路径");
@@ -72,16 +79,12 @@ namespace TGis.Viewer
                     break;
                 }
             }
-            if (selectedPath == null)
-            {
-                MessageBox.Show("请选择该车辆适用的路径");
-                return;
-            }
+            int selectedPathId = (selectedPath == null ? -1 : selectedPath.Id);
             GisCarInfo newcarinfo = new GisCarInfo();
             newcarinfo.Id = carId;
             newcarinfo.Name = this.textEditName.Text;
             newcarinfo.SerialNum = this.textEditSerial.Text;
-            newcarinfo.PathId = selectedPath.Id;
+            newcarinfo.PathId = selectedPathId;
             bool bNameValid = true;
             foreach (var c in GisGlobal.GCarMgr.Cars)
             {
@@ -104,7 +107,11 @@ namespace TGis.Viewer
             {
                 MessageBox.Show("更新车辆信息失败");
             }
-            
+            GisCarDetail detail = new GisCarDetail();
+            detail.Id = carId;
+            detail.Chepai = this.textEditChepai.Text;
+            detail.Comment = this.memoEditComment.Text;
+            GisServiceWrapper.Instance.UpdateCarDetail(detail);
             NaviHelper.NaviToWelcome();
         }
 
@@ -125,6 +132,13 @@ namespace TGis.Viewer
         private void btnCancel_Click(object sender, EventArgs e)
         {
             NaviHelper.NaviToWelcome();
+        }
+
+        private void ViewModifyCar2_Shown(object sender, EventArgs e)
+        {
+            var newp = NaviHelper.FormMain.ribbon.MergedPages["编辑"];
+            NaviHelper.FormMain.ribbon.SelectedPage =
+                newp;
         }
     }
 }

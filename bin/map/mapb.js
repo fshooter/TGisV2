@@ -29,14 +29,21 @@
 	map.addEventListener("click", function(event){
 		on_click(event.point);
 	});
+	add_path(0, '123', [0,0,1,1,2,2])
+	begin_draw_path();
+	remove_car(1)
 	//add_car(1);
 	//update_car(1, 116.08, 38.42, false, true);
-	//begin_draw_path();
+	begin_draw_path();
 //	google.maps.event.addListener(map, 'click', function(event) {
 //    on_click(event.latLng);
 //  });
 //    google.maps.event.addListener(map, 'center_changed', on_center_changed);
 //	google.maps.event.addListener(map, 'zoom_changed', on_zoom_changed);
+  }
+  function set_center(x, y)
+  {
+	map.setCenter(new BMap.Point(x,y))
   }
   function add_car(id){
 	var marker = new BMap.Marker(new BMap.Point(0, 0))

@@ -93,7 +93,7 @@ namespace TGis.RemoteService
             {
                 if (listCachedMsg.Count == 0)
                     return;
-                byte[] data = DataContractFormatSerializer.Serialize(listCachedMsg, false);
+                byte[] data = DataContractFormatSerializer.Serialize(listCachedMsg, true);
                 try
                 {
                     using (SQLiteCommand cmd = (SQLiteCommand)conn.CreateCommand())
@@ -154,7 +154,9 @@ namespace TGis.RemoteService
                         tmCursor = tm.AddMilliseconds(1);
                         if (nDataNum++ > MAX_DATA_PER_QUERY) break;
                         long dateLen = reader.GetBytes(1, 0, buffer, 0, buffer.Length);
-                        GisSessionInfo[] resultTemp = DataContractFormatSerializer.Deserialize<GisSessionInfo[]>(buffer, (int)dateLen, false);
+                        var bufnew = new byte[dateLen];
+                        Array.Copy(buffer, bufnew, dateLen);
+                        GisSessionInfo[] resultTemp = DataContractFormatSerializer.Deserialize<GisSessionInfo[]>(bufnew, true);
                         if (resultTemp == null) continue;
                         result.AddRange(resultTemp);
                     }
@@ -182,7 +184,9 @@ namespace TGis.RemoteService
                         if ((DateTime.Now - tm).Duration().Minutes > 1) break;
                         if (nDataNum++ > MAX_DATA_PER_QUERY) break;
                         long dateLen = reader.GetBytes(1, 0, buffer, 0, buffer.Length);
-                        GisSessionInfo[] resultTemp = DataContractFormatSerializer.Deserialize<GisSessionInfo[]>(buffer, (int)dateLen, false);
+                        var bufnew = new byte[dateLen];
+                        Array.Copy(buffer, bufnew, dateLen);
+                        GisSessionInfo[] resultTemp = DataContractFormatSerializer.Deserialize<GisSessionInfo[]>(bufnew, true);
                         if (resultTemp == null) continue;
                         result.AddRange(resultTemp);
                     }

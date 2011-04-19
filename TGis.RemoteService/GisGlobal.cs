@@ -20,6 +20,7 @@ namespace TGis.RemoteService
         public static CarEventLogger GEventLogger;
         public static CarEventQueryer GEventQueryer;
         private static TaskSchduler GTasks;
+        
 
         public static void Init()
         {

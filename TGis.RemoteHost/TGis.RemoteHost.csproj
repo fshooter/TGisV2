@@ -109,6 +109,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TGis.Common\TGis.Common.csproj">
+      <Project>{7A916B24-1B10-44FE-9CF6-9BAC148F00E4}</Project>
+      <Name>TGis.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TGis.RemoteContract\TGis.RemoteContract.csproj">
       <Project>{E215F126-22C2-469C-AD99-14E388BB99CD}</Project>
       <Name>TGis.RemoteContract</Name>

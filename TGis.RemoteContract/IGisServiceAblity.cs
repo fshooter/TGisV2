@@ -53,6 +53,12 @@ namespace TGis.RemoteContract
 
         [OperationContract]
         bool RemovePathInfo(int id);
+
+        [OperationContract]
+        bool QueryCarDetail(int id, out GisCarDetail detail);
+
+        [OperationContract]
+        bool UpdateCarDetail(GisCarDetail detail);
     }
 
     // 使用下面示例中说明的数据协定将复合类型添加到服务操作
@@ -91,6 +97,33 @@ namespace TGis.RemoteContract
         {
             get { return pathId; }
             set { pathId = value; }
+        }
+    }
+
+    [DataContract]
+    public class GisCarDetail
+    {
+        int id;
+        string chepai;
+        string comment;
+
+        [DataMember]
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+        [DataMember]
+        public string Chepai
+        {
+            get { return chepai; }
+            set { chepai = value; }
+        }
+        [DataMember]
+        public string Comment
+        {
+            get { return comment; }
+            set { comment = value; }
         }
     }
 

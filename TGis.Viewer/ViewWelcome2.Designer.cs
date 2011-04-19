@@ -61,8 +61,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(442, 449);
+            this.ControlBox = false;
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ViewWelcome2";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;

@@ -346,7 +346,8 @@
             // 
             this.navBarGroup1.Caption = "车辆";
             this.navBarGroup1.ControlContainer = this.navBarGroupControlContainer1;
-            this.navBarGroup1.GroupClientHeight = 300;
+            this.navBarGroup1.Expanded = true;
+            this.navBarGroup1.GroupClientHeight = 200;
             this.navBarGroup1.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.ControlContainer;
             this.navBarGroup1.Name = "navBarGroup1";
             // 
@@ -354,23 +355,25 @@
             // 
             this.navBarGroupControlContainer1.Controls.Add(this.flowLayoutPanel1);
             this.navBarGroupControlContainer1.Name = "navBarGroupControlContainer1";
-            this.navBarGroupControlContainer1.Size = new System.Drawing.Size(184, 293);
+            this.navBarGroupControlContainer1.Size = new System.Drawing.Size(184, 193);
             this.navBarGroupControlContainer1.TabIndex = 0;
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.AutoScroll = true;
+            this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(184, 293);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(184, 193);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // navBarGroupControlContainer2
             // 
             this.navBarGroupControlContainer2.Controls.Add(this.flowLayoutPanel2);
             this.navBarGroupControlContainer2.Name = "navBarGroupControlContainer2";
-            this.navBarGroupControlContainer2.Size = new System.Drawing.Size(184, 293);
+            this.navBarGroupControlContainer2.Size = new System.Drawing.Size(184, 193);
             this.navBarGroupControlContainer2.TabIndex = 1;
             // 
             // flowLayoutPanel2
@@ -380,7 +383,7 @@
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(184, 293);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(184, 193);
             this.flowLayoutPanel2.TabIndex = 0;
             // 
             // navBarGroup2
@@ -388,7 +391,7 @@
             this.navBarGroup2.Caption = "路径";
             this.navBarGroup2.ControlContainer = this.navBarGroupControlContainer2;
             this.navBarGroup2.Expanded = true;
-            this.navBarGroup2.GroupClientHeight = 300;
+            this.navBarGroup2.GroupClientHeight = 200;
             this.navBarGroup2.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.ControlContainer;
             this.navBarGroup2.Name = "navBarGroup2";
             // 
@@ -494,12 +497,15 @@
             this.Controls.Add(this.dockPanel1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ViewGisCar2";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
             this.Text = "车辆定位";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewGisCar_FormClosing);
             this.Load += new System.EventHandler(this.ViewGisCar_Load);
+            this.Shown += new System.EventHandler(this.ViewGisCar2_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTimeEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2.VistaTimeProperties)).EndInit();
@@ -516,6 +522,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.navBarControl1)).EndInit();
             this.navBarControl1.ResumeLayout(false);
             this.navBarGroupControlContainer1.ResumeLayout(false);
+            this.navBarGroupControlContainer1.PerformLayout();
             this.navBarGroupControlContainer2.ResumeLayout(false);
             this.navBarGroupControlContainer2.PerformLayout();
             this.dockPanel3.ResumeLayout(false);

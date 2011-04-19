@@ -636,6 +636,82 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IGisServiceAblity_QueryCarDetail_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IGisServiceAblity_QueryCarDetail_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IGisServiceAblity_UpdateCarDetail_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IGisServiceAblity_UpdateCarDetail_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:9122/?xsd=xsd2" namespace="http://tempuri.org/" />
@@ -728,6 +804,18 @@
   <wsdl:message name="IGisServiceAblity_RemovePathInfo_OutputMessage">
     <wsdl:part name="parameters" element="tns:RemovePathInfoResponse" />
   </wsdl:message>
+  <wsdl:message name="IGisServiceAblity_QueryCarDetail_InputMessage">
+    <wsdl:part name="parameters" element="tns:QueryCarDetail" />
+  </wsdl:message>
+  <wsdl:message name="IGisServiceAblity_QueryCarDetail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueryCarDetailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGisServiceAblity_UpdateCarDetail_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCarDetail" />
+  </wsdl:message>
+  <wsdl:message name="IGisServiceAblity_UpdateCarDetail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCarDetailResponse" />
+  </wsdl:message>
   <wsdl:portType name="IGisServiceAblity">
     <wsdl:operation name="GetVersion">
       <wsdl:input wsaw:Action="http://tempuri.org/IGisServiceAblity/GetVersion" message="tns:IGisServiceAblity_GetVersion_InputMessage" />
@@ -784,6 +872,14 @@
     <wsdl:operation name="RemovePathInfo">
       <wsdl:input wsaw:Action="http://tempuri.org/IGisServiceAblity/RemovePathInfo" message="tns:IGisServiceAblity_RemovePathInfo_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGisServiceAblity/RemovePathInfoResponse" message="tns:IGisServiceAblity_RemovePathInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryCarDetail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGisServiceAblity/QueryCarDetail" message="tns:IGisServiceAblity_QueryCarDetail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGisServiceAblity/QueryCarDetailResponse" message="tns:IGisServiceAblity_QueryCarDetail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCarDetail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGisServiceAblity/UpdateCarDetail" message="tns:IGisServiceAblity_UpdateCarDetail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGisServiceAblity/UpdateCarDetailResponse" message="tns:IGisServiceAblity_UpdateCarDetail_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IGisServiceAblity" type="tns:IGisServiceAblity">
@@ -908,6 +1004,24 @@
     </wsdl:operation>
     <wsdl:operation name="RemovePathInfo">
       <soap12:operation soapAction="http://tempuri.org/IGisServiceAblity/RemovePathInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryCarDetail">
+      <soap12:operation soapAction="http://tempuri.org/IGisServiceAblity/QueryCarDetail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCarDetail">
+      <soap12:operation soapAction="http://tempuri.org/IGisServiceAblity/UpdateCarDetail" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1070,6 +1184,28 @@
       </wsdl:input>
       <wsdl:output>
         <wsp:PolicyReference URI="#WSHttpBinding_IGisServiceAblity_RemovePathInfo_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryCarDetail">
+      <soap12:operation soapAction="http://tempuri.org/IGisServiceAblity/QueryCarDetail" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IGisServiceAblity_QueryCarDetail_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IGisServiceAblity_QueryCarDetail_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCarDetail">
+      <soap12:operation soapAction="http://tempuri.org/IGisServiceAblity/UpdateCarDetail" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IGisServiceAblity_UpdateCarDetail_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IGisServiceAblity_UpdateCarDetail_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>

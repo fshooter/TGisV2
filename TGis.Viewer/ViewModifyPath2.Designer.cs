@@ -84,6 +84,7 @@
             // repositoryItemTextEdit1
             // 
             this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.MaxLength = 20;
             this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
             // barBtnRedraw
@@ -170,15 +171,19 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(442, 449);
+            this.ControlBox = false;
             this.Controls.Add(this.mapControl);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ViewModifyPath2";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
             this.Text = "修改路径信息";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewModifyPath_FormClosing);
             this.Load += new System.EventHandler(this.ViewModifyPath_Load);
+            this.Shown += new System.EventHandler(this.ViewModifyPath2_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             this.ResumeLayout(false);

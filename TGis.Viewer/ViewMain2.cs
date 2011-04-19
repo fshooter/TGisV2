@@ -21,7 +21,10 @@ namespace TGis.Viewer
             this.model = model;
             InitializeComponent();
         }
-
+        public void ResetActiveMenu()
+        {
+            this.ribbon.SelectedPage = this.ribbonPageMode;
+        }
         private void 即时模式ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             controller.ImmediateMode();
@@ -145,6 +148,7 @@ namespace TGis.Viewer
                 return;
             }
             controller.ModifyPass(this.editNewPass.EditValue.ToString());
+            MessageBox.Show("密码修改成功");
         }
         private void ReloadAllMaps(object sender, EventArgs e)
         {
@@ -158,7 +162,10 @@ namespace TGis.Viewer
         private void btnChangeMap_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (this.editNewMap.EditValue != null)
+            {
                 GisGlobal.SetSelectedMapName(this.editNewMap.EditValue.ToString());
+                MessageBox.Show("设置地图成功");
+            }
         }
     }
 }

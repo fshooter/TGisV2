@@ -27,7 +27,7 @@ namespace TGis.Viewer
         {
             this.barStaticInfo.Caption = "您可以点击菜单上的编辑按钮编辑指定路径的信息";
             this.ribbon.SelectedPage = ribbonPage1;
-            mapControl.Navigate(GisGlobal.GetSelectedMapPath());
+            mapControl.Navigate(GisGlobal.GetGoogleMapPath());
             mapControl.OnMapLoadCompleted += new MapLoadCompleteHandler(InitMapFirstTime);
         }
         private void InitMapFirstTime(object sender)
@@ -142,6 +142,11 @@ namespace TGis.Viewer
             }
             
             NaviHelper.NaviToWelcome();
+        }
+
+        private void ViewModifyPath2_Shown(object sender, EventArgs e)
+        {
+            NaviHelper.FormMain.ribbon.SelectedPage = NaviHelper.FormMain.ribbon.MergedPages["编辑"];
         }
     }
 }

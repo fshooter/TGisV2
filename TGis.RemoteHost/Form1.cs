@@ -20,6 +20,7 @@ namespace TGis.RemoteHost
             InitializeComponent();
             host = new ServiceHost(typeof(TGis.RemoteService.ServiceImpl));
             host.Open();
+            TGis.RemoteService.UdpCarTerminalAbility.tcp_server.OnMsg += new MsgShowHandler(MsgShower);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -64,6 +65,13 @@ namespace TGis.RemoteHost
 
             base.OnActivated(e); 
         }
-
+        private void MsgShower(string msg)
+        {
+            this.BeginInvoke(new MsgShowHandler(SynMsgShower), new object[] { msg });
+        }
+        private void SynMsgShower(string msg)
+        {
+            notifyIcon1.ShowBalloonTip(5000, "", msg, ToolTipIcon.Info);
+        }
     }
 }

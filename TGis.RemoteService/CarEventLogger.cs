@@ -89,7 +89,7 @@ namespace TGis.RemoteService
                         break;
                 }
             }
-            
+
         }
         private void LogEvent(GisEventType type, CarSessionStateChangeArgs arg)
         {
@@ -114,9 +114,9 @@ namespace TGis.RemoteService
             }
             catch (System.Exception)
             {
-            	
+
             }
-            
+
         }
     }
 
@@ -137,8 +137,8 @@ namespace TGis.RemoteService
             byte[] buffer = new byte[1024 * 1024];
             using (IDbCommand cmd = conn.CreateCommand())
             {
-               cmd.CommandText = string.Format("select data from events where time >= {0} and time < {1} ORDER BY time ASC limit {2}, {3}",
-                    start, end, startId, MAX_DATA_PER_QUERY + 2);
+                cmd.CommandText = string.Format("select data from events where time >= {0} and time < {1} ORDER BY time ASC limit {2}, {3}",
+                     start, end, startId, MAX_DATA_PER_QUERY + 2);
                 using (var reader = cmd.ExecuteReader())
                 {
                     int nDataNum = 0;
@@ -150,7 +150,9 @@ namespace TGis.RemoteService
                             break;
                         }
                         long dateLen = reader.GetBytes(0, 0, buffer, 0, buffer.Length);
-                        GisEventInfo resultTemp = DataContractFormatSerializer.Deserialize<GisEventInfo>(buffer, (int)dateLen, false);
+                        var databuf = new byte[dateLen];
+                        Array.Copy(buffer, databuf, dateLen);
+                        GisEventInfo resultTemp = DataContractFormatSerializer.Deserialize<GisEventInfo>(databuf, false);
                         if (resultTemp == null) continue;
                         result.Add(resultTemp);
                     }

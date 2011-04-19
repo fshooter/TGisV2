@@ -480,6 +480,83 @@ namespace TGis.Viewer.TGisRemote {
         RollBackward = 3,
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GisCarDetail", Namespace="http://schemas.datacontract.org/2004/07/TGis.RemoteContract")]
+    [System.SerializableAttribute()]
+    public partial class GisCarDetail : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ChepaiField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CommentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Chepai {
+            get {
+                return this.ChepaiField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ChepaiField, value) != true)) {
+                    this.ChepaiField = value;
+                    this.RaisePropertyChanged("Chepai");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Comment {
+            get {
+                return this.CommentField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CommentField, value) != true)) {
+                    this.CommentField = value;
+                    this.RaisePropertyChanged("Comment");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TGisRemote.IGisServiceAblity")]
     public interface IGisServiceAblity {
@@ -525,6 +602,12 @@ namespace TGis.Viewer.TGisRemote {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/RemovePathInfo", ReplyAction="http://tempuri.org/IGisServiceAblity/RemovePathInfoResponse")]
         bool RemovePathInfo(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/QueryCarDetail", ReplyAction="http://tempuri.org/IGisServiceAblity/QueryCarDetailResponse")]
+        bool QueryCarDetail(out TGis.Viewer.TGisRemote.GisCarDetail detail, int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGisServiceAblity/UpdateCarDetail", ReplyAction="http://tempuri.org/IGisServiceAblity/UpdateCarDetailResponse")]
+        bool UpdateCarDetail(TGis.Viewer.TGisRemote.GisCarDetail detail);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -608,6 +691,14 @@ namespace TGis.Viewer.TGisRemote {
         
         public bool RemovePathInfo(int id) {
             return base.Channel.RemovePathInfo(id);
+        }
+        
+        public bool QueryCarDetail(out TGis.Viewer.TGisRemote.GisCarDetail detail, int id) {
+            return base.Channel.QueryCarDetail(out detail, id);
+        }
+        
+        public bool UpdateCarDetail(TGis.Viewer.TGisRemote.GisCarDetail detail) {
+            return base.Channel.UpdateCarDetail(detail);
         }
     }
 }

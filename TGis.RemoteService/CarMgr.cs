@@ -5,6 +5,7 @@ using System.Text;
 using System.Data;
 using TGis.Common;
 using System.Threading;
+using TGis.RemoteContract;
 
 namespace TGis.RemoteService
 {
@@ -123,7 +124,7 @@ namespace TGis.RemoteService
         {
             using (IDbCommand cmd = connection.CreateCommand())
             {
-                cmd.CommandText = String.Format(@"insert into cars (name, serial, pathid) values ('{0}', '{1}', {2})",
+                cmd.CommandText = String.Format(@"insert into cars (name, serial, pathid, chepai, comment) values ('{0}', '{1}', {2}, '', '')",
                     c.Name, c.SerialNum, c.PathId);
                 if (cmd.ExecuteNonQuery() != 1)
                     throw new ApplicationException("Insert Failed");
@@ -157,7 +158,8 @@ namespace TGis.RemoteService
             using (IDbCommand cmd = connection.CreateCommand())
             {
                 cmd.CommandText = @"create table if not exists cars 
-                                    (cid INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, serial TEXT, pathid INTEGER)";
+                                    (cid INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, serial TEXT, pathid INTEGER,
+                                    chepai TEXT, comment TEXT)";
                 cmd.ExecuteNonQuery();
             }
             using (IDbCommand cmd = connection.CreateCommand())
@@ -178,6 +180,35 @@ namespace TGis.RemoteService
             }
             foreach(Car c in Cars)
                 DispatchStateChangeMsg(c, CarStateChangeArgs.Reason.Add);
+        }
+
+        public GisCarDetail QueryCarDetail(int id)
+        {
+            using (IDbCommand cmd = connection.CreateCommand())
+            {
+                cmd.CommandText = String.Format("select chepai,comment from cars where cid = {0}", id);
+                var reader = cmd.ExecuteReader();
+                using (reader as IDisposable)
+                {
+                    reader.Read();
+                    GisCarDetail detail = new GisCarDetail();
+                    detail.Id = id;
+                    detail.Chepai = reader.GetString(0);
+                    detail.Comment = reader.GetString(1);
+                    return detail;
+                }
+            }
+            throw new ApplicationException("No Such Car");
+        }
+        public void UpdateCarDetail(GisCarDetail detail)
+        {
+            using (IDbCommand cmd = connection.CreateCommand())
+            {
+                cmd.CommandText = String.Format("update cars set chepai = '{0}', comment = '{1}' where cid = {2}",
+                    detail.Chepai, detail.Comment, detail.Id);
+                if (cmd.ExecuteNonQuery() != 1)
+                    throw new ApplicationException("Update Detail Failed");
+            }
         }
 
         public bool MapSerialNumToCarId(string serial, out int id)

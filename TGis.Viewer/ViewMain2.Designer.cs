@@ -60,6 +60,7 @@
             // 
             // ribbon
             // 
+            this.ribbon.AllowMinimizeRibbon = false;
             this.ribbon.ApplicationButtonText = null;
             this.ribbon.ApplicationIcon = global::TGis.Viewer.Properties.Resources.client;
             // 
@@ -91,11 +92,15 @@
             this.repositoryItemComboBox1,
             this.repositoryItemTextEdit1});
             this.ribbon.SelectedPage = this.ribbonPageMode;
+            this.ribbon.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
+            this.ribbon.ShowToolbarCustomizeItem = false;
             this.ribbon.Size = new System.Drawing.Size(442, 149);
+            this.ribbon.Toolbar.ShowCustomizeItem = false;
+            this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Hidden;
             // 
             // barBtnWelcomeMode
             // 
-            this.barBtnWelcomeMode.Caption = "欢迎界面";
+            this.barBtnWelcomeMode.Caption = "首页";
             this.barBtnWelcomeMode.Id = 5;
             this.barBtnWelcomeMode.LargeWidth = 100;
             this.barBtnWelcomeMode.Name = "barBtnWelcomeMode";
@@ -171,7 +176,9 @@
             // repositoryItemTextEdit1
             // 
             this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.MaxLength = 20;
             this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
+            this.repositoryItemTextEdit1.PasswordChar = '*';
             // 
             // btnModifyPass
             // 
@@ -278,6 +285,7 @@
             this.Name = "ViewMain2";
             this.Ribbon = this.ribbon;
             this.Text = "Gps客户端";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewMain_FormClosing);
             this.Load += new System.EventHandler(this.ViewMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
