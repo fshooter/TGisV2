@@ -7,13 +7,13 @@
   var path_markers = [];
   var path_current_draw;
   var mode = 'none';
-  var LAT_MIN = 38;
-  var LAT_MAX = 41;
+  var LAT_MIN = 38.32;
+  var LAT_MAX = 38.68;
   var LNG_MIN = 116;
-  var LNG_MAX = 123;
+  var LNG_MAX = 116.3;
   var LNG_DELTA = 0.00001;
-  var CORRECT_X = 0.006264;
-  var CORRECT_Y = 0.001127;
+  var CORRECT_X = 0.0//0.006264;
+  var CORRECT_Y = 0.0//0.001127;
   
   function initialize() {
     var myLatlng = new google.maps.LatLng(38.42, 116.08);
@@ -53,7 +53,7 @@
 	marker.setMap(null);
  }
  
- function update_car(id, x, y, excep, show)
+ function update_car(id, name, x, y, excep, show)
  {
 	x += CORRECT_X;
 	y += CORRECT_Y;
@@ -64,6 +64,7 @@
 		marker.setMap(null);
 		return;
 	}
+	marker.setTitle(name)
 	if(excep)
 		marker.setIcon(car_img_excep);
 	else

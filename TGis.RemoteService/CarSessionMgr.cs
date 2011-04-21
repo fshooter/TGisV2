@@ -153,7 +153,7 @@ namespace TGis.RemoteService
     class CarSessionMgr
     {
         public delegate void EnumCarSessionHandler(CarSession cs);
-        private SessionMgr sessionMgr = new SessionMgr(new TimeSpan(0, 1, 0));
+        private SessionMgr sessionMgr = new SessionMgr(new TimeSpan(0, 5, 0));
         private CarMgr carMgr;
         private PathMgr pathMgr;
         private IDictionary<int, CarSession> dictCarSession = new Dictionary<int, CarSession>();

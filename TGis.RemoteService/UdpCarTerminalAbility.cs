@@ -13,7 +13,6 @@ namespace TGis.RemoteService
         int port;
         UdpClient server;
         public static TcpServer tcp_server;
-        Thread thread;
         bool bStop;
         public bool CanInteract
         {
@@ -31,11 +30,13 @@ namespace TGis.RemoteService
         }
         public void Stop()
         {
+            bStop = true;
             server.Close();
             tcp_server.Stop();
         }
         private void OnRecv(IAsyncResult ar)
         {
+            if (bStop) return;
             var server = ar.AsyncState as UdpClient;
             try
             {

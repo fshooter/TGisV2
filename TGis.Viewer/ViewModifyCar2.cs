@@ -21,6 +21,12 @@ namespace TGis.Viewer
 
         private void ViewModifyCar_Load(object sender, EventArgs e)
         {
+            if (!GisGlobal.GetCurrentIsAdmin())
+            {
+                this.barButtonDelete.Enabled = false;
+                this.textEditSerial.Enabled = false;
+                this.btnDelete.Enabled = false;
+            }
             this.barStaticInfo.Caption = "您可以点击菜单上的编辑按钮编辑车辆配置";
             GisCarInfo c;
             GisCarDetail detail;
@@ -36,8 +42,8 @@ namespace TGis.Viewer
             this.textEditSerial.EditValue = c.SerialNum;
             this.textEditChepai.EditValue = detail.Chepai;
             this.memoEditComment.Text = detail.Comment;
-            this.comboPath.Properties.Items.Add("自由飞翔");
-            this.comboPath.SelectedItem = "自由飞翔";
+            this.comboPath.Properties.Items.Add("自由模式");
+            this.comboPath.SelectedItem = "自由模式";
             foreach (GisPathInfo p in GisGlobal.GPathMgr.Paths)
             {
                 this.comboPath.Properties.Items.Add(p.Name);

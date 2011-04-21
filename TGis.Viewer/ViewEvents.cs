@@ -92,6 +92,7 @@ namespace TGis.Viewer
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            dataGridView1_SelectionChanged(sender, e);
             if (e.ColumnIndex != 3) return;
             if (e.RowIndex == -1) return;
             GisEventInfo ei = this.model.EventSelected;

@@ -61,6 +61,7 @@
             // ribbon
             // 
             this.ribbon.AllowMinimizeRibbon = false;
+            this.ribbon.AllowTrimPageText = false;
             this.ribbon.ApplicationButtonText = null;
             this.ribbon.ApplicationIcon = global::TGis.Viewer.Properties.Resources.client;
             // 
@@ -91,7 +92,7 @@
             this.ribbon.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox1,
             this.repositoryItemTextEdit1});
-            this.ribbon.SelectedPage = this.ribbonPageMode;
+            this.ribbon.SelectedPage = this.ribbonPage1;
             this.ribbon.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
             this.ribbon.ShowToolbarCustomizeItem = false;
             this.ribbon.Size = new System.Drawing.Size(442, 149);
@@ -200,6 +201,7 @@
             // 
             this.ribbonPageMode.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup1});
+            this.ribbonPageMode.KeyTip = "查看";
             this.ribbonPageMode.Name = "ribbonPageMode";
             this.ribbonPageMode.Text = "查看";
             // 
@@ -217,6 +219,7 @@
             this.ribbonPageCar.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup2,
             this.ribbonPageGroupAllCars});
+            this.ribbonPageCar.KeyTip = "车辆";
             this.ribbonPageCar.Name = "ribbonPageCar";
             this.ribbonPageCar.Text = "车辆";
             // 
@@ -237,6 +240,7 @@
             this.ribbonPagePath.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup3,
             this.ribbonPageGroupAllPaths});
+            this.ribbonPagePath.KeyTip = "路径";
             this.ribbonPagePath.Name = "ribbonPagePath";
             this.ribbonPagePath.Text = "路径";
             // 
@@ -257,6 +261,7 @@
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup4,
             this.ribbonPageGroup5});
+            this.ribbonPage1.KeyTip = "设置";
             this.ribbonPage1.Name = "ribbonPage1";
             this.ribbonPage1.Text = "设置";
             // 

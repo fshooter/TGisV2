@@ -21,7 +21,10 @@ namespace TGis.RemoteService
         public byte Reverse1;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
         public byte[] Longitude; // 经度
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 24)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
+        public byte[] Reverse2;
+        public byte Status;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
         public byte[] Other;
     }
     struct DecodedProtocolStatus
@@ -49,7 +52,7 @@ namespace TGis.RemoteService
             status.Time = status.Time.AddSeconds(Convert.ToDouble(string.Format("{0:x}", rawInfo.Value.Time[2])));
             status.Latitude = GpsPosConvertLat(rawInfo.Value.Latitude);
             status.Longitude = GpsPosConvertLon(rawInfo.Value.Longitude);
-            status.RollForward = true;
+            status.RollForward = ((rawInfo.Value.Status & 0x20) != 0);
             return true;
         }
         static object BytesToStruct(byte[] bytes, Type strcutType)

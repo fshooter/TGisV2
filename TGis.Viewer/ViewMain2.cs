@@ -92,6 +92,10 @@ namespace TGis.Viewer
 
         private void ViewMain_Load(object sender, EventArgs e)
         {
+            if (!GisGlobal.GetCurrentIsAdmin())
+            {
+                this.barButtonNewCar.Enabled = false;
+            }
             ReloadPathMenu(this, null);
             ReloadCarMenu(this, null);
             ReloadAllMaps(this, e);

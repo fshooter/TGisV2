@@ -36,7 +36,7 @@ namespace TGis.MapControl
         }
         public void UpdateCar(int id, string name, double x, double y, bool bException, bool bShow)
         {
-            webBrowser.Document.InvokeScript("update_car", new object[] { id, x, y, bException, bShow });
+            webBrowser.Document.InvokeScript("update_car", new object[] { id, name, x, y, bException, bShow });
         }
         public void RemoveCar(int id)
         {

@@ -194,7 +194,24 @@ namespace TGis.Viewer
         {
             
         }
-
+        public static bool GetCurrentIsAdmin()
+        {
+            bool br = false;
+            try
+            {
+                System.Configuration.Configuration config =
+                    ConfigurationManager.OpenExeConfiguration(
+                    ConfigurationUserLevel.None);
+                AppSettingsSection appSection = (AppSettingsSection)config.GetSection("appSettings");
+                if (appSection.Settings["Admin"].Value == "true")
+                    br = true;
+            }
+            catch (System.Exception ex)
+            {
+                br = false;
+            }
+            return br;
+        }
         public static string GetServerUri()
         {
             string addr;

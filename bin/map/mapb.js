@@ -12,8 +12,8 @@
   var LNG_MIN = 116;
   var LNG_MAX = 116.3;
   var LNG_DELTA = 0.00001;
-  var CORRECT_X = 0.012437;
-  var CORRECT_Y = 0.007771;
+  var CORRECT_X = 0.0//0.012437;
+  var CORRECT_Y = 0.0//0.007771;
   
   function initialize() {
 	var opt = {
@@ -29,12 +29,9 @@
 	map.addEventListener("click", function(event){
 		on_click(event.point);
 	});
-	add_path(0, '123', [0,0,1,1,2,2])
-	begin_draw_path();
-	remove_car(1)
 	//add_car(1);
 	//update_car(1, 116.08, 38.42, false, true);
-	begin_draw_path();
+	//begin_draw_path();
 //	google.maps.event.addListener(map, 'click', function(event) {
 //    on_click(event.latLng);
 //  });
@@ -58,7 +55,7 @@
 	map.removeOverlay(marker);
  }
  
- function update_car(id, x, y, excep, show)
+ function update_car(id, name, x, y, excep, show)
  {
 	marker = cars.get(id);
 	if(marker == null) return;
@@ -133,22 +130,23 @@
 			polygnMarker(path_LatLngs);
 	}
  }
- function placeMarker(location) {
+ function placeMarker(location) { 
   var marker = new BMap.Marker(location);
   map.addOverlay(marker);
   path_markers = path_markers.concat(marker);
  }
  function clearPolygnMarker()
  {
-	for(i = 0; i < path_markers.length; ++i)
-		map.removeOverlay(path_markers[i]);
+	map.clearOverlays();
+	//for(i = 0; i < path_markers.length; ++i)
+	//	map.removeOverlay(path_markers[i]);
 	path_markers = [];
  }
  function clearPolygn()
  {
 	if(path_current_draw != null)
 	{
-		map.removeOverlay(path_current_draw);
+		//map.removeOverlay(path_current_draw);
 		path_current_draw = null;
 	}
  }

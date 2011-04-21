@@ -69,8 +69,15 @@ namespace TGis.Viewer
         }
         private void ControlPanel_OnBeginQuerySessionMsg(object sender, EventArgs e)
         {
-            this.barStaticUpdateTime.Caption = string.Format("更新时间: {0}",
-                model.SessionMgr.CurrentTime);
+            if (model.SessionMgr.CurrentTime != DateTime.MaxValue)
+            {
+                this.barStaticUpdateTime.Caption = string.Format("更新时间: {0}",
+                    model.SessionMgr.CurrentTime);
+            }
+            else
+            {
+                this.barStaticUpdateTime.Caption = "";
+            }
         }
         private void ControlPanel_Close(object sender, EventArgs e)
         {
@@ -110,15 +117,18 @@ namespace TGis.Viewer
         }
         private void MapCotrol_SessionMessageHandler(object sender, GisSessionInfo msg)
         {
-            
+            GisCarInfo ci;
+            string carName = "";
+            if (GisGlobal.GCarMgr.TryGetCar(msg.CarId, out ci))
+                carName = ci.Name;
             switch (msg.Reason)
             {
                 case GisSessionReason.Update:
                     if(model.GetCarShow(msg.CarId))
-                        mapControl1.UpdateCar(msg.CarId, "", msg.X, msg.Y, msg.OutOfPath, true);
+                        mapControl1.UpdateCar(msg.CarId, carName, msg.X, msg.Y, msg.OutOfPath, true);
                     break;
                 case GisSessionReason.Remove:
-                    mapControl1.UpdateCar(msg.CarId, "", 0, 0, true, false);
+                    mapControl1.UpdateCar(msg.CarId, carName, 0, 0, true, false);
                     break;
             }
         }
@@ -235,7 +245,7 @@ namespace TGis.Viewer
                 case GisSessionReason.Update:
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
-                        if ((int)row.Tag == msg.CarId)
+                        if ((row.Tag != null) && ((int)row.Tag == msg.CarId))
                         {
                             row.Cells[1].Value = msg.X;
                             row.Cells[2].Value = msg.Y;
@@ -253,7 +263,7 @@ namespace TGis.Viewer
                 case GisSessionReason.Remove:
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
-                        if ((int)row.Tag == msg.CarId)
+                        if ((row.Tag != null) && ((int)row.Tag == msg.CarId))
                         {
                             row.Cells[1].Value = msg.X;
                             row.Cells[2].Value = msg.Y;

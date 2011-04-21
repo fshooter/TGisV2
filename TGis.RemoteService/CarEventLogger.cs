@@ -98,7 +98,7 @@ namespace TGis.RemoteService
             info.CarId = arg.CarSessionArg.CarInstance.Id;
             info.X = arg.CarSessionArg.X;
             info.Y = arg.CarSessionArg.Y;
-            info.Time = arg.CarSessionArg.LastUpdateTime;
+            info.Time = DateTime.Now;
             byte[] data = DataContractFormatSerializer.Serialize(info, false);
             try
             {
