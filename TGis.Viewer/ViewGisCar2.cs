@@ -53,6 +53,11 @@ namespace TGis.Viewer
             this.ControlPanel_Day.EditValue = model.SessionMgr.CurrentTime;
             this.ControlPanel_Time.EditValue = model.SessionMgr.CurrentTime;
             this.model.SessionMgr.OnBeginQuerySessionMsg += new EventHandler(ControlPanel_OnBeginQuerySessionMsg);
+            if (!model.SessionMgr.ImmMode)
+            {
+                this.ControlPanel_Speed.EditValue = "5";
+                model.SessionMgr.Multiply = 5;
+            }
         }
         private void ControlPanel_BtnGo_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -71,8 +76,10 @@ namespace TGis.Viewer
         {
             if (model.SessionMgr.CurrentTime != DateTime.MaxValue)
             {
-                this.barStaticUpdateTime.Caption = string.Format("更新时间: {0}",
+                string strUpdate = string.Format("更新时间: {0}",
                     model.SessionMgr.CurrentTime);
+                this.barStaticUpdateTime.Caption = strUpdate;
+                this.barTextUpdateTime.Caption = strUpdate;
             }
             else
             {
@@ -125,7 +132,8 @@ namespace TGis.Viewer
             {
                 case GisSessionReason.Update:
                     if(model.GetCarShow(msg.CarId))
-                        mapControl1.UpdateCar(msg.CarId, carName, msg.X, msg.Y, msg.OutOfPath, true);
+                        mapControl1.UpdateCar(msg.CarId, carName, msg.X, msg.Y, (msg.OutOfPath || !msg.RoolDirection)
+                            , true);
                     break;
                 case GisSessionReason.Remove:
                     mapControl1.UpdateCar(msg.CarId, carName, 0, 0, true, false);
@@ -233,6 +241,7 @@ namespace TGis.Viewer
                 row.Tag = c.Id;
             }
             model.SessionMgr.OnSessionMsgReceived += new CarSessionMsgHandler(GridCar_SessionMessageHandler);
+            dataGridView1.Sort(dataGridView1.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
         }
         private void GridCar_Closing(object sender, EventArgs e)
         {

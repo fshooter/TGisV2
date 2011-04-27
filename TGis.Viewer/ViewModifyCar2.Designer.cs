@@ -161,6 +161,7 @@
             this.ribbonPage1.KeyTip = "编辑";
             this.ribbonPage1.Name = "ribbonPage1";
             this.ribbonPage1.Text = "编辑";
+            this.ribbonPage1.Visible = false;
             // 
             // ribbonPageGroup1
             // 

@@ -95,6 +95,9 @@ namespace TGis.Viewer
             if (!GisGlobal.GetCurrentIsAdmin())
             {
                 this.barButtonNewCar.Enabled = false;
+                this.btnModifyPass.Enabled = false;
+                this.editNewPass.Enabled = false;
+                this.ribbonPageGroup4.Visible = false;
             }
             ReloadPathMenu(this, null);
             ReloadCarMenu(this, null);

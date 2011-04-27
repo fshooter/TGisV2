@@ -40,9 +40,11 @@
             this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.ControlPanel_BtnSpeedOk = new DevExpress.XtraBars.BarButtonItem();
             this.barStaticInfo = new DevExpress.XtraBars.BarStaticItem();
+            this.barTextUpdateTime = new DevExpress.XtraBars.BarStaticItem();
             this.ribbonPageControl = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             this.repositoryItemTimeEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTimeEdit();
             this.repositoryItemButtonEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
@@ -63,13 +65,13 @@
             this.dockPanel3 = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.mapControl1 = new TGis.MapControl.MapControl();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mapControl1 = new TGis.MapControl.MapControl();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTimeEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2)).BeginInit();
@@ -108,9 +110,10 @@
             this.ControlPanel_BtnGo,
             this.ControlPanel_Speed,
             this.ControlPanel_BtnSpeedOk,
-            this.barStaticInfo});
+            this.barStaticInfo,
+            this.barTextUpdateTime});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 12;
+            this.ribbon.MaxItemId = 13;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageControl});
@@ -211,11 +214,19 @@
             this.barStaticInfo.Name = "barStaticInfo";
             this.barStaticInfo.TextAlignment = System.Drawing.StringAlignment.Near;
             // 
+            // barTextUpdateTime
+            // 
+            this.barTextUpdateTime.Caption = "更新时间：尚未更新";
+            this.barTextUpdateTime.Id = 12;
+            this.barTextUpdateTime.Name = "barTextUpdateTime";
+            this.barTextUpdateTime.TextAlignment = System.Drawing.StringAlignment.Near;
+            // 
             // ribbonPageControl
             // 
             this.ribbonPageControl.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup1,
-            this.ribbonPageGroup2});
+            this.ribbonPageGroup2,
+            this.ribbonPageGroup3});
             this.ribbonPageControl.KeyTip = "V";
             this.ribbonPageControl.Name = "ribbonPageControl";
             this.ribbonPageControl.Text = "控制";
@@ -234,6 +245,12 @@
             this.ribbonPageGroup2.ItemLinks.Add(this.ControlPanel_BtnSpeedOk);
             this.ribbonPageGroup2.Name = "ribbonPageGroup2";
             this.ribbonPageGroup2.Text = "速率控制";
+            // 
+            // ribbonPageGroup3
+            // 
+            this.ribbonPageGroup3.ItemLinks.Add(this.barTextUpdateTime);
+            this.ribbonPageGroup3.Name = "ribbonPageGroup3";
+            this.ribbonPageGroup3.Text = "更新";
             // 
             // repositoryItemDateEdit1
             // 
@@ -434,6 +451,7 @@
             this.Column6});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
@@ -443,20 +461,11 @@
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
-            // mapControl1
-            // 
-            this.mapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mapControl1.Location = new System.Drawing.Point(200, 149);
-            this.mapControl1.Name = "mapControl1";
-            this.mapControl1.Size = new System.Drawing.Size(524, 49);
-            this.mapControl1.TabIndex = 3;
-            // 
             // Column1
             // 
             this.Column1.HeaderText = "名称";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column2
             // 
@@ -492,6 +501,14 @@
             this.Column6.Name = "Column6";
             this.Column6.ReadOnly = true;
             this.Column6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // mapControl1
+            // 
+            this.mapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapControl1.Location = new System.Drawing.Point(200, 149);
+            this.mapControl1.Name = "mapControl1";
+            this.mapControl1.Size = new System.Drawing.Size(524, 49);
+            this.mapControl1.TabIndex = 3;
             // 
             // ViewGisCar2
             // 
@@ -576,6 +593,8 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit repositoryItemButtonEdit1;
         private DevExpress.XtraBars.BarButtonItem ControlPanel_BtnSpeedOk;
         private DevExpress.XtraBars.BarStaticItem barStaticInfo;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
+        private DevExpress.XtraBars.BarStaticItem barTextUpdateTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;

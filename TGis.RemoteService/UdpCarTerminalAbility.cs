@@ -179,8 +179,8 @@ namespace TGis.RemoteService
                         throw new ApplicationException();
                     string str = System.Text.Encoding.ASCII.GetString(context.Item3, 0, context.Item3.Length);
                     string[] elements = str.Split(',');
-                    if ((elements.Length != 19))
-                        throw new ApplicationException();
+                    //if ((elements.Length != 19))
+                    //    throw new ApplicationException();
                     context.Item1.SerialNum = elements[1];
                     lock (this)
                     {

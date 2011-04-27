@@ -23,8 +23,8 @@
   var LNG_MIN = 116;
   var LNG_MAX = 116.3;
   var LNG_DELTA = 0.00001;
-  var CORRECT_X = 0.0//0.006264;
-  var CORRECT_Y = 0.0//0.001127;
+  var CORRECT_X = 0.006264;
+  var CORRECT_Y = 0.000750;
   
   function initialize() {
     var myLatlng = new google.maps.LatLng(38.42, 116.08);
@@ -174,6 +174,7 @@
 	clearPolygnMarker();
 	clearPolygn()
 	var opt = {
+		clickable : false,
 		path : LatLngs
 	}
 	var polygn = new google.maps.Polygon(opt);
@@ -204,8 +205,8 @@
  {
 	if(map.getZoom() < 10)
 		map.setZoom(10);
-	if(map.getZoom() > 14)
-		map.setZoom(14);
+	if(map.getZoom() > 18)
+		map.setZoom(18);
  }
 </script>
 </head>

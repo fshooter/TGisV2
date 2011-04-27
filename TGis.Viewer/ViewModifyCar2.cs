@@ -25,6 +25,7 @@ namespace TGis.Viewer
             {
                 this.barButtonDelete.Enabled = false;
                 this.textEditSerial.Enabled = false;
+                this.btnDelete.Visible = false;
                 this.btnDelete.Enabled = false;
             }
             this.barStaticInfo.Caption = "您可以点击菜单上的编辑按钮编辑车辆配置";
@@ -117,8 +118,13 @@ namespace TGis.Viewer
             detail.Id = carId;
             detail.Chepai = this.textEditChepai.Text;
             detail.Comment = this.memoEditComment.Text;
-            GisServiceWrapper.Instance.UpdateCarDetail(detail);
-            NaviHelper.NaviToWelcome();
+            if (GisServiceWrapper.Instance.UpdateCarDetail(detail))
+            {
+                MessageBox.Show("保存成功");
+                NaviHelper.NaviToWelcome();
+            }
+            else
+                MessageBox.Show("保存失败，请检查您的网络连接或重试");
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -142,9 +148,9 @@ namespace TGis.Viewer
 
         private void ViewModifyCar2_Shown(object sender, EventArgs e)
         {
-            var newp = NaviHelper.FormMain.ribbon.MergedPages["编辑"];
-            NaviHelper.FormMain.ribbon.SelectedPage =
-                newp;
+            //var newp = NaviHelper.FormMain.ribbon.MergedPages["编辑"];
+            //NaviHelper.FormMain.ribbon.SelectedPage =
+            //    newp;
         }
     }
 }

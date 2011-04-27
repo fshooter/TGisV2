@@ -64,6 +64,7 @@
             this.ribbon.AllowTrimPageText = false;
             this.ribbon.ApplicationButtonText = null;
             this.ribbon.ApplicationIcon = global::TGis.Viewer.Properties.Resources.client;
+            this.ribbon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             // 
             // 
             // 
@@ -92,7 +93,7 @@
             this.ribbon.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox1,
             this.repositoryItemTextEdit1});
-            this.ribbon.SelectedPage = this.ribbonPage1;
+            this.ribbon.SelectedPage = this.ribbonPageMode;
             this.ribbon.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
             this.ribbon.ShowToolbarCustomizeItem = false;
             this.ribbon.Size = new System.Drawing.Size(442, 149);

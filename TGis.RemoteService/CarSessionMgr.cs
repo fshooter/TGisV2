@@ -259,6 +259,13 @@ namespace TGis.RemoteService
             {
                 if (!TryGetCarSession(cid, out cs))
                     return CarProcResult.Miss;
+                //if ((DateTime.Now - arg.Time).Duration().TotalMilliseconds > (1000 * 60 * 10))
+                //{
+                    // 5分钟之前的数据，丢掉
+                //    return CarProcResult.Expired;
+                //}
+                //if (cs.LastUpdateTime > arg.Time)
+                //    return CarProcResult.Expired;
                 cs.LastUpdateTime = arg.Time;
                 if ((cs.SessionStr == null) || !sessionMgr.Tick(cs.SessionStr))
                 {
