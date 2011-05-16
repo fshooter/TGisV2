@@ -60,13 +60,6 @@ namespace TGis.Viewer.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap bg {
-            get {
-                object obj = ResourceManager.GetObject("bg", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap CarViewSmall {
             get {
                 object obj = ResourceManager.GetObject("CarViewSmall", resourceCulture);
