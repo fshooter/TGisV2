@@ -59,7 +59,7 @@ namespace TGis.RemoteService
         {
             System.IO.Directory.CreateDirectory(Ultility.GetDataDir());
             IDbConnection conn = new System.Data.SQLite.SQLiteConnection(
-                String.Format(@"Data Source={0}\GisDb.db;Pooling=true;FailIfMissing=false;Synchronous=Off;Compress=True",
+                String.Format(@"Data Source={0}\GisDb.db;Pooling=true;FailIfMissing=false;Synchronous=Full;Compress=True",
                 Ultility.GetDataDir()));
             conn.Open();
             GConnection = conn;

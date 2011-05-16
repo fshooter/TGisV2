@@ -292,6 +292,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="client.ico" />
+    <None Include="Resources\bg.jpg" />
     <None Include="Resources\client.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

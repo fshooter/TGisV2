@@ -287,6 +287,9 @@ namespace TGis.RemoteService
                         cs.OutOfPath = true;
                     else
                         cs.OutOfPath = false;
+
+                    if (cs.X == 0)
+                        cs.OutOfPath = false;
                 }
                 DispatchSessionStateChangeMsg(cs, CarSessionStateChangeArgs.Reason.UpdateTemprary);
             }
