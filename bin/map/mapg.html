@@ -11,8 +11,11 @@
 <script language="javascript">
   var map;
   var cars = new Map();
-  var car_img = new google.maps.MarkerImage("car.bmp");
-  var car_img_excep = new google.maps.MarkerImage("car_excep.bmp");
+  var car_img_0 = new google.maps.MarkerImage("car0.gif");
+  var car_img_90 = new google.maps.MarkerImage("car90.gif");
+  var car_img_180 = new google.maps.MarkerImage("car180.gif");
+  var car_img_270 = new google.maps.MarkerImage("car270.gif");
+  var car_img_excep = new google.maps.MarkerImage("car_except.gif");
   var gPaths = new Map();
   var path_LatLngs;
   var path_markers = [];
@@ -50,7 +53,8 @@
   function add_car(id){
 	var pos = new google.maps.LatLng(0, 0)
 	var option = {
-		position : pos
+		position : pos,
+		icon	: car_img_90
 	}
 	var marker = new google.maps.Marker(option);
 	cars.put(id, marker);
@@ -63,7 +67,37 @@
 	cars.remove(id);
 	marker.setMap(null);
  }
- 
+ function get_car_pic(x, y, marker)
+ {
+	oldx = marker.getPosition().lng();
+	oldy = marker.getPosition().lat();
+	if((oldx < LNG_MIN) || (oldx > LNG_MAX)
+		|| (oldy < LAT_MIN) || (oldy > LAT_MAX))
+		return car_img_90;
+	var deltaX = Math.abs(x - oldx);
+	var deltaY = Math.abs(y - oldy);
+	if((deltaX < 0.0001) && (deltaY < 0.0001))
+	{
+		//没有位置变化，直接返回老的
+		if((marker.getIcon() != null) && (marker.getIcon() != car_img_excep))
+			return marker.getIcon();
+		return car_img_90;
+	}
+	if(deltaX > deltaY)
+	{
+		if(x > oldx)
+			return car_img_90;
+		else
+			return car_img_270;
+	}
+	else
+	{
+		if(y > oldy)
+			return car_img_0;
+		else
+			return car_img_180;
+	}
+ }
  function update_car(id, name, x, y, excep, show)
  {
 	x += CORRECT_X;
@@ -79,7 +113,7 @@
 	if(excep)
 		marker.setIcon(car_img_excep);
 	else
-		marker.setIcon(car_img);
+		marker.setIcon(get_car_pic(x, y, marker));
 	marker.setPosition(new google.maps.LatLng(y, x));
 	marker.setMap(map);
  }

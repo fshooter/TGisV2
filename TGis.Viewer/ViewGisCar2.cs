@@ -39,12 +39,13 @@ namespace TGis.Viewer
             TreeList_Load(sender, e);
             GridCar_Load(sender, e);
             ControlPanel_Load(sender, e);
-
+            MenuAllPath_Load(sender, e);
         }
         private void ViewGisCar_FormClosing(object sender, FormClosingEventArgs e)
         {
             MapCotrol_Closeing();
             GridCar_Closing(sender, e);
+            MenuAllPath_Closing(sender, e);
             model.Stop();
         }
 #region ControlPanel
@@ -304,11 +305,89 @@ namespace TGis.Viewer
 
 #endregion
 
+#region MenuAllPath
+        private void MenuAllPath_Load(object sender, EventArgs e)
+        {
+            ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
+            this.SuspendLayout();
+            var pages = new DevExpress.XtraBars.Ribbon.RibbonPageGroup[GisGlobal.GPathMgr.Paths.Length];
+            int i = 0;
+            foreach (GisPathInfo p in GisGlobal.GPathMgr.Paths)
+            {
+                var pathGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+                pathGroup.Text = p.Name;
+                pathGroup.Tag = p.Id;
+                pages[i] = pathGroup;
+                i++;
+            }
+            this.ribbonPageCarInPath.Groups.AddRange(pages);
+            foreach (GisCarInfo c in GisGlobal.GCarMgr.Cars)
+            {
+                var carStateNew = new DevExpress.XtraBars.BarStaticItem();
+                carStateNew.Tag = c.Id;
+                carStateNew.Name = c.Name;
+                carStateNew.Caption = c.Name + ":掉线";
+                this.ribbon.Items.Add(carStateNew);
+                foreach (DevExpress.XtraBars.Ribbon.RibbonPageGroup group in this.ribbonPageCarInPath.Groups)
+                {
+                    if((group.Tag != null) && ((int)group.Tag == c.PathId))
+                    {
+                        group.ItemLinks.Add(carStateNew);
+                        break;
+                    }
+                }
+            }
+            ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
+            this.ResumeLayout(false);
+            model.SessionMgr.OnSessionMsgReceived += new CarSessionMsgHandler(MenuAllPath_SessionMessageHandler);
+        }
+        private void MenuAllPath_Closing(object sender, EventArgs e)
+        {
+            model.SessionMgr.OnSessionMsgReceived -= new CarSessionMsgHandler(MenuAllPath_SessionMessageHandler);
+        }
+        private void MenuAllPath_SessionMessageHandler(object sender, GisSessionInfo msg)
+        {
+            DevExpress.XtraBars.BarStaticItem item = null;
+            foreach (DevExpress.XtraBars.Ribbon.RibbonPageGroup group in this.ribbonPageCarInPath.Groups)
+            {
+                  foreach (DevExpress.XtraBars.BarItemLink ilink in group.ItemLinks)
+                  {
+                      DevExpress.XtraBars.BarItem il = ilink.Item;
+                      if (il == null) continue;
+                      if ((il.Tag != null) && ((int)il.Tag == msg.CarId))
+                      {
+                          item = il as DevExpress.XtraBars.BarStaticItem;
+                          break;
+                      }
+                  }
+            }
+            if (item == null) return;
+            switch (msg.Reason)
+            {
+                case GisSessionReason.Update:
+                    item.Caption = item.Name;
+                    if (!msg.RoolDirection)
+                        item.Caption += ":反转";
+                    if (msg.OutOfPath)
+                        item.Caption += ":路径异常";
+                    if(!msg.Alive)
+                        item.Caption = item.Name + ":掉线";
+                    break;
+                case GisSessionReason.Remove:
+                    item.Caption = item.Name + ":掉线";
+                    break;
+            }
+        }
+#endregion
+
         private void ViewGisCar2_Shown(object sender, EventArgs e)
         {
             if(!model.SessionMgr.ImmMode)
                 NaviHelper.FormMain.ribbon.SelectedPage = 
                     NaviHelper.FormMain.ribbon.MergedPages["控制"];
+            else
+                NaviHelper.FormMain.ribbon.SelectedPage =
+                    NaviHelper.FormMain.ribbon.MergedPages["车辆路径运行情况"];
         }
 
         

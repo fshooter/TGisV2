@@ -45,6 +45,7 @@
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageCarInPath = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             this.repositoryItemTimeEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTimeEdit();
             this.repositoryItemButtonEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
@@ -113,10 +114,11 @@
             this.barStaticInfo,
             this.barTextUpdateTime});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 13;
+            this.ribbon.MaxItemId = 14;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
-            this.ribbonPageControl});
+            this.ribbonPageControl,
+            this.ribbonPageCarInPath});
             this.ribbon.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemDateEdit1,
             this.repositoryItemTimeEdit1,
@@ -124,7 +126,7 @@
             this.repositoryItemDateEdit2,
             this.repositoryItemButtonEdit1,
             this.repositoryItemComboBox1});
-            this.ribbon.SelectedPage = this.ribbonPageControl;
+            this.ribbon.SelectedPage = this.ribbonPageCarInPath;
             this.ribbon.Size = new System.Drawing.Size(724, 149);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
@@ -251,6 +253,11 @@
             this.ribbonPageGroup3.ItemLinks.Add(this.barTextUpdateTime);
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             this.ribbonPageGroup3.Text = "更新";
+            // 
+            // ribbonPageCarInPath
+            // 
+            this.ribbonPageCarInPath.Name = "ribbonPageCarInPath";
+            this.ribbonPageCarInPath.Text = "车辆路径运行情况";
             // 
             // repositoryItemDateEdit1
             // 
@@ -601,5 +608,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageCarInPath;
     }
 }
