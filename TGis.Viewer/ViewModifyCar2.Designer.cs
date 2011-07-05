@@ -126,6 +126,7 @@
             // barButtonOk
             // 
             this.barButtonOk.Caption = "保存";
+            this.barButtonOk.Enabled = false;
             this.barButtonOk.Id = 3;
             this.barButtonOk.Name = "barButtonOk";
             this.barButtonOk.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
@@ -142,6 +143,7 @@
             // barButtonDelete
             // 
             this.barButtonDelete.Caption = "删除";
+            this.barButtonDelete.Enabled = false;
             this.barButtonDelete.Id = 5;
             this.barButtonDelete.Name = "barButtonDelete";
             this.barButtonDelete.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
@@ -279,6 +281,7 @@
             // 
             // btnDelete
             // 
+            this.btnDelete.Enabled = false;
             this.btnDelete.Location = new System.Drawing.Point(232, 209);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(198, 22);
@@ -289,6 +292,7 @@
             // 
             // btnSave
             // 
+            this.btnSave.Enabled = false;
             this.btnSave.Location = new System.Drawing.Point(232, 183);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(198, 22);

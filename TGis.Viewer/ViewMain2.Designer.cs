@@ -93,7 +93,7 @@
             this.ribbon.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox1,
             this.repositoryItemTextEdit1});
-            this.ribbon.SelectedPage = this.ribbonPageMode;
+            this.ribbon.SelectedPage = this.ribbonPageCar;
             this.ribbon.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
             this.ribbon.ShowToolbarCustomizeItem = false;
             this.ribbon.Size = new System.Drawing.Size(442, 149);
@@ -130,6 +130,7 @@
             // barButtonNewCar
             // 
             this.barButtonNewCar.Caption = "新建车辆";
+            this.barButtonNewCar.Enabled = false;
             this.barButtonNewCar.Id = 9;
             this.barButtonNewCar.Name = "barButtonNewCar";
             this.barButtonNewCar.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
@@ -138,6 +139,7 @@
             // barBtnNewPath
             // 
             this.barBtnNewPath.Caption = "新建路径";
+            this.barBtnNewPath.Enabled = false;
             this.barBtnNewPath.Id = 10;
             this.barBtnNewPath.Name = "barBtnNewPath";
             this.barBtnNewPath.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
@@ -185,6 +187,7 @@
             // btnModifyPass
             // 
             this.btnModifyPass.Caption = "确定";
+            this.btnModifyPass.Enabled = false;
             this.btnModifyPass.Id = 14;
             this.btnModifyPass.Name = "btnModifyPass";
             this.btnModifyPass.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;

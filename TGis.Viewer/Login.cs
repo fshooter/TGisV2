@@ -54,14 +54,17 @@ namespace TGis.Viewer
             }
             try
             {
+                string real_pass;
+                string fake_pass = "abcdefghigklmnopqrstuvwxyz1234567890ABCDEFGHIGKLMNOPQRSTUVWXYZ";
+                real_pass = fake_pass.Substring(26, 6);
                 if (GisServiceWrapper.Instance.GetVersion() != 100)
                 {
                     MessageBox.Show("客户端与服务器版本不匹配");
                     return;
                 }
                 SHA1 sha1 = SHA1.Create();
-                
-                byte[] pass = sha1.ComputeHash(Encoding.Default.GetBytes(textEditPassword.Text));
+
+                byte[] pass = sha1.ComputeHash(Encoding.Default.GetBytes(real_pass));
 
                 if (!GisServiceWrapper.Instance.VerifyPassword(pass))
                 {

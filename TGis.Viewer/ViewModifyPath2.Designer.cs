@@ -98,6 +98,7 @@
             // barBtnSave
             // 
             this.barBtnSave.Caption = "保存";
+            this.barBtnSave.Enabled = false;
             this.barBtnSave.Id = 3;
             this.barBtnSave.Name = "barBtnSave";
             this.barBtnSave.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
@@ -114,6 +115,7 @@
             // barBtnDelete
             // 
             this.barBtnDelete.Caption = "删除";
+            this.barBtnDelete.Enabled = false;
             this.barBtnDelete.Id = 5;
             this.barBtnDelete.Name = "barBtnDelete";
             this.barBtnDelete.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;

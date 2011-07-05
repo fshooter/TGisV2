@@ -86,56 +86,62 @@ namespace TGis.Viewer
         }
         public bool AddCarInfo(GisCarInfo info)
         {
-            var proxy = channelFactory.CreateChannel();
-            using (proxy as IDisposable)
-            {
-                return proxy.AddCarInfo(info);
-            }
+            //var proxy = channelFactory.CreateChannel();
+            //using (proxy as IDisposable)
+            //{
+            //    return proxy.AddCarInfo(info);
+            //}
+            return false;
         }
 
         public bool UpdateCarInfo(GisCarInfo info)
         {
-            var proxy = channelFactory.CreateChannel();
-            using (proxy as IDisposable)
-            {
-                return proxy.UpdateCarInfo(info);
-            }
+            //var proxy = channelFactory.CreateChannel();
+            //using (proxy as IDisposable)
+            //{
+            //    return proxy.UpdateCarInfo(info);
+            //}
+            return false;
         }
 
         public bool RemoveCarInfo(int id)
         {
-            var proxy = channelFactory.CreateChannel();
-            using (proxy as IDisposable)
-            {
-                return proxy.RemoveCarInfo(id);
-            }
+            //var proxy = channelFactory.CreateChannel();
+            //using (proxy as IDisposable)
+            //{
+            //    return proxy.RemoveCarInfo(id);
+            //}
+            return false;
         }
 
         public bool AddPathInfo(GisPathInfo info)
         {
-            var proxy = channelFactory.CreateChannel();
-            using (proxy as IDisposable)
-            {
-                return proxy.AddPathInfo(info);
-            }
+            //var proxy = channelFactory.CreateChannel();
+            //using (proxy as IDisposable)
+            //{
+            //    return proxy.AddPathInfo(info);
+            //}
+            return false;
         }
 
         public bool UpdatePathInfo(GisPathInfo info)
         {
-            var proxy = channelFactory.CreateChannel();
-            using (proxy as IDisposable)
-            {
-                return proxy.UpdatePathInfo(info);
-            }
+            //var proxy = channelFactory.CreateChannel();
+            //using (proxy as IDisposable)
+            //{
+            //    return proxy.UpdatePathInfo(info);
+            //}
+            return false;
         }
 
         public bool RemovePathInfo(int id)
         {
-            var proxy = channelFactory.CreateChannel();
-            using (proxy as IDisposable)
-            {
-                return proxy.RemovePathInfo(id);
-            }
+            //var proxy = channelFactory.CreateChannel();
+            //using (proxy as IDisposable)
+            //{
+            //    return proxy.RemovePathInfo(id);
+            //}
+            return false;
         }
 
         public GisEventInfo[] QueryEventInfo( out bool bTobeContinue, DateTime tmStart, DateTime tmEnd, int startId)
@@ -157,11 +163,12 @@ namespace TGis.Viewer
         }
         public void ModifyPassword(byte[] pass)
         {
-            var proxy = channelFactory.CreateChannel();
-            using (proxy as IDisposable)
-            {
-                proxy.ModifyPassword(pass);
-            }
+            //var proxy = channelFactory.CreateChannel();
+            //using (proxy as IDisposable)
+            //{
+            //    proxy.ModifyPassword(pass);
+            //}
+            return;
         }
         public bool QueryCarDetail(out GisCarDetail detail, int id)
         {
@@ -173,11 +180,12 @@ namespace TGis.Viewer
         }
         public bool UpdateCarDetail(GisCarDetail detail)
         {
-            var proxy = channelFactory.CreateChannel();
-            using (proxy as IDisposable)
-            {
-                return proxy.UpdateCarDetail(detail);
-            }
+            //var proxy = channelFactory.CreateChannel();
+            //using (proxy as IDisposable)
+            //{
+            //    return proxy.UpdateCarDetail(detail);
+            //}
+            return false;
         }
     }
     class GisGlobal

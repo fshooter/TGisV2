@@ -45,6 +45,7 @@
             // 
             // textEditPassword
             // 
+            this.textEditPassword.EditValue = "abcdefg";
             this.textEditPassword.Location = new System.Drawing.Point(276, 12);
             this.textEditPassword.Name = "textEditPassword";
             this.textEditPassword.Properties.MaxLength = 20;
@@ -79,6 +80,7 @@
             this.textEditServerIp.Properties.Mask.EditMask = "[0-9]+.[0-9]+.[0-9]+.[0-9]+";
             this.textEditServerIp.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.textEditServerIp.Properties.MaxLength = 20;
+            this.textEditServerIp.Properties.PasswordChar = '*';
             this.textEditServerIp.Size = new System.Drawing.Size(145, 21);
             this.textEditServerIp.TabIndex = 1;
             // 
@@ -91,6 +93,7 @@
             this.textEditServerPort.Properties.Mask.EditMask = "d";
             this.textEditServerPort.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.textEditServerPort.Properties.MaxLength = 20;
+            this.textEditServerPort.Properties.PasswordChar = '*';
             this.textEditServerPort.Size = new System.Drawing.Size(145, 21);
             this.textEditServerPort.TabIndex = 2;
             // 
